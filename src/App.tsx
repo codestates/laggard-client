@@ -1,10 +1,18 @@
-import React from "react";
-import logo from "./logo.svg";
-import { Counter } from "./features/counter/Counter";
-import "./App.css";
+import React from 'react';
+import './App.css';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Main from './pages/Main';
 
 function App() {
-	return <div className="App"></div>;
+  return (
+    <div className="app">
+      <BrowserRouter>
+        <Switch>
+          <Route path="/main" component={Main} exact />
+        </Switch>
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default App;
