@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './Header.css';
 
-function Header() {
+const Header: React.FC = () => {
+  const header = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      header.current?.classList.toggle('sticky', window.scrollY > 0);
+    });
+  }, []);
+
   return (
-    <div className="header">
+    <div className="header" ref={header}>
       <a href="#" className="logo">
         Laggard
       </a>
@@ -23,6 +30,6 @@ function Header() {
       </ul>
     </div>
   );
-}
+};
 
 export default Header;
