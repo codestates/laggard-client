@@ -1,0 +1,51 @@
+.about_container {
+  display: flex;
+  background: white;
+  min-height: 50vh;
+  padding: 100px 50px 50px 50px;
+  justify-content: center;
+}
+
+.about_left {
+  position: relative;
+  text-align: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about_right {
+  position: flex;
+  text-align: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about_left h3 {
+  font-size: 60px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.about_left p {
+  position: relative;
+  font-size: 18px;
+  font-weight: 300;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.about_right h3 {
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.about_right span {
+  position: relative;
+  font-size: 80px;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  font-weight: 800;
+}

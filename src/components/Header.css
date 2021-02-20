@@ -14,14 +14,14 @@
 .sticky {
   padding: 5px 100px;
   background: white;
-  border-bottom: 1px solid (0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .logo {
   color: white;
   position: relative;
   font-weight: bold;
-  font-size: 2em;
+  font-size: 2rem;
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -46,7 +46,8 @@ a {
   margin: 0 24px;
   text-decoration: none;
   letter-spacing: 2px;
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 1.1rem;
 }
 
 .sticky .logo,

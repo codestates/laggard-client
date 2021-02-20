@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import './Header.css';
+import { NavLink } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const header = useRef<HTMLDivElement>(null);
@@ -16,16 +17,16 @@ const Header: React.FC = () => {
       </a>
       <ul>
         <li>
-          <a href="#">Home</a>
+          <NavLink to={'/'}>홈</NavLink>
         </li>
         <li>
-          <a href="#">Service</a>
+          <NavLink to={'/test'}>내 유형은?</NavLink>
         </li>
         <li>
-          <a href="#">Scoreboard</a>
+          <NavLink to="/game">내 점수는?</NavLink>
         </li>
         <li>
-          <a href="#">Team</a>
+          <a href="#">로그인</a>
         </li>
       </ul>
     </div>
