@@ -1,139 +1,114 @@
 .scoreboard {
   display: flex;
-  min-height: 50vh;
-  padding: 100px 50px 50px 50px;
+  min-height: 80vh;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  background: url(../assets/img/race2dark.jpg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
 }
 
-.scoreboard_container {
-  position: relative;
-  width: 900px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+.scoreboard_title {
+  color: white;
+  font-size: 3.2rem;
+  font-weight: 700;
+  margin-top: 16px;
 }
 
-.scoreboard_card {
+.scoreboard_top3 {
   display: flex;
-  position: relative;
   justify-content: center;
-  width: 250px;
+  align-items: flex-end;
+}
+
+.top3_item {
+  box-sizing: border-box;
+  position: relative;
+  background: white;
   align-items: center;
-  background: linear-gradient(0deg, #1b1b1b, #222, #1b1b1b);
-  height: 300px;
-  border-radius: 4px;
+  padding-top: 1rem;
+  width: 9rem;
+  height: 9.8rem;
   text-align: center;
-  overflow: hidden;
-  transition: 0.5s;
+  margin: 1rem 1rem 2rem;
+  border-radius: 0.5rem;
+  transform-origin: bottom;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out;
 }
 
-.scoreboard_card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+.first {
+  width: 10rem;
+  height: 10.8rem;
 }
 
-.scoreboard_card:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -50%;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
+.top3_item:hover {
+  transform: scale(1.05);
 }
 
-.scoreboard_points {
+.top3_pos {
+  font-weight: 900;
+  font-size: 3.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.top3_name {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.top3_score {
+  opacity: 0.5;
+}
+
+.scoreboard span {
+  font-size: 1.2rem;
+}
+
+.scoreboard_list {
+  padding-left: 2rem;
+  margin: 0 auto;
+}
+
+.list_item {
   position: relative;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  box-shadow: inset 0 0 50px #000;
-  background: #222;
-  z-index: 20;
-}
-
-.scoreboard_number {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  border-radius: 50%;
+  background: white;
+  height: 3rem;
+  border-radius: 4rem;
+  margin-bottom: 2rem;
+  background: orange;
+  transform-origin: left;
+  cursor: pointer;
+  transition: transform 200ms ease-in-out;
 }
 
-.scoreboard_number h2 {
-  color: #777;
-  font-weight: 700;
-  font-size: 40px;
-  transition: 0.5s;
-}
-
-.scoreboard_card:hover .scoreboard_number h2 {
-  color: #fff;
-  font-size: 60px;
-}
-
-.scoreboard_number h2 span {
-  font-size: 24px;
-  color: #777;
-  transition: 0.5s;
-}
-
-.scoreboard_card:hover .scoreboard_number h2 span {
-  color: #fff;
-}
-
-.scoreboard_user {
+.list_pos {
+  font-weight: 900;
   position: relative;
-  margin-top: 20px;
-  color: #777;
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  transition: 0.5s;
+  left: -2rem;
+  text-align: center;
+  font-size: 1.25rem;
+  width: 1.5rem;
+  color: white;
+  opacity: 0.6;
+  transition: opacity 200ms ease-in-out;
 }
 
-.scoreboard_card:hover .scoreboard_user {
-  color: #fff;
+.list_name {
+  flex-grow: 2;
+  flex-basis: 10rem;
+  font-size: 1.1rem;
 }
 
-.scoreboard_points svg {
-  position: relative;
-  width: 150px;
-  height: 150px;
-  z-index: 10;
+.list_score {
+  margin-right: 1.5rem;
+  opacity: 0.5;
 }
 
-.scoreboard_points svg circle {
-  width: 100%;
-  height: 100%;
-  fill: none;
-  stroke: #191919;
-  stroke-width: 10;
-  stroke-linecap: round;
-  transform: translate(5px, 5px);
-}
-
-.scoreboard_points svg circle:nth-child(2) {
-  stroke-dasharray: 440;
-  stroke-dashoffset: 440;
-}
-
-.scoreboard_card:nth-child(1) svg circle:nth-child(2) {
-  stroke-dashoffset: calc(440 + (440 * 90) / 100);
-  stroke: #00ff43;
-}
-.scoreboard_card:nth-child(2) svg circle:nth-child(2) {
-  stroke-dashoffset: calc(440 + (440 * 90) / 100);
-  stroke: #00a1ff;
-}
-.scoreboard_card:nth-child(3) svg circle:nth-child(2) {
-  stroke-dashoffset: calc(440 + (440 * 90) / 100);
-  stroke: #ff04f7;
+.list_item:hover {
+  transform: scale(1.05);
 }

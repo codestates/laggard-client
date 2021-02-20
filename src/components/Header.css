@@ -46,7 +46,8 @@ a {
   margin: 0 24px;
   text-decoration: none;
   letter-spacing: 2px;
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 1.1rem;
 }
 
 .sticky .logo,
