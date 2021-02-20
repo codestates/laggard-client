@@ -12,9 +12,9 @@ const Header: React.FC = () => {
 
   return (
     <div className="header" ref={header}>
-      <a href="#" className="logo">
+      <NavLink to={'/'} className="logo">
         Laggard
-      </a>
+      </NavLink>
       <ul>
         <li>
           <NavLink to={'/'}>홈</NavLink>

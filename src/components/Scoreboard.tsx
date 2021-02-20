@@ -4,7 +4,7 @@ import './Scoreboard.css';
 const Scoreboard: React.FC = () => {
   return (
     <section className="scoreboard">
-      <h2 className="scoreboard_title">리더보드</h2>
+      <h2 className="scoreboard_title">Leaderboard</h2>
       <div className="scoreboard_container">
         <div className="scoreboard_top3">
           <div className="top3_item">

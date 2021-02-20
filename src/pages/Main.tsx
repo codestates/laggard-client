@@ -2,6 +2,7 @@ import React from 'react';
 import About from '../components/About';
 import Banner from '../components/Banner';
 import Scoreboard from '../components/Scoreboard';
+import Team from '../components/Team';
 import './Main.css';
 
 const Main: React.FC = () => {
@@ -10,6 +11,7 @@ const Main: React.FC = () => {
       <Banner />
       <About />
       <Scoreboard />
+      <Team />
     </div>
   );
 };
