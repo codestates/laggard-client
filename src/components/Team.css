@@ -86,7 +86,7 @@
   letter-spacing: 2px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .profile_box:hover .profile_info {
     transform: translate(0px, 35px);
   }
