@@ -11,7 +11,7 @@ const Header: React.FC = () => {
   }, []);
 
   return (
-    <div className="header" ref={header}>
+    <header className="header" ref={header}>
       <NavLink to={'/'} className="logo">
         Laggard
       </NavLink>
@@ -29,7 +29,7 @@ const Header: React.FC = () => {
           <a href="#">로그인</a>
         </li>
       </ul>
-    </div>
+    </header>
   );
 };
 

@@ -1,0 +1,30 @@
+.footer_container {
+  min-height: 12vh;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.footer_left {
+  display: flex;
+  align-items: center;
+}
+
+.footer_left p {
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+.footer_right {
+  display: flex;
+  align-items: center;
+}
+
+.footer_right h2 {
+  font-weight: bold;
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}

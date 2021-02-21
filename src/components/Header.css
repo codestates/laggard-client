@@ -28,19 +28,20 @@
   transition: 0.6s;
 }
 
-ul {
+header ul {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-li {
+header li {
   position: relative;
   list-style: none;
+  transition: 0.5s;
 }
 
-a {
+header a {
   color: white;
   position: relative;
   margin: 0 24px;
@@ -50,7 +51,15 @@ a {
   font-size: 1.1rem;
 }
 
+header ul li:hover {
+  transform: translateY(-4px);
+}
+
 .sticky .logo,
 .sticky a {
   color: black;
+}
+
+.toggle {
+  display: none;
 }

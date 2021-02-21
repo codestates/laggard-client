@@ -1,6 +1,7 @@
 import React from 'react';
 import './Team.css';
 import profile1 from '../assets/img/profile1.jpeg';
+import background from '../assets/img/teamback.png';
 
 const Team: React.FC = () => {
   return (
@@ -16,6 +17,28 @@ const Team: React.FC = () => {
               <h2>
                 안정현<br></br>
                 <span>Front-end Developer</span>
+              </h2>
+            </div>
+          </div>
+          <div className="profile_box">
+            <div className="profile_image">
+              <img src={profile1} alt="" />
+            </div>
+            <div className="profile_info">
+              <h2>
+                이창섭<br></br>
+                <span>Back-end Developer</span>
+              </h2>
+            </div>
+          </div>
+          <div className="profile_box">
+            <div className="profile_image">
+              <img src={profile1} alt="" />
+            </div>
+            <div className="profile_info">
+              <h2>
+                임재현<br></br>
+                <span>Back-end Developer</span>
               </h2>
             </div>
           </div>
