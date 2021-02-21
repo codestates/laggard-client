@@ -36,7 +36,7 @@
   border-radius: 0.5rem;
   transform-origin: bottom;
   cursor: pointer;
-  transition: transform 200ms ease-in-out;
+  transition: transform 0.2s ease-in-out;
 }
 
 .first {
@@ -83,7 +83,7 @@
   background: orange;
   transform-origin: left;
   cursor: pointer;
-  transition: transform 200ms ease-in-out;
+  transition: transform 0.2s ease-in-out;
 }
 
 .list_pos {
@@ -95,7 +95,7 @@
   width: 1.5rem;
   color: white;
   opacity: 0.6;
-  transition: opacity 200ms ease-in-out;
+  transition: opacity 0.2s ease-in-out;
 }
 
 .list_name {

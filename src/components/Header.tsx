@@ -11,10 +11,10 @@ const Header: React.FC = () => {
   }, []);
 
   return (
-    <div className="header" ref={header}>
-      <a href="#" className="logo">
+    <header className="header" ref={header}>
+      <NavLink to={'/'} className="logo">
         Laggard
-      </a>
+      </NavLink>
       <ul>
         <li>
           <NavLink to={'/'}>홈</NavLink>
@@ -29,7 +29,7 @@ const Header: React.FC = () => {
           <a href="#">로그인</a>
         </li>
       </ul>
-    </div>
+    </header>
   );
 };
 
