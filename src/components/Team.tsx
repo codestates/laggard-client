@@ -1,7 +1,6 @@
 import React from 'react';
 import './Team.css';
 import profile1 from '../assets/img/profile1.jpeg';
-import background from '../assets/img/teamback.png';
 
 const Team: React.FC = () => {
   return (
