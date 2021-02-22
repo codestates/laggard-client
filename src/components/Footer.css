@@ -9,6 +9,7 @@
 .footer_left {
   display: flex;
   align-items: center;
+  flex: 0.32;
 }
 
 .footer_left p {
@@ -26,6 +27,8 @@
 .footer_right {
   display: flex;
   align-items: center;
+  flex: 0.3;
+  justify-content: flex-end;
 }
 
 .footer_right h2 {

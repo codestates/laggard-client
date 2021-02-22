@@ -1,6 +1,8 @@
 import React from 'react';
 import './Team.css';
 import profile1 from '../assets/img/profile1.jpeg';
+import profile2 from '../assets/img/profile2.png';
+import profile3 from '../assets/img/profile3.jpg';
 
 const Team: React.FC = () => {
   return (
@@ -21,7 +23,7 @@ const Team: React.FC = () => {
           </div>
           <div className="profile_box">
             <div className="profile_image">
-              <img src={profile1} alt="" />
+              <img src={profile2} alt="" />
             </div>
             <div className="profile_info">
               <h2>
@@ -32,7 +34,7 @@ const Team: React.FC = () => {
           </div>
           <div className="profile_box">
             <div className="profile_image">
-              <img src={profile1} alt="" />
+              <img src={profile3} alt="" />
             </div>
             <div className="profile_info">
               <h2>
