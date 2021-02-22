@@ -43,7 +43,6 @@ header ul {
 header li {
   position: relative;
   list-style: none;
-  transition: 0.5s;
 }
 
 header a {
