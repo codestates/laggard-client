@@ -35,7 +35,7 @@
 | TEAM      | Position  | Github                                        |
 | ---------  |--------- | --------------------------------------------- |
 | 🧑🏻‍💻 안정현 | FrontEnd | [@jha0402](https://github.com/jha0402)        |
-| 🧑🏻‍💻 임창섭 | BackEnd  | [@aesopfrom0](https://github.com/aesopfrom0)        |
+| 🧑🏻‍💻 이창섭 | BackEnd  | [@aesopfrom0](https://github.com/aesopfrom0)        |
 | 🧑🏻‍💻 임재현 | BackEnd | [@Wunhyeon](https://github.com/Wunhyeon)   |
 
 <br>
