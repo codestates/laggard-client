@@ -6,9 +6,12 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 const Header: React.FC = () => {
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
@@ -64,9 +67,21 @@ const Header: React.FC = () => {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>홈</MenuItem>
-            <MenuItem onClick={handleClose}>내 유형은?</MenuItem>
-            <MenuItem onClick={handleClose}>내 점수는?</MenuItem>
+            <NavLink to={'/'}>
+              <MenuItem className={classes.button} onClick={handleClose}>
+                홈
+              </MenuItem>
+            </NavLink>
+            <NavLink to={'/test'}>
+              <MenuItem className={classes.button} onClick={handleClose}>
+                내 유형은?
+              </MenuItem>
+            </NavLink>
+            <NavLink to={'/game'}>
+              <MenuItem className={classes.button} onClick={handleClose}>
+                내 점수는?
+              </MenuItem>
+            </NavLink>
             <MenuItem onClick={handleClose}>로그인</MenuItem>
           </Menu>
         </div>
@@ -76,3 +91,12 @@ const Header: React.FC = () => {
 };
 
 export default Header;
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    button: {
+      textDecoration: 'none',
+      color: 'black',
+    },
+  }),
+);

@@ -1,6 +1,6 @@
 import React from 'react';
 import './Banner.css';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
 const Banner: React.FC = () => {
@@ -29,7 +29,7 @@ const Banner: React.FC = () => {
 
 export default Banner;
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     test: {
       border: '2px solid #0f0',
@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
       background: 'black',
       borderRadius: '5px',
       margin: '1rem',
+      opacity: 0.9,
       '&:hover': {
         background: '#0f0',
         color: 'black',
@@ -59,6 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
       background: 'black',
       borderRadius: '5px',
       margin: '1rem',
+      opacity: 0.9,
       '&:hover': {
         background: '#00a1ff',
         color: 'black',
