@@ -16,7 +16,7 @@
 ### Client :
 - Typescript
 - React (Hooks)
-- Redux
+- Redux Toolkit
 - Axios
 - React-router
 - Styled-components
