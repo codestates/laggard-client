@@ -5,7 +5,7 @@ import loginReducer from '../features/modalSlice';
 export const store = configureStore({
   reducer: {
     user: userReducer,
-    modalLogin: loginReducer,
+    isLogin: loginReducer,
   },
 });
 

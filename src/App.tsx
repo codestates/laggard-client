@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Main from './pages/Main';
 import Test from './pages/Test';
 import Game from './pages/Game';
 import Header from './components/Header';
+import { useDispatch } from 'react-redux';
+import { logout } from './features/userSlice';
 
 const App: React.FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(logout);
+  }, []);
   return (
     <div className="app">
       <BrowserRouter>

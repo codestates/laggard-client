@@ -1,5 +1,5 @@
 import React from 'react';
-import Banner from '../components/Banner';
+import Banner from '../components/main/Banner';
 
 const Test: React.FC = () => {
   return (

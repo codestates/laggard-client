@@ -2,29 +2,28 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
 
 interface ModalState {
-  modalLogin: boolean;
+  isLogin: boolean;
 }
 
 const initialState: ModalState = {
-  modalLogin: false,
+  isLogin: false,
 };
 
 export const loginSlice = createSlice({
-  name: 'modalLogin',
+  name: 'isLogin',
   initialState,
   reducers: {
-    open: (state) => {
-      state.modalLogin = true;
+    isLogin: (state) => {
+      state.isLogin = true;
     },
-    close: (state) => {
-      state.modalLogin = false;
+    isLogout: (state) => {
+      state.isLogin = false;
     },
   },
 });
 
-export const { open, close } = loginSlice.actions;
+export const { isLogin, isLogout } = loginSlice.actions;
 
-export const selectModalLogin = (state: RootState) =>
-  state.modalLogin.modalLogin;
+export const selectLogin = (state: RootState) => state.isLogin.isLogin;
 
 export default loginSlice.reducer;
