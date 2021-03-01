@@ -1,12 +1,93 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import InfoIcon from '@material-ui/icons/Info';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import axios from 'axios';
+
+const pwRegex = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$/);
+const emailRegex = RegExp(
+  /^\s?[A-Z0–9]+[A-Z0–9._+-]{0,}@[A-Z0–9._+-]+\.[A-Z0–9]{2,4}\s?$/i,
+);
 
 const Signup: React.FC = () => {
+  const initialInfo = {
+    nickname: '',
+    email: '',
+    password: '',
+    sex: true,
+    age: 10,
+    errors: {
+      nickname: '',
+      email: '',
+      password: '',
+      confirmPw: '',
+    },
+  };
+  const [info, setInfo] = useState(initialInfo);
+  const max992 = useMediaQuery('(max-width: 992px)');
+  useEffect(() => {
+    if (max992) {
+      const header = document.querySelector('header') as HTMLElement;
+      header.style.background = 'white';
+    } else {
+      const header = document.querySelector('header') as HTMLElement;
+      header.style.background = 'black';
+      header.style.padding = '5px 100px';
+    }
+  }, [max992]);
+
+  const handleChange = (e: any) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    const errors = info.errors;
+    switch (name) {
+      case 'nickname':
+        errors.nickname =
+          value.length < 5 ? '아이디는 5자 이상이어야 합니다' : '';
+        break;
+      case 'email':
+        errors.email = emailRegex.test(value)
+          ? ''
+          : '올바른 이메일을 입력해주세요';
+        break;
+      case 'password':
+        errors.password = pwRegex.test(value)
+          ? ''
+          : '비밀번호는 8자 이상, 그리고 숫자가 포함 되어야합니다';
+        break;
+      case 'confirmPw':
+        errors.confirmPw =
+          value === info.password ? '' : '입력한 비밀번호와 일치해야 합니다';
+        break;
+      default:
+        break;
+    }
+    setInfo({ ...info, errors, [name]: value });
+  };
+  const handleSubmit = (e: any) => {
+    const { nickname, email, password, sex, age } = info;
+    e.preventDefault();
+    let validity = true;
+    Object.values(info.errors).forEach(
+      (val) => val.length > 0 && (validity = false),
+    );
+    if (validity === true) {
+      axios.post('http://localhost:5000/users/signup/basic', {
+        nickname,
+        email,
+        password,
+        sex,
+        age,
+      });
+    } else {
+      console.log('정보를 다시 확인해주세요');
+    }
+  };
+  const { errors } = info;
   return (
     <div>
       <Container>
@@ -17,60 +98,88 @@ const Signup: React.FC = () => {
             </div>
             <Title>회원가입</Title>
           </div>
-          <Fields>
-            <div className="signup-idcheck">
-              <InfoIcon />
-              아이디를 입력해주세요
-            </div>
+          <Fields onSubmit={handleSubmit}>
+            {errors.nickname.length > 0 && (
+              <div className="signup-idcheck">
+                <InfoIcon />
+                {errors.nickname}
+              </div>
+            )}
             <Username>
               <PersonOutlineIcon />
-              <input type="username" placeholder="아이디" />
+              <input
+                type="username"
+                placeholder="아이디"
+                name="nickname"
+                onChange={handleChange}
+              />
             </Username>
-            <div className="signup-emailcheck">
-              <InfoIcon />
-              이메일을 입력해주세요
-            </div>
+            {errors.email.length > 0 && (
+              <div className="signup-emailcheck">
+                <InfoIcon />
+                {errors.email}
+              </div>
+            )}
             <Email>
               <MailOutlineIcon />
-              <input type="email" placeholder="이메일" />
+              <input
+                type="email"
+                placeholder="이메일"
+                name="email"
+                onChange={handleChange}
+              />
             </Email>
-            <div className="signup-pwcheck">
-              <InfoIcon />
-              비밀번호는 8~20자, 숫자, 특수문자가 포함 되어야합니다
-            </div>
+            {errors.password.length > 0 && (
+              <div className="signup-pwcheck">
+                <InfoIcon />
+                {errors.password}
+              </div>
+            )}
             <Password>
               <LockOutlinedIcon />
-              <input type="password" placeholder="비밀번호" />
+              <input
+                type="password"
+                placeholder="비밀번호"
+                name="password"
+                onChange={handleChange}
+              />
             </Password>
-            <div className="signup-pwrecheck">
-              <InfoIcon />
-              비밀번호를 다시 입력 해주세요
-            </div>
+            {errors.confirmPw.length > 0 && (
+              <div className="signup-pwrecheck">
+                <InfoIcon />
+                {errors.confirmPw}
+              </div>
+            )}
             <Password>
               <LockOutlinedIcon />
-              <input type="password" placeholder="비밀번호 확인" />
+              <input
+                type="password"
+                placeholder="비밀번호 확인"
+                name="confirmPw"
+                onChange={handleChange}
+              />
             </Password>
             <SexAge>
               <div className="signup-sex">
                 <label htmlFor="sex">성별</label>
-                <select name="sex">
-                  <option value="0">남</option>
-                  <option value="1">여</option>
+                <select name="sex" onChange={handleChange} id="sex">
+                  <option value={1}>남</option>
+                  <option value={0}>여</option>
                 </select>
               </div>
               <div className="signup-age">
                 <label htmlFor="age">나이</label>
-                <select name="age">
-                  <option value="10대">10대</option>
-                  <option value="20대">20대</option>
-                  <option value="30대">30대</option>
-                  <option value="40+">40+</option>
+                <select name="age" onChange={handleChange} id="age">
+                  <option value={10}>10대</option>
+                  <option value={20}>20대</option>
+                  <option value={30}>30대</option>
+                  <option value={40}>40+</option>
                 </select>
               </div>
             </SexAge>
           </Fields>
           <SignupButton>
-            <button>회원가입</button>
+            <button onClick={handleSubmit}>회원가입</button>
           </SignupButton>
         </div>
       </Container>
@@ -106,7 +215,7 @@ const Container = styled.div`
       display: flex;
       align-items: center;
       font-size: 0.8rem;
-      color: gray;
+      color: red;
       padding-left: 16px;
       padding-bottom: 4px;
       padding-top: 4px;
@@ -120,10 +229,10 @@ const Container = styled.div`
       display: flex;
       align-items: center;
       font-size: 0.7rem;
-      color: gray;
+      color: red;
       padding-left: 16px;
-      padding-bottom: 4px;
-      padding-top: 4px;
+      margin-bottom: 4px;
+      margin-top: 4px;
 
       > .MuiSvgIcon-root {
         font-size: 0.8rem;
@@ -158,7 +267,7 @@ const Title = styled.div`
   justify-content: center;
 `;
 
-const Fields = styled.div`
+const Fields = styled.form`
   width: 300px;
 `;
 
@@ -166,6 +275,8 @@ const Username = styled.div`
   display: flex;
   align-items: center;
   border-radius: 25px;
+  margin-top: 4px;
+  margin-bottom: 4px;
   box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px white;
   > .MuiSvgIcon-root {
     margin: 0px 0px 0px 10px;
@@ -185,6 +296,8 @@ const Password = styled.div`
   display: flex;
   align-items: center;
   border-radius: 25px;
+  margin-top: 4px;
+  margin-bottom: 4px;
   box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px white;
   > .MuiSvgIcon-root {
     margin: 0px 0px 0px 10px;
@@ -205,6 +318,8 @@ const Email = styled.div`
   display: flex;
   align-items: center;
   border-radius: 25px;
+  margin-top: 4px;
+  margin-bottom: 4px;
   box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px white;
   > .MuiSvgIcon-root {
     margin: 0px 0px 0px 10px;

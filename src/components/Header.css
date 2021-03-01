@@ -72,7 +72,8 @@ header ul li:hover {
 }
 
 .sticky .logo,
-.sticky a {
+.sticky a,
+.sticky .login {
   color: black;
 }
 
