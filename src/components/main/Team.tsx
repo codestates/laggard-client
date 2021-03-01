@@ -1,8 +1,8 @@
 import React from 'react';
 import './Team.css';
-import profile1 from '../assets/img/profile1.jpeg';
-import profile2 from '../assets/img/profile2.png';
-import profile3 from '../assets/img/profile3.jpg';
+import profile1 from '../../assets/img/profile1.jpeg';
+import profile2 from '../../assets/img/profile2.png';
+import profile3 from '../../assets/img/profile3.jpg';
 
 const Team: React.FC = () => {
   return (

@@ -1,10 +1,11 @@
 import React from 'react';
-import About from '../components/About';
-import Banner from '../components/Banner';
-import Footer from '../components/Footer';
-import Scoreboard from '../components/Scoreboard';
-import Team from '../components/Team';
+import About from '../components/main/About';
+import Banner from '../components/main/Banner';
+import Footer from '../components/main/Footer';
+import Scoreboard from '../components/main/Scoreboard';
+import Team from '../components/main/Team';
 import './Main.css';
+import { withRouter } from 'react-router-dom';
 
 const Main: React.FC = () => {
   return (
@@ -18,4 +19,4 @@ const Main: React.FC = () => {
   );
 };
 
-export default Main;
+export default withRouter(Main);

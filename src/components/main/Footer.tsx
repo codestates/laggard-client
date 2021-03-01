@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
     <footer className="footer">
       <div className="footer_container">
         <div className="footer_left">
-          <p>Developed By © 2021 Team Laggards</p>
+          <p>Developed By © {year} Team Laggards</p>
         </div>
         <div className="footer_right">
           <h2>Laggard</h2>
