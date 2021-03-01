@@ -55,6 +55,17 @@ header a {
   font-size: 1.1rem;
 }
 
+.login {
+  color: white;
+  position: relative;
+  margin: 0 24px;
+  text-decoration: none !important;
+  letter-spacing: 2px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
 header ul li:hover {
   transition: 0.3s;
   transform: scale(1.05);

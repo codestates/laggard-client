@@ -5,6 +5,7 @@ import Footer from '../components/main/Footer';
 import Scoreboard from '../components/main/Scoreboard';
 import Team from '../components/main/Team';
 import './Main.css';
+import { withRouter } from 'react-router-dom';
 
 const Main: React.FC = () => {
   return (
@@ -18,4 +19,4 @@ const Main: React.FC = () => {
   );
 };
 
-export default Main;
+export default withRouter(Main);

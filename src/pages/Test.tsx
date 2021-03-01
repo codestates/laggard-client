@@ -1,5 +1,6 @@
 import React from 'react';
 import Banner from '../components/main/Banner';
+import { withRouter } from 'react-router-dom';
 
 const Test: React.FC = () => {
   return (
@@ -9,4 +10,4 @@ const Test: React.FC = () => {
   );
 };
 
-export default Test;
+export default withRouter(Test);
