@@ -7,11 +7,16 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import InfoIcon from '@material-ui/icons/Info';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import axios from 'axios';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
 const pwRegex = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$/);
 const emailRegex = RegExp(
   /^\s?[A-Z0–9]+[A-Z0–9._+-]{0,}@[A-Z0–9._+-]+\.[A-Z0–9]{2,4}\s?$/i,
 );
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const Signup: React.FC = () => {
   const initialInfo = {
@@ -75,7 +80,12 @@ const Signup: React.FC = () => {
     Object.values(info.errors).forEach(
       (val) => val.length > 0 && (validity = false),
     );
-    if (validity === true) {
+    if (
+      validity === true &&
+      nickname.length > 0 &&
+      email.length > 0 &&
+      password.length > 0
+    ) {
       axios.post('http://localhost:5000/users/signup/basic', {
         nickname,
         email,
@@ -83,11 +93,95 @@ const Signup: React.FC = () => {
         sex,
         age,
       });
+      handleOpenSignupSuccess();
     } else {
-      console.log('정보를 다시 확인해주세요');
+      handleOpenSignupFailure();
     }
   };
+
+  const handleEmailCheck = (e: any) => {
+    e.preventDefault();
+    const { email } = info;
+    axios
+      .post('http://localhost:5000/users/signup/emailCheck', { email })
+      .then(handleOpenEmailCheckSuccess)
+      .catch(handleOpenEmailCheckFailure);
+  };
   const { errors } = info;
+
+  {
+    /* Snackbars */
+  }
+
+  const [openSignupSuccess, setOpenSignupSuccess] = React.useState(false);
+  const [openSignupFailure, setOpenSignupFailure] = React.useState(false);
+  const [openEmailCheckSuccess, setOpenEmailCheckSuccess] = React.useState(
+    false,
+  );
+  const [openEmailCheckFailure, setOpenEmailCheckFailure] = React.useState(
+    false,
+  );
+
+  const handleOpenSignupSuccess = () => {
+    setOpenSignupSuccess(true);
+  };
+
+  const handleCloseSignupSuccess = (
+    event?: React.SyntheticEvent,
+    reason?: string,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSignupSuccess(false);
+  };
+
+  const handleOpenSignupFailure = () => {
+    setOpenSignupFailure(true);
+  };
+
+  const handleCloseSignupFailure = (
+    event?: React.SyntheticEvent,
+    reason?: string,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSignupFailure(false);
+  };
+
+  const handleOpenEmailCheckSuccess = () => {
+    setOpenEmailCheckSuccess(true);
+  };
+
+  const handleCloseEmailCheckSuccess = (
+    event?: React.SyntheticEvent,
+    reason?: string,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenEmailCheckSuccess(false);
+  };
+
+  const handleOpenEmailCheckFailure = () => {
+    setOpenEmailCheckFailure(true);
+  };
+
+  const handleCloseEmailCheckFailure = (
+    event?: React.SyntheticEvent,
+    reason?: string,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenEmailCheckFailure(false);
+  };
+
   return (
     <div>
       <Container>
@@ -98,7 +192,25 @@ const Signup: React.FC = () => {
             </div>
             <Title>회원가입</Title>
           </div>
-          <Fields onSubmit={handleSubmit}>
+          <Fields>
+            {errors.email.length > 0 && (
+              <div className="signup-emailcheck">
+                <InfoIcon />
+                {errors.email}
+              </div>
+            )}
+            <Email>
+              <MailOutlineIcon />
+              <input
+                type="email"
+                placeholder="이메일"
+                name="email"
+                onChange={handleChange}
+              />
+              <button onClick={handleEmailCheck} className="valcheck">
+                중복확인
+              </button>
+            </Email>
             {errors.nickname.length > 0 && (
               <div className="signup-idcheck">
                 <InfoIcon />
@@ -114,21 +226,6 @@ const Signup: React.FC = () => {
                 onChange={handleChange}
               />
             </Username>
-            {errors.email.length > 0 && (
-              <div className="signup-emailcheck">
-                <InfoIcon />
-                {errors.email}
-              </div>
-            )}
-            <Email>
-              <MailOutlineIcon />
-              <input
-                type="email"
-                placeholder="이메일"
-                name="email"
-                onChange={handleChange}
-              />
-            </Email>
             {errors.password.length > 0 && (
               <div className="signup-pwcheck">
                 <InfoIcon />
@@ -182,6 +279,42 @@ const Signup: React.FC = () => {
             <button onClick={handleSubmit}>회원가입</button>
           </SignupButton>
         </div>
+        <Snackbar
+          open={openSignupSuccess}
+          autoHideDuration={5000}
+          onClose={handleCloseSignupSuccess}
+        >
+          <Alert onClose={handleCloseSignupSuccess} severity="success">
+            회원가입에 성공하셨습니다!
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={openSignupFailure}
+          autoHideDuration={5000}
+          onClose={handleCloseSignupFailure}
+        >
+          <Alert onClose={handleCloseSignupFailure} severity="error">
+            입력한 정보를 다시 확인해주세요!
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={openEmailCheckSuccess}
+          autoHideDuration={5000}
+          onClose={handleCloseEmailCheckSuccess}
+        >
+          <Alert onClose={handleCloseEmailCheckSuccess} severity="success">
+            사용가능한 이메일입니다
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={openEmailCheckFailure}
+          autoHideDuration={5000}
+          onClose={handleCloseEmailCheckFailure}
+        >
+          <Alert onClose={handleCloseEmailCheckFailure} severity="error">
+            이미 등록된 이메일입니다
+          </Alert>
+        </Snackbar>
       </Container>
     </div>
   );
@@ -275,7 +408,7 @@ const Username = styled.div`
   display: flex;
   align-items: center;
   border-radius: 25px;
-  margin-top: 4px;
+  margin-top: 6px;
   margin-bottom: 4px;
   box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px white;
   > .MuiSvgIcon-root {
@@ -287,7 +420,7 @@ const Username = styled.div`
     border: none;
     outline: none;
     background: none;
-    font-size: 18px;
+    font-size: 16px;
     color: #555;
     padding: 20px 10px 20px;
   }
@@ -296,7 +429,7 @@ const Password = styled.div`
   display: flex;
   align-items: center;
   border-radius: 25px;
-  margin-top: 4px;
+  margin-top: 6px;
   margin-bottom: 4px;
   box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px white;
   > .MuiSvgIcon-root {
@@ -308,7 +441,7 @@ const Password = styled.div`
     border: none;
     outline: none;
     background: none;
-    font-size: 18px;
+    font-size: 16px;
     color: #555;
     padding: 20px 10px 20px 5px;
   }
@@ -330,9 +463,28 @@ const Email = styled.div`
     border: none;
     outline: none;
     background: none;
-    font-size: 18px;
+    font-size: 16px;
     color: #555;
     padding: 20px 10px 20px 5px;
+  }
+  > button {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    font-size: 0.6rem;
+    margin-right: 10px;
+    box-shadow: 0px 0px 2px #5f5f5f, 0px 0px 0px #ecf0f3, 5px 5px 12px #a7aaaf,
+      -6px -6px 12px white;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    color: #535252;
+  }
+  & > button:hover {
+    background: #e2dede;
+  }
+  & > button:active {
+    background: #cecaca;
   }
 `;
 
