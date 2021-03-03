@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -35,6 +35,7 @@ const Signup: React.FC = () => {
       confirmPw: '',
     },
   };
+  const history = useHistory();
   const [info, setInfo] = useState(initialInfo);
   const max992 = useMediaQuery('(max-width: 992px)');
   useEffect(() => {
@@ -98,6 +99,9 @@ const Signup: React.FC = () => {
           password,
           sex,
           birth_year,
+        })
+        .then(() => {
+          history.push('/');
         })
         .then(handleOpenSignupSuccess);
     } else {
@@ -288,7 +292,7 @@ const Signup: React.FC = () => {
         </div>
         <Snackbar
           open={openSignupSuccess}
-          autoHideDuration={5000}
+          autoHideDuration={2000}
           onClose={handleCloseSignupSuccess}
         >
           <Alert onClose={handleCloseSignupSuccess} severity="success">
@@ -306,7 +310,7 @@ const Signup: React.FC = () => {
         </Snackbar>
         <Snackbar
           open={openEmailCheckSuccess}
-          autoHideDuration={5000}
+          autoHideDuration={4000}
           onClose={handleCloseEmailCheckSuccess}
         >
           <Alert onClose={handleCloseEmailCheckSuccess} severity="success">

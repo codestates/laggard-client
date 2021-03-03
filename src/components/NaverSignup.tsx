@@ -73,7 +73,7 @@ const NaverSignup: React.FC = () => {
     function GetUser() {
       const location = window.location.href.split('=')[1];
       const token = location.split('&')[0];
-      dispatch(saveToken({ token }));
+      // dispatch(saveToken({ token }));
       localStorage.setItem('access_token', token);
     }
     console.log(token);

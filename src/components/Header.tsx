@@ -10,7 +10,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import ReactDOM from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout, selectUser } from '../features/userSlice';
+import { login, logout, selectUser } from '../features/userSlice';
 import axios from 'axios';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
@@ -27,14 +27,8 @@ const Header: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const pwRef = useRef<HTMLInputElement>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
-  // user = {
-  //   nickname: 'user',
-  //   email: 'user',
-  //   sex: true,
-  //   birth_year: 1990,
-  // };
   const handleLogin = async () => {
     await axios
       .post('http://localhost:5000/users/signin/basic', {
@@ -42,23 +36,44 @@ const Header: React.FC = () => {
         password: pwRef.current?.value,
       })
       .then((res) => {
-        const token = res.data.accessToken;
-        localStorage.setItem('accessToken', token);
+        const accessToken = res.data.data;
+        localStorage.setItem('accessToken', accessToken);
       })
-      .then(handleOpenSuccess)
       .then(async () => {
-        const accessToken = localStorage.getItem('accessToken');
-        await axios.get('http://localhost:5000/users/userinfo', {
-          headers: { authorization: `bearer ${accessToken}` },
-        });
+        const token = localStorage.getItem('accessToken');
+        await axios
+          .get('http://localhost:5000/users/userinfo', {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then((res) => {
+            console.log(res.data.data.userInfo);
+            const info = res.data.data.userInfo;
+            dispatch(
+              login({
+                nickname: info.nickname,
+                email: info.email,
+                sex: info.sex,
+                birth_year: info.birth_year,
+              }),
+            );
+          });
       })
-      .catch(handleOpenFailure);
+      .then(() => {
+        handleOpenSuccess();
+        setAnchorEl(null);
+        setOpen(false);
+      })
+      .catch(() => {
+        handleOpenFailure();
+      });
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     localStorage.removeItem('accessToken');
-    dispatch(logout);
+    await dispatch(logout());
     history.push('/');
+    setOpen(false);
+    setAnchorEl(null);
   };
 
   const modalOpen = () => {
@@ -154,24 +169,6 @@ const Header: React.FC = () => {
         </NavLink>
       </p>
       {/* <NaverLogin /> */}
-      <Snackbar
-        open={openSuccess}
-        autoHideDuration={2000}
-        onClose={handleCloseSuccess}
-      >
-        <Alert onClose={handleCloseSuccess} severity="success">
-          로그인 하셨습니다
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={openFailure}
-        autoHideDuration={4000}
-        onClose={handleCloseFailure}
-      >
-        <Alert onClose={handleCloseFailure} severity="error">
-          로그인에 실패하셨습니다 다시 시도해주세요
-        </Alert>
-      </Snackbar>
     </div>
   );
 
@@ -181,32 +178,32 @@ const Header: React.FC = () => {
         Laggard
       </NavLink>
       <ul>
-        <li>
+        <li key="home">
           <NavLink to={'/'}>홈</NavLink>
         </li>
-        <li>
+        <li key="test">
           <NavLink to={'/test'}>내 유형은?</NavLink>
         </li>
-        <li>
+        <li key="game">
           <NavLink to="/game">내 점수는?</NavLink>
         </li>
         {user === null ? (
-          <li>
+          <li key="login">
             <div className="header_login" onClick={modalOpen}>
               로그인
             </div>
           </li>
         ) : (
-          <>
-            <li>
+          [
+            <li key="myinfo">
               <div className="header_myinfo">내 정보</div>
-            </li>
-            <li>
+            </li>,
+            <li key="logout">
               <div className="header_logout" onClick={handleLogout}>
                 로그아웃
               </div>
-            </li>
-          </>
+            </li>,
+          ]
         )}
       </ul>
       {max992 && (
@@ -237,19 +234,43 @@ const Header: React.FC = () => {
             {user === null ? (
               <MenuItem onClick={modalOpen}>로그인</MenuItem>
             ) : (
-              <>
-                <MenuItem>내 정보</MenuItem>
-                <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
-              </>
+              [
+                <MenuItem key="myinfo">내 정보</MenuItem>,
+                <MenuItem key="logout" onClick={handleLogout}>
+                  로그아웃
+                </MenuItem>,
+              ]
             )}
           </Menu>
         </div>
       )}
       {ReactDOM.createPortal(
         <>
+          [
           <Modal className={classes.modal} open={open} onClose={modalClose}>
             {body}
           </Modal>
+          ,
+          <Snackbar
+            open={openSuccess}
+            autoHideDuration={3000}
+            onClose={handleCloseSuccess}
+          >
+            <Alert onClose={handleCloseSuccess} severity="success">
+              로그인 하셨습니다
+            </Alert>
+          </Snackbar>
+          ,
+          <Snackbar
+            open={openFailure}
+            autoHideDuration={3000}
+            onClose={handleCloseFailure}
+          >
+            <Alert onClose={handleCloseFailure} severity="error">
+              로그인에 실패하셨습니다 다시 시도해주세요
+            </Alert>
+          </Snackbar>
+          ]
         </>,
         document.body,
       )}
