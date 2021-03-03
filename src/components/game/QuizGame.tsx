@@ -8,14 +8,13 @@ import Guest from '../../modals/GuestModal';
 import Quiz from '../../modals/QuizModal';
 
 const QuizGame: React.FC = () => {
-  let user = useSelector(selectUser);
-  user = {
-    nickname: 'user',
-    email: 'user',
-    password: 'user',
-    sex: true,
-    age: 20,
-  };
+  const user = useSelector(selectUser);
+  // user = {
+  //   nickname: 'user',
+  //   email: 'user',
+  //   sex: true,
+  //   birth_year: 1990,
+  // };
   return (
     <GameDiv>
       <GameContainer>
