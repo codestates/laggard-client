@@ -9,11 +9,14 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import axios from 'axios';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import NaverSignup from '../components/NaverSignup';
 
+const nicknameRegex = RegExp(/[{}[\]/?.,;:|)*~`!^\-+<>@#$%&\\=('"]/gi);
 const pwRegex = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$/);
 const emailRegex = RegExp(
   /^\s?[A-Z0–9]+[A-Z0–9._+-]{0,}@[A-Z0–9._+-]+\.[A-Z0–9]{2,4}\s?$/i,
 );
+const yearRegex = RegExp(/^(19[0-9][0-9]|20[01][0-9]|2020)$/);
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -24,7 +27,7 @@ const Signup: React.FC = () => {
     email: '',
     password: '',
     sex: true,
-    age: 10,
+    birth_year: 2021,
     errors: {
       nickname: '',
       email: '',
@@ -51,8 +54,9 @@ const Signup: React.FC = () => {
     const errors = info.errors;
     switch (name) {
       case 'nickname':
-        errors.nickname =
-          value.length < 5 ? '아이디는 5자 이상이어야 합니다' : '';
+        errors.nickname = nicknameRegex.test(value)
+          ? '특수문자는 사용할 수 없습니다'
+          : '';
         break;
       case 'email':
         errors.email = emailRegex.test(value)
@@ -74,7 +78,7 @@ const Signup: React.FC = () => {
     setInfo({ ...info, errors, [name]: value });
   };
   const handleSubmit = (e: any) => {
-    const { nickname, email, password, sex, age } = info;
+    const { nickname, email, password, sex, birth_year } = info;
     e.preventDefault();
     let validity = true;
     Object.values(info.errors).forEach(
@@ -84,16 +88,18 @@ const Signup: React.FC = () => {
       validity === true &&
       nickname.length > 0 &&
       email.length > 0 &&
-      password.length > 0
+      password.length > 0 &&
+      yearRegex.test(birth_year.toString())
     ) {
-      axios.post('http://localhost:5000/users/signup/basic', {
-        nickname,
-        email,
-        password,
-        sex,
-        age,
-      });
-      handleOpenSignupSuccess();
+      axios
+        .post('http://localhost:5000/users/signup/basic', {
+          nickname,
+          email,
+          password,
+          sex,
+          birth_year,
+        })
+        .then(handleOpenSignupSuccess);
     } else {
       handleOpenSignupFailure();
     }
@@ -265,17 +271,18 @@ const Signup: React.FC = () => {
                 </select>
               </div>
               <div className="signup-age">
-                <label htmlFor="age">나이</label>
-                <select name="age" onChange={handleChange} id="age">
-                  <option value={10}>10대</option>
-                  <option value={20}>20대</option>
-                  <option value={30}>30대</option>
-                  <option value={40}>40+</option>
-                </select>
+                <label htmlFor="birth_year">출생연도</label>
+                <input
+                  name="birth_year"
+                  onChange={handleChange}
+                  id="age"
+                  placeholder="예: 1990"
+                />
               </div>
             </SexAge>
           </Fields>
           <SignupButton>
+            {/* <NaverSignup /> */}
             <button onClick={handleSubmit}>회원가입</button>
           </SignupButton>
         </div>
@@ -374,6 +381,12 @@ const Container = styled.div`
     }
 
     .signup-logo {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -492,31 +505,61 @@ const SexAge = styled.div`
   display: flex;
   margin-top: 20px;
   justify-content: space-around;
-  > .signup-sex label,
-  > .signup-age label {
+  > .signup-age {
+    display: flex;
+    flex: 0.7;
+    justify-content: space-around;
+    align-items: center;
+  }
+  > .signup-sex label {
     font-size: 1.2rem;
     letter-spacing: 3px;
     color: gray;
     font-weight: 600;
   }
-  > .signup-sex select,
-  > .signup-age select {
+
+  > .signup-age label {
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: gray;
+    font-weight: 600;
+  }
+  > .signup-sex select {
     border: none;
     outline: none;
     background: none;
     font-size: 18px;
     color: #555;
   }
-  > .signup-sex option,
-  > .signup-age option {
+  > .signup-sex option {
     font-weight: 600;
     font-size: 1rem;
     color: gray;
   }
+  > .signup-age input {
+    outline: none;
+    border: none;
+    background: none;
+    box-shadow: inset 2px 2px 2px #cbced1, inset -2px -2px 2px white;
+    border-radius: 40px;
+    font-size: 16px;
+    width: 60%;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-align: center;
+  }
+  > .signup-age input::placeholder {
+    color: gray;
+    font-size: 14px;
+    font-style: italic;
+  }
 `;
 
 const SignupButton = styled.div`
+  display: flex;
   width: 300px;
+  flex-direction: column;
+  align-items: center;
   > button {
     outline: none;
     border: none;

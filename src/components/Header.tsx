@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Header.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -9,14 +9,57 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import ReactDOM from 'react-dom';
-import { useSelector } from 'react-redux';
-import { selectUser } from '../features/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, selectUser } from '../features/userSlice';
+import axios from 'axios';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const Header: React.FC = () => {
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   const classes = useStyles();
+  const history = useHistory();
+  const emailRef = useRef<HTMLInputElement>(null);
+  const pwRef = useRef<HTMLInputElement>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
+
+  // user = {
+  //   nickname: 'user',
+  //   email: 'user',
+  //   sex: true,
+  //   birth_year: 1990,
+  // };
+  const handleLogin = async () => {
+    await axios
+      .post('http://localhost:5000/users/signin/basic', {
+        email: emailRef.current?.value,
+        password: pwRef.current?.value,
+      })
+      .then((res) => {
+        const token = res.data.accessToken;
+        localStorage.setItem('accessToken', token);
+      })
+      .then(handleOpenSuccess)
+      .then(async () => {
+        const accessToken = localStorage.getItem('accessToken');
+        await axios.get('http://localhost:5000/users/userinfo', {
+          headers: { authorization: `bearer ${accessToken}` },
+        });
+      })
+      .catch(handleOpenFailure);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    dispatch(logout);
+    history.push('/');
+  };
 
   const modalOpen = () => {
     setOpen(true);
@@ -45,18 +88,90 @@ const Header: React.FC = () => {
     });
   }, []);
 
+  {
+    /* Snackbar*/
+  }
+  const [openSuccess, setOpenSuccess] = React.useState(false);
+  const [openFailure, setOpenFailure] = React.useState(false);
+
+  const handleOpenSuccess = () => {
+    setOpenSuccess(true);
+  };
+
+  const handleCloseSuccess = (
+    event?: React.SyntheticEvent,
+    reason?: string,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSuccess(false);
+  };
+
+  const handleOpenFailure = () => {
+    setOpenFailure(true);
+  };
+
+  const handleCloseFailure = (
+    event?: React.SyntheticEvent,
+    reason?: string,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenFailure(false);
+  };
+
   const body = (
     <div className={classes.container}>
       <h2 className={classes.title}>LAGGARD</h2>
-      <input className={classes.input} placeholder="아이디" />
-      <input className={classes.input} placeholder="비밀번호" />
-      <button className={classes.button}>로그인</button>
+      <div className={classes.input_container}>
+        {openFailure ? (
+          <p className={classes.warning}>
+            이메일과 비밀번호를 다시 확인해주세요
+          </p>
+        ) : null}
+        <input
+          type="text"
+          ref={emailRef}
+          className={classes.input}
+          placeholder="이메일"
+        />
+        <input
+          type="password"
+          ref={pwRef}
+          className={classes.input}
+          placeholder="비밀번호"
+        />
+      </div>
+      <button className={classes.button} onClick={handleLogin}>
+        로그인
+      </button>
       <p className={classes.text}>
         회원이 아니세요?{' '}
         <NavLink className={classes.signup} to={'/signup'} onClick={modalClose}>
           <span className={classes.register}>회원가입 하기</span>
         </NavLink>
       </p>
+      {/* <NaverLogin /> */}
+      <Snackbar
+        open={openSuccess}
+        autoHideDuration={2000}
+        onClose={handleCloseSuccess}
+      >
+        <Alert onClose={handleCloseSuccess} severity="success">
+          로그인 하셨습니다
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={openFailure}
+        autoHideDuration={4000}
+        onClose={handleCloseFailure}
+      >
+        <Alert onClose={handleCloseFailure} severity="error">
+          로그인에 실패하셨습니다 다시 시도해주세요
+        </Alert>
+      </Snackbar>
     </div>
   );
 
@@ -75,15 +190,24 @@ const Header: React.FC = () => {
         <li>
           <NavLink to="/game">내 점수는?</NavLink>
         </li>
-        <li>
-          {user === null ? (
-            <div className="login" onClick={modalOpen}>
+        {user === null ? (
+          <li>
+            <div className="header_login" onClick={modalOpen}>
               로그인
             </div>
-          ) : (
-            <div className="login">로그아웃</div>
-          )}
-        </li>
+          </li>
+        ) : (
+          <>
+            <li>
+              <div className="header_myinfo">내 정보</div>
+            </li>
+            <li>
+              <div className="header_logout" onClick={handleLogout}>
+                로그아웃
+              </div>
+            </li>
+          </>
+        )}
       </ul>
       {max992 && (
         <div className="header_menu">
@@ -113,15 +237,20 @@ const Header: React.FC = () => {
             {user === null ? (
               <MenuItem onClick={modalOpen}>로그인</MenuItem>
             ) : (
-              <MenuItem>로그아웃</MenuItem>
+              <>
+                <MenuItem>내 정보</MenuItem>
+                <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
+              </>
             )}
           </Menu>
         </div>
       )}
       {ReactDOM.createPortal(
-        <Modal className={classes.modal} open={open} onClose={modalClose}>
-          {body}
-        </Modal>,
+        <>
+          <Modal className={classes.modal} open={open} onClose={modalClose}>
+            {body}
+          </Modal>
+        </>,
         document.body,
       )}
     </header>
@@ -150,11 +279,11 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center',
       alignItems: 'center',
       position: 'absolute',
-      borderRadius: '6px',
+      borderRadius: '30px',
       backgroundColor: 'rgba(191, 191, 191, 0.9)',
       padding: theme.spacing(2, 4, 2),
       width: '300px',
-      height: '200px',
+      height: '300px',
       '&:focus': {
         outline: 'none',
       },
@@ -172,6 +301,7 @@ const useStyles = makeStyles((theme: Theme) =>
         outline: 'none',
       },
     },
+    input_container: { display: 'grid', placeItems: 'center' },
     button: {
       width: '50%',
       margin: '5px',
@@ -184,6 +314,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     text: {
       fontSize: '0.9rem',
+    },
+    warning: {
+      fontSize: '0.8rem',
+      color: 'red',
     },
   }),
 );

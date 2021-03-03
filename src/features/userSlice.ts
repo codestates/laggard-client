@@ -4,9 +4,8 @@ import { RootState } from '../app/store';
 type UserInfo = {
   nickname: string;
   email: string;
-  password: string;
   sex: boolean;
-  age: number;
+  birth_year: number;
 };
 
 interface UserState {

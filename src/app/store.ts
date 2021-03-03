@@ -1,11 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import userReducer from '../features/userSlice';
-import loginReducer from '../features/modalSlice';
+import tokenReducer from '../features/tokenSlice';
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
-    isLogin: loginReducer,
+    token: tokenReducer,
   },
 });
 

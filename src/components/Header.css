@@ -8,7 +8,7 @@ header {
   align-items: center;
   padding: 40px 100px;
   z-index: 1000;
-  transition: 0.6s;
+  transition: 0.2s;
 }
 
 .sticky {
@@ -55,7 +55,9 @@ header a {
   font-size: 1.1rem;
 }
 
-.login {
+.header_login,
+.header_logout,
+.header_myinfo {
   color: white;
   position: relative;
   margin: 0 24px;
