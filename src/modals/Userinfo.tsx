@@ -1,20 +1,35 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Modal from '@material-ui/core/Modal';
 import styled from 'styled-components';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import ReactDOM from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeMyinfo, selectMyinfo } from '../features/modalSlice';
-import { selectUser } from '../features/userSlice';
+import { login, selectUser } from '../features/userSlice';
 import Popover from '@material-ui/core/Popover';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import axios from 'axios';
+import CancelIcon from '@material-ui/icons/Cancel';
+import {
+  openNicknameFailure,
+  openNicknameSuccess,
+  openPasswordFailure,
+  openPasswordSuccess,
+  selectChangeNicknameFailure,
+  selectChangeNicknameSuccess,
+} from '../features/messageSlice';
 
 const Userinfo: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const myinfoModal = useSelector(selectMyinfo);
   const user = useSelector(selectUser);
+  const changeNickname = useRef<HTMLInputElement>(null);
+  const changePassword = useRef<HTMLInputElement>(null);
+  const changePasswordCheck = useRef<HTMLInputElement>(null);
+  const nicknameSuccess = useSelector(selectChangeNicknameSuccess);
+  const nicknameFailure = useSelector(selectChangeNicknameFailure);
+  const pwRegex = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$/);
 
   const [
     anchorNickname,
@@ -48,8 +63,65 @@ const Userinfo: React.FC = () => {
   const openPassword = Boolean(anchorPassword);
   const idPassword = openPassword ? 'simple-popover' : undefined;
 
-  const handleChangeNickname = () => {
-    axios.put('http://localhost:5000/users/userinfo');
+  const handleChangeNickname = async () => {
+    const token = localStorage.getItem('accessToken');
+    let nicknameValue = changeNickname.current?.value;
+    await axios
+      .put(
+        'http://localhost:5000/users/userinfo',
+        {
+          nickname: changeNickname.current?.value,
+        },
+        { headers: { Authorization: `bearer ${token}` } },
+      )
+      .then(() => {
+        if (nicknameValue && user) {
+          dispatch(
+            login({
+              nickname: nicknameValue,
+              email: user?.email,
+              sex: user?.sex,
+              birth_year: user?.birth_year,
+            }),
+          );
+        }
+      })
+      .then(() => {
+        handleCloseNickname();
+        nicknameValue = '';
+        dispatch(openNicknameSuccess());
+      })
+      .catch(() => {
+        dispatch(openNicknameFailure());
+      });
+  };
+
+  const handleChangePassword = async () => {
+    const token = localStorage.getItem('accessToken');
+    let pwChange = changePassword.current?.value;
+    let pwChangeCheck = changePasswordCheck.current?.value;
+    if (pwChange) {
+      if (pwRegex.test(pwChange) && pwChange === pwChangeCheck) {
+        await axios
+          .put(
+            'http://localhost:5000/users/userinfo',
+            {
+              password: changeNickname.current?.value,
+            },
+            { headers: { Authorization: `bearer ${token}` } },
+          )
+          .then(() => {
+            pwChange = '';
+            pwChangeCheck = '';
+            handleClosePassword();
+            dispatch(openPasswordSuccess());
+          });
+      } else {
+        pwChange = '';
+        pwChangeCheck = '';
+        dispatch(openPasswordFailure());
+      }
+    }
   };
 
   const body = (
@@ -86,16 +158,24 @@ const Userinfo: React.FC = () => {
 
   const changeNicknameBody = (
     <NicknameChangeContainer>
-      <input type="text" placeholder="닉네임 변경" />
+      <input ref={changeNickname} type="text" placeholder="닉네임 변경" />
+      {nicknameSuccess ? (
+        <CheckBoxIcon fontSize="small" htmlColor="green" />
+      ) : undefined}
+      {nicknameFailure ? <CancelIcon htmlColor="red" /> : undefined}
       <button onClick={handleChangeNickname}>확인</button>
     </NicknameChangeContainer>
   );
 
   const changePasswordBody = (
     <PasswordChangeContainer>
-      <input type="password" placeholder="비밀번호 변경" />
-      <input type="password" placeholder="비밀번호 재입력" />
-      <button>확인</button>
+      <input ref={changePassword} type="password" placeholder="비밀번호 변경" />
+      <input
+        ref={changePasswordCheck}
+        type="password"
+        placeholder="비밀번호 재입력"
+      />
+      <button onClick={handleChangePassword}>확인</button>
     </PasswordChangeContainer>
   );
 
@@ -227,10 +307,10 @@ const MyinfoContent = styled.div`
 `;
 
 const NicknameChangeContainer = styled.div`
-  width: 250px;
+  width: 280px;
   height: 60px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   background-color: black;
   > input {
@@ -260,11 +340,37 @@ const NicknameChangeContainer = styled.div`
   }
 `;
 const PasswordChangeContainer = styled.div`
-  width: 250px;
-  height: 100px;
+  width: 220px;
+  height: 120px;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   flex-direction: column;
   background-color: black;
+
+  > input {
+    border: none;
+    background-color: lightgray;
+    padding: 2px 4px 2px 4px;
+    border-radius: 4px;
+    :focus {
+      outline: none;
+    }
+  }
+  > button {
+    background-color: #24cfaa;
+    border: none;
+    padding: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    :hover {
+      background-color: #2fdbb6;
+    }
+    :active {
+      background-color: #1da88a;
+    }
+    :focus {
+      outline: none;
+    }
+  }
 `;
