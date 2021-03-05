@@ -486,23 +486,24 @@ const Email = styled.div`
     padding: 20px 10px 20px 5px;
   }
   > button {
+    background: #24cfaa;
+    box-shadow: 3px 3px 8px #b1b1b1, -3px -3px 8px white;
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
     font-size: 0.6rem;
+    font-weight: 530;
     margin-right: 10px;
-    box-shadow: 0px 0px 2px #5f5f5f, 0px 0px 0px #ecf0f3, 5px 5px 12px #a7aaaf,
-      -6px -6px 12px white;
     outline: none;
     border: none;
     cursor: pointer;
-    color: #535252;
+    color: whitesmoke;
   }
   & > button:hover {
-    background: #e2dede;
+    background: #2fdbb6;
   }
   & > button:active {
-    background: #cecaca;
+    background: #1da88a;
   }
 `;
 

@@ -9,12 +9,7 @@ import Quiz from '../../modals/QuizModal';
 
 const QuizGame: React.FC = () => {
   const user = useSelector(selectUser);
-  // user = {
-  //   nickname: 'user',
-  //   email: 'user',
-  //   sex: true,
-  //   birth_year: 1990,
-  // };
+
   return (
     <GameDiv>
       <GameContainer>
