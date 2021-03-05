@@ -100,10 +100,8 @@ const Signup: React.FC = () => {
           sex,
           birth_year,
         })
-        .then(() => {
-          history.push('/');
-        })
-        .then(handleOpenSignupSuccess);
+        .then(handleOpenSignupSuccess)
+        .then(moveToHome);
     } else {
       handleOpenSignupFailure();
     }
@@ -119,6 +117,9 @@ const Signup: React.FC = () => {
   };
   const { errors } = info;
 
+  const moveToHome = () => {
+    setTimeout(() => history.push('/'), 3000);
+  };
   {
     /* Snackbars */
   }
@@ -296,7 +297,7 @@ const Signup: React.FC = () => {
           onClose={handleCloseSignupSuccess}
         >
           <Alert onClose={handleCloseSignupSuccess} severity="success">
-            회원가입에 성공하셨습니다!
+            회원가입에 성공하셨습니다! 홈으로 이동합니다.
           </Alert>
         </Snackbar>
         <Snackbar

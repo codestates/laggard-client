@@ -2,9 +2,18 @@ import React from 'react';
 import './Banner.css';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router-dom';
 
 const Banner: React.FC = () => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const moveToTest = () => {
+    history.push('/test');
+  };
+  const moveToGame = () => {
+    history.push('/game');
+  };
   return (
     <section className="banner">
       <div className="banner_container">
@@ -15,10 +24,20 @@ const Banner: React.FC = () => {
           </h2>
         </div>
         <div className="banner_buttons">
-          <Button className={classes.test} variant="contained" color="primary">
+          <Button
+            onClick={moveToTest}
+            className={classes.test}
+            variant="contained"
+            color="primary"
+          >
             나의 유형 테스트 시작하기
           </Button>
-          <Button className={classes.quiz} variant="contained" color="primary">
+          <Button
+            onClick={moveToGame}
+            className={classes.quiz}
+            variant="contained"
+            color="primary"
+          >
             퀴즈로 점수 획득하기
           </Button>
         </div>
