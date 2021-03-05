@@ -14,6 +14,7 @@ import { login, logout, selectUser } from '../features/userSlice';
 import axios from 'axios';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import { openMyinfo, selectMyinfo } from '../features/modalSlice';
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -21,6 +22,7 @@ function Alert(props: AlertProps) {
 
 const Header: React.FC = () => {
   const user = useSelector(selectUser);
+  const myinfo = useSelector(selectMyinfo);
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
@@ -46,7 +48,6 @@ const Header: React.FC = () => {
             headers: { Authorization: `Bearer ${token}` },
           })
           .then((res) => {
-            console.log(res.data.data.userInfo);
             const info = res.data.data.userInfo;
             dispatch(
               login({
@@ -93,9 +94,7 @@ const Header: React.FC = () => {
     setAnchorEl(null);
   };
   const header = useRef<HTMLDivElement>(null);
-  // const toggle = () => {
-  //   header.current?.classList.toggle('active');
-  // };
+
   const max992 = useMediaQuery('(max-width: 992px)');
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -136,6 +135,10 @@ const Header: React.FC = () => {
     }
     setOpenFailure(false);
   };
+
+  {
+    /* Modal jsx*/
+  }
 
   const body = (
     <div className={classes.container}>
@@ -196,7 +199,12 @@ const Header: React.FC = () => {
         ) : (
           [
             <li key="myinfo">
-              <div className="header_myinfo">내 정보</div>
+              <div
+                onClick={() => dispatch(openMyinfo())}
+                className="header_myinfo"
+              >
+                내 정보
+              </div>
             </li>,
             <li key="logout">
               <div className="header_logout" onClick={handleLogout}>
@@ -232,10 +240,25 @@ const Header: React.FC = () => {
               <MenuItem onClick={handleClose}>내 점수는?</MenuItem>
             </NavLink>
             {user === null ? (
-              <MenuItem onClick={modalOpen}>로그인</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  modalOpen();
+                }}
+              >
+                로그인
+              </MenuItem>
             ) : (
               [
-                <MenuItem key="myinfo">내 정보</MenuItem>,
+                <MenuItem
+                  onClick={async () => {
+                    await dispatch(openMyinfo());
+                    handleClose();
+                  }}
+                  key="myinfo"
+                >
+                  내 정보
+                </MenuItem>,
                 <MenuItem key="logout" onClick={handleLogout}>
                   로그아웃
                 </MenuItem>,

@@ -7,18 +7,38 @@ import Game from './pages/Game';
 import Header from './components/Header';
 import Signup from './pages/Signup';
 import { useDispatch } from 'react-redux';
-import { logout } from './features/userSlice';
+import axios from 'axios';
+import { login } from './features/userSlice';
+import Userinfo from './modals/Userinfo';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(logout);
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      axios
+        .get('http://localhost:5000/users/userinfo', {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          const info = res.data.data.userInfo;
+          dispatch(
+            login({
+              nickname: info.nickname,
+              email: info.email,
+              sex: info.sex,
+              birth_year: info.birth_year,
+            }),
+          );
+        });
+    }
   }, []);
   return (
     <div className="app" id="app">
       <BrowserRouter>
         <Header />
+        <Userinfo />
         <Switch>
           <Route exact path={'/'} component={Main} />
           <Route exact path={'/test'} component={Test} />

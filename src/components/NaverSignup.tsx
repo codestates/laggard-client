@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { saveToken, selectToken } from '../features/tokenSlice';
 import { login, selectUser } from '../features/userSlice';
 
 declare global {
@@ -16,7 +15,6 @@ const { naver } = window;
 const NaverSignup: React.FC = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  const token = useSelector(selectToken);
 
   const initializeNaverLogin = () => {
     const naverLogin = new naver.LoginWithNaverId({
@@ -76,7 +74,6 @@ const NaverSignup: React.FC = () => {
       // dispatch(saveToken({ token }));
       localStorage.setItem('access_token', token);
     }
-    console.log(token);
   };
 
   useEffect(() => {
