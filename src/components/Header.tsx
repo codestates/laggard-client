@@ -268,12 +268,10 @@ const Header: React.FC = () => {
         </div>
       )}
       {ReactDOM.createPortal(
-        <>
-          [
+        <div>
           <Modal className={classes.modal} open={open} onClose={modalClose}>
             {body}
           </Modal>
-          ,
           <Snackbar
             open={openSuccess}
             autoHideDuration={3000}
@@ -283,7 +281,6 @@ const Header: React.FC = () => {
               로그인 하셨습니다
             </Alert>
           </Snackbar>
-          ,
           <Snackbar
             open={openFailure}
             autoHideDuration={3000}
@@ -293,8 +290,7 @@ const Header: React.FC = () => {
               로그인에 실패하셨습니다 다시 시도해주세요
             </Alert>
           </Snackbar>
-          ]
-        </>,
+        </div>,
         document.body,
       )}
     </header>

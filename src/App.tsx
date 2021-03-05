@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { login } from './features/userSlice';
 import Userinfo from './modals/Userinfo';
+import UserinfoMessages from './popupbars/UserinfoMessages';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -31,7 +32,8 @@ const App: React.FC = () => {
               birth_year: info.birth_year,
             }),
           );
-        });
+        })
+        .catch();
     }
   }, []);
   return (
@@ -39,6 +41,7 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Header />
         <Userinfo />
+        <UserinfoMessages />
         <Switch>
           <Route exact path={'/'} component={Main} />
           <Route exact path={'/test'} component={Test} />

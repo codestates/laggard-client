@@ -75,7 +75,10 @@ header ul li:hover {
 
 .sticky .logo,
 .sticky a,
-.sticky .login {
+.sticky .login,
+.sticky .header_login,
+.sticky .header_logout,
+.sticky .header_myinfo {
   color: black;
 }
 
