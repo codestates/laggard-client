@@ -10,10 +10,12 @@ type UserInfo = {
 
 interface UserState {
   user: UserInfo | null;
+  guest: boolean;
 }
 
 const initialState: UserState = {
   user: null,
+  guest: false,
 };
 
 export const userSlice = createSlice({
@@ -26,11 +28,18 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.user = null;
     },
+    guestTrue: (state) => {
+      state.guest = true;
+    },
+    guestFalse: (state) => {
+      state.guest = false;
+    },
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout, guestTrue, guestFalse } = userSlice.actions;
 
 export const selectUser = (state: RootState): UserInfo | null =>
   state.user.user;
+export const selectGuest = (state: RootState): boolean => state.user.guest;
 export default userSlice.reducer;

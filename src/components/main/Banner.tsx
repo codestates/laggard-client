@@ -3,6 +3,8 @@ import './Banner.css';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
+import ScrollAnimation from 'react-animate-on-scroll';
+import 'animate.css/animate.min.css';
 
 const Banner: React.FC = () => {
   const classes = useStyles();
@@ -18,10 +20,8 @@ const Banner: React.FC = () => {
     <section className="banner">
       <div className="banner_container">
         <div className="banner_title">
-          <h2>
-            노래 가사만 듣고
-            <br /> 노래 제목을 맞춰보세요
-          </h2>
+          <h2 className="title_top">노래 가사만 듣고</h2>
+          <h2 className="title_bottom">노래 제목을 맞춰보세요</h2>
         </div>
         <div className="banner_buttons">
           <Button
