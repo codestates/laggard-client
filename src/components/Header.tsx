@@ -14,7 +14,7 @@ import { login, logout, selectUser } from '../features/userSlice';
 import axios from 'axios';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
-import { openMyinfo, selectMyinfo } from '../features/modalSlice';
+import { openMyinfo } from '../features/modalSlice';
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -22,7 +22,6 @@ function Alert(props: AlertProps) {
 
 const Header: React.FC = () => {
   const user = useSelector(selectUser);
-  const myinfo = useSelector(selectMyinfo);
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
