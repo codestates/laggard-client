@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import img from '../../assets/img/concertdark.jpg';
+import img from '../../assets/img/darkconcert5.jpg';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/userSlice';
 import Login from '../../modals/QuizLogin';

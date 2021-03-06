@@ -33,7 +33,9 @@ const App: React.FC = () => {
             }),
           );
         })
-        .catch();
+        .catch(() => {
+          localStorage.removeItem('accessToken');
+        });
     }
   }, []);
   return (
