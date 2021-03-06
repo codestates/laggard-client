@@ -49,7 +49,7 @@ const TestSexAge: React.FC = () => {
         <input
           onChange={handleChange}
           type="text"
-          placeholder="예: 1990"
+          placeholder="예: 2000"
           id="testage"
           name="birth_year"
         />
@@ -96,18 +96,19 @@ const SexSelect = styled.form`
 `;
 const AgeInput = styled.div`
   display: flex;
+  justify-content: center;
   > label {
     font-size: 20px;
     font-weight: 700;
   }
   > input {
+    width: 50%;
+    text-align: center;
     background-color: gray;
     border-radius: 10px;
     margin-left: 8px;
-    padding-left: 8px;
-    padding-right: 8px;
     color: whitesmoke;
-    font-size: 18px;
+    font-size: 16px;
     ::placeholder {
       color: whitesmoke;
       font-style: italic;
@@ -120,7 +121,7 @@ const AgeInput = styled.div`
 const SexAgeButton = styled.div`
   > button {
     width: 120px;
-    height: 24px;
+    height: 28px;
     background-color: #00adb5;
     border: none;
     border-radius: 10px;
