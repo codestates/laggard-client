@@ -16,15 +16,12 @@ const TestSexAge: React.FC = () => {
   const handleChange = (e: any) => {
     e.preventDefault();
     const { name, value } = e.target;
-    console.log(name);
     setInfo({ ...info, [name]: value });
   };
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const { sex, birth_year } = info;
-    console.log(birth_year);
     if (yearRegex.test(birth_year.toString())) {
-      console.log('i');
       dispatch(guestTrue());
     } else {
       console.log('error');

@@ -275,6 +275,10 @@ const Header: React.FC = () => {
             open={openSuccess}
             autoHideDuration={3000}
             onClose={handleCloseSuccess}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
           >
             <Alert onClose={handleCloseSuccess} severity="success">
               로그인 하셨습니다
@@ -284,6 +288,10 @@ const Header: React.FC = () => {
             open={openFailure}
             autoHideDuration={3000}
             onClose={handleCloseFailure}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
           >
             <Alert onClose={handleCloseFailure} severity="error">
               로그인에 실패하셨습니다 다시 시도해주세요
