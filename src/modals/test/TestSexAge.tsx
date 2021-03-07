@@ -81,6 +81,7 @@ const SexSelect = styled.form`
   justify-content: center;
   width: 50%;
   height: 24px;
+  font-size: 20px;
   font-weight: 600;
   > select {
     margin-left: 4px;

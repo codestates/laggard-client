@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import styled from 'styled-components';
 import Backdrop from '@material-ui/core/Backdrop';
+import { useHistory } from 'react-router';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { login } from '../../features/userSlice';
+import ReactDOM from 'react-dom';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={5} variant="filled" {...props} />;
+}
 
 const QuizLogin: React.FC = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
+  const emailRef = useRef<HTMLInputElement>(null);
+  const pwRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -17,14 +31,101 @@ const QuizLogin: React.FC = () => {
     setOpen(false);
   };
 
+  const handleRegister = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    history.push('/signup');
+  };
+
+  const handleLogin = async (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    await axios
+      .post('http://localhost:5000/users/signin/basic', {
+        email: emailRef.current?.value,
+        password: pwRef.current?.value,
+      })
+      .then((res) => {
+        const accessToken = res.data.data;
+        localStorage.setItem('accessToken', accessToken);
+      })
+      .then(async () => {
+        const token = localStorage.getItem('accessToken');
+        await axios
+          .get('http://localhost:5000/users/userinfo', {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then((res) => {
+            const info = res.data.data.userInfo;
+            dispatch(
+              login({
+                nickname: info.nickname,
+                email: info.email,
+                sex: info.sex,
+                birth_year: info.birth_year,
+              }),
+            );
+          });
+      })
+      .then(() => {
+        handleOpenSuccess();
+        setOpen(false);
+      })
+      .catch(() => {
+        handleOpenFailure();
+      });
+  };
+
+  {
+    /* Snackbar*/
+  }
+  const [openSuccess, setOpenSuccess] = React.useState(false);
+  const [openFailure, setOpenFailure] = React.useState(false);
+
+  const handleOpenSuccess = () => {
+    setOpenSuccess(true);
+  };
+
+  const handleCloseSuccess = (
+    event?: React.SyntheticEvent,
+    reason?: string,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSuccess(false);
+  };
+
+  const handleOpenFailure = () => {
+    setOpenFailure(true);
+  };
+
+  const handleCloseFailure = (
+    event?: React.SyntheticEvent,
+    reason?: string,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenFailure(false);
+  };
+
   const body = (
     <div className={classes.container}>
       <h2 className={classes.title}>LAGGARD</h2>
-      <input className={classes.input} placeholder="아이디" />
-      <input className={classes.input} placeholder="비밀번호" />
-      <button className={classes.button}>로그인</button>
+      <input ref={emailRef} className={classes.input} placeholder="이메일" />
+      <input
+        type="password"
+        ref={pwRef}
+        className={classes.input}
+        placeholder="비밀번호"
+      />
+      <button onClick={handleLogin} className={classes.button}>
+        로그인
+      </button>
       <p className={classes.text}>
-        회원이 아니세요? <span className={classes.register}>회원가입 하기</span>
+        회원이 아니세요?{' '}
+        <span onClick={handleRegister} className={classes.register}>
+          회원가입 하기
+        </span>
       </p>
     </div>
   );
@@ -47,6 +148,37 @@ const QuizLogin: React.FC = () => {
           </Modal>
         </LoginContent>
       </LoginContainer>
+      {ReactDOM.createPortal(
+        <div>
+          <Snackbar
+            open={openSuccess}
+            autoHideDuration={3000}
+            onClose={handleCloseSuccess}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
+            <Alert onClose={handleCloseSuccess} severity="success">
+              로그인 하셨습니다
+            </Alert>
+          </Snackbar>
+          <Snackbar
+            open={openFailure}
+            autoHideDuration={3000}
+            onClose={handleCloseFailure}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
+            <Alert onClose={handleCloseFailure} severity="error">
+              로그인에 실패하셨습니다 다시 시도해주세요
+            </Alert>
+          </Snackbar>
+        </div>,
+        document.body,
+      )}
     </div>
   );
 };
@@ -69,13 +201,12 @@ const LoginContent = styled.div`
     font-weight: 600;
     padding: 8px 24px;
     background-color: rgba(191, 191, 191, 0.9);
-    border: 3px solid black;
-    border-radius: 6px;
-    transition: 0.5s;
+    border: none;
+    border-radius: 10px;
+    transition: 0.2s;
   }
   > button:hover {
-    border: 3px solid #00adb5;
-    transform: scale(1.05);
+    border: 2px solid #00adb5;
     cursor: pointer;
   }
   > button:focus {

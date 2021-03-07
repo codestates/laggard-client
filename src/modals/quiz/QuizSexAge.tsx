@@ -64,7 +64,7 @@ export default QuizSexAge;
 
 const SexAgeContainer = styled.div`
   width: 60%;
-  height: 60%;
+  height: 90%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -82,6 +82,7 @@ const SexSelect = styled.form`
   align-items: center;
   justify-content: center;
   width: 50%;
+  font-size: 20px;
   height: 24px;
   font-weight: 600;
   > select {
