@@ -48,6 +48,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-around;
   height: 100%;
+  color: whitesmoke;
 
   .title {
     font-size: 2.5rem;

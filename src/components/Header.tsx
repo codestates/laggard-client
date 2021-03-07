@@ -30,6 +30,8 @@ const Header: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
 
+  const max992 = useMediaQuery('(max-width: 992px)');
+
   const handleLogin = async () => {
     await axios
       .post('http://localhost:5000/users/signin/basic', {
@@ -94,7 +96,6 @@ const Header: React.FC = () => {
   };
   const header = useRef<HTMLDivElement>(null);
 
-  const max992 = useMediaQuery('(max-width: 992px)');
   useEffect(() => {
     window.addEventListener('scroll', () => {
       header.current?.classList.toggle('sticky', window.scrollY > 0);
@@ -186,8 +187,8 @@ const Header: React.FC = () => {
         <li key="test">
           <NavLink to={'/test'}>내 유형은?</NavLink>
         </li>
-        <li key="game">
-          <NavLink to="/game">내 점수는?</NavLink>
+        <li key="quiz">
+          <NavLink to="/quiz">내 점수는?</NavLink>
         </li>
         {user === null ? (
           <li key="login">
@@ -235,7 +236,7 @@ const Header: React.FC = () => {
             <NavLink className={classes.link} to={'/test'}>
               <MenuItem onClick={handleClose}>내 유형은?</MenuItem>
             </NavLink>
-            <NavLink className={classes.link} to={'/game'}>
+            <NavLink className={classes.link} to={'/quiz'}>
               <MenuItem onClick={handleClose}>내 점수는?</MenuItem>
             </NavLink>
             {user === null ? (

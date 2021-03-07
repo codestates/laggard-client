@@ -118,7 +118,7 @@
 @media (max-width: 862px) {
   .banner {
     background-position: center;
-    min-height: 80vh;
+    min-height: 100vh;
   }
 
   .banner h2 {

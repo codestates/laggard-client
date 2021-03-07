@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, withRouter } from 'react-router-dom';
+import { useHistory, withRouter, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import InfoIcon from '@material-ui/icons/Info';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import axios from 'axios';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import NaverSignup from '../components/NaverSignup';
 
 const nicknameRegex = RegExp(/[{}[\]/?.,;:|)*~`!^\-+<>@#$%&\\=('"]/gi);
@@ -22,6 +22,19 @@ function Alert(props: AlertProps) {
 }
 
 const Signup: React.FC = () => {
+  const location = useLocation();
+  const max992 = useMediaQuery('(max-width: 992px)');
+
+  useEffect(() => {
+    const header = document.querySelector('header') as HTMLElement;
+    if (max992) {
+      header.style.background = 'white';
+    } else {
+      header.style.background = 'black';
+      header.style.padding = '5px 50px';
+    }
+  }, [max992]);
+
   const initialInfo = {
     nickname: '',
     email: '',
@@ -37,17 +50,6 @@ const Signup: React.FC = () => {
   };
   const history = useHistory();
   const [info, setInfo] = useState(initialInfo);
-  const max992 = useMediaQuery('(max-width: 992px)');
-  useEffect(() => {
-    if (max992) {
-      const header = document.querySelector('header') as HTMLElement;
-      header.style.background = 'white';
-    } else {
-      const header = document.querySelector('header') as HTMLElement;
-      header.style.background = 'black';
-      header.style.padding = '5px 100px';
-    }
-  }, [max992]);
 
   const handleChange = (e: any) => {
     e.preventDefault();
