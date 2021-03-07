@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Main from './pages/Main';
 import Test from './pages/Test';
-import Game from './pages/Game';
+import Quiz from './pages/Quiz';
 import Header from './components/Header';
 import Signup from './pages/Signup';
 import { useDispatch } from 'react-redux';
@@ -47,7 +47,7 @@ const App: React.FC = () => {
         <Switch>
           <Route exact path={'/'} component={Main} />
           <Route exact path={'/test'} component={Test} />
-          <Route exact path={'/game'} component={Game} />
+          <Route exact path={'/quiz'} component={Quiz} />
           <Route exact path={'/signup'} component={Signup} />
         </Switch>
       </BrowserRouter>

@@ -9,7 +9,7 @@ import Slider from '@material-ui/core/Slider';
 import VolumeDown from '@material-ui/icons/VolumeDown';
 import VolumeUp from '@material-ui/icons/VolumeUp';
 import { useDispatch } from 'react-redux';
-import { testEndTrue } from '../features/modalSlice';
+import { testEndTrue } from '../../features/modalSlice';
 
 const TestEvaluate: React.FC = () => {
   const dispatch = useDispatch();
