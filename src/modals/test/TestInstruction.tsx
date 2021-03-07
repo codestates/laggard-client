@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { testStartTrue } from '../features/modalSlice';
+import { testStartTrue } from '../../features/modalSlice';
 
 const TestInstruction: React.FC = () => {
   const dispatch = useDispatch();

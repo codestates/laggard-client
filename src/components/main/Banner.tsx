@@ -14,7 +14,7 @@ const Banner: React.FC = () => {
     history.push('/test');
   };
   const moveToGame = () => {
-    history.push('/game');
+    history.push('/quiz');
   };
   return (
     <section className="banner">

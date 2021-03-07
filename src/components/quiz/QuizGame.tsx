@@ -1,49 +1,49 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
 import { guestFalse, selectGuest, selectUser } from '../../features/userSlice';
-import SexAge from '../../modals/test/TestSexAge';
-import TestInstruction from '../../modals/test/TestInstruction';
-import TestResult from '../../modals/test/TestResult';
+import QuizSexAge from '../../modals/quiz/QuizSexAge';
+import QuizSelectDecade from '../../modals/quiz/QuizSelectDecade';
+import QuizEvaluate from '../../modals/quiz/QuizEvaluate';
+import QuizResult from '../../modals/quiz/QuizResult';
 import {
-  selectTestStart,
-  selectTestEnd,
-  testStartFalse,
-  testEndFalse,
+  quizEndFalse,
+  quizStartFalse,
+  selectQuizEnd,
+  selectQuizStart,
 } from '../../features/modalSlice';
-import TestEvaluate from '../../modals/test/TestEvaluate';
 
-const TestGame: React.FC = () => {
+const QuizGame: React.FC = () => {
   const user = useSelector(selectUser);
   const guest = useSelector(selectGuest);
-  const testStart = useSelector(selectTestStart);
-  const testEnd = useSelector(selectTestEnd);
+  const quizStart = useSelector(selectQuizStart);
+  const quizEnd = useSelector(selectQuizEnd);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(guestFalse());
-    dispatch(testStartFalse());
-    dispatch(testEndFalse());
+    dispatch(quizStartFalse());
+    dispatch(quizEndFalse());
   }, []);
 
   return (
-    <TestGameContainer>
+    <QuizGameContainer>
       {!user && !guest ? (
-        <SexAge />
-      ) : !testStart ? (
-        <TestInstruction />
-      ) : !testEnd ? (
-        <TestEvaluate />
+        <QuizSexAge />
+      ) : !quizStart ? (
+        <QuizSelectDecade />
+      ) : !quizEnd ? (
+        <QuizEvaluate />
       ) : (
-        <TestResult />
+        <QuizResult />
       )}
-    </TestGameContainer>
+    </QuizGameContainer>
   );
 };
 
-export default TestGame;
+export default QuizGame;
 
-const TestGameContainer = styled.div`
+const QuizGameContainer = styled.div`
   background: rgba(255, 255, 255, 0.3);
   width: 800px;
   height: 500px;
