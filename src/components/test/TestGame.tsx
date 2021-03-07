@@ -30,7 +30,7 @@ const TestGame: React.FC = () => {
     <TestGameContainer>
       {!user && !guest ? (
         <SexAge />
-      ) : guest && !testStart ? (
+      ) : !testStart ? (
         <TestInstruction />
       ) : !testEnd ? (
         <TestEvaluate />

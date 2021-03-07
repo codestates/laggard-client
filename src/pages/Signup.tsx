@@ -295,6 +295,10 @@ const Signup: React.FC = () => {
           open={openSignupSuccess}
           autoHideDuration={2000}
           onClose={handleCloseSignupSuccess}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
         >
           <Alert onClose={handleCloseSignupSuccess} severity="success">
             회원가입에 성공하셨습니다! 홈으로 이동합니다.
@@ -304,6 +308,10 @@ const Signup: React.FC = () => {
           open={openSignupFailure}
           autoHideDuration={5000}
           onClose={handleCloseSignupFailure}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
         >
           <Alert onClose={handleCloseSignupFailure} severity="error">
             입력한 정보를 다시 확인해주세요!
@@ -313,6 +321,10 @@ const Signup: React.FC = () => {
           open={openEmailCheckSuccess}
           autoHideDuration={4000}
           onClose={handleCloseEmailCheckSuccess}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
         >
           <Alert onClose={handleCloseEmailCheckSuccess} severity="success">
             사용가능한 이메일입니다
@@ -322,6 +334,10 @@ const Signup: React.FC = () => {
           open={openEmailCheckFailure}
           autoHideDuration={5000}
           onClose={handleCloseEmailCheckFailure}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
         >
           <Alert onClose={handleCloseEmailCheckFailure} severity="error">
             이미 등록된 이메일입니다

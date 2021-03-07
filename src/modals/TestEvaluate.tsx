@@ -65,8 +65,8 @@ const TestEvaluate: React.FC = () => {
       </InputAnswer>
       <SkipButton>
         <span>다음 문제로 넘어가기</span>
-        <IconButton aria-label="next">
-          <SkipNextIcon onClick={handleNextButton} />
+        <IconButton onClick={handleNextButton} aria-label="next">
+          <SkipNextIcon />
         </IconButton>
       </SkipButton>
     </EvaluateContainer>
