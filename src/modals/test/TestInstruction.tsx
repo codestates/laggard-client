@@ -1,18 +1,52 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { testStartTrue } from '../../features/modalSlice';
+import ScrollAnimation from 'react-animate-on-scroll';
+import 'animate.css/animate.min.css';
+import axios from 'axios';
+import { getSongs } from '../../features/testInfoSlice';
+import { selectUser } from '../../features/userSlice';
+
+const yearRegex = RegExp(/^(19[0-9][0-9]|20[01][0-9]|2020)$/);
 
 const TestInstruction: React.FC = () => {
   const dispatch = useDispatch();
-  const handleClick = () => {
-    dispatch(testStartTrue());
+  const userInfo = useSelector(selectUser);
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    if (userInfo) {
+      if (yearRegex.test(userInfo.birth_year.toString())) {
+        await axios
+          .get(
+            `http://localhost:5000/tests?sex=${userInfo.sex}&birth_year=${userInfo.birth_year}`,
+          )
+          .then((res) => {
+            dispatch(getSongs(res.data));
+          })
+          .then(() => {
+            dispatch(testStartTrue());
+          })
+          .catch();
+      } else {
+        console.log('error');
+      }
+    } else {
+      dispatch(testStartTrue());
+    }
   };
 
   return (
     <InstructionContainer>
       <Title>
-        <h2>한국 음악 듣기 평가</h2>
+        <ScrollAnimation
+          offset={100}
+          animateIn="animate__bounceIn"
+          duration={1}
+        >
+          <h2>한국 음악 듣기 평가</h2>
+        </ScrollAnimation>
       </Title>
       <Explanation>
         <p>예상 소요 시간 : 8분</p>
@@ -21,7 +55,7 @@ const TestInstruction: React.FC = () => {
         <p>가사를 듣고 노래 제목을 입력해주세요.</p>
       </Explanation>
       <Button>
-        <button onClick={handleClick}>시작하기</button>
+        <button onClick={handleSubmit}>시작하기</button>
       </Button>
     </InstructionContainer>
   );
@@ -38,7 +72,7 @@ const InstructionContainer = styled.div`
 `;
 const Title = styled.div`
   color: whitesmoke;
-  > h2 {
+  h2 {
     font-size: 40px;
   }
 `;

@@ -12,6 +12,8 @@ import { useDispatch } from 'react-redux';
 import { quizEndTrue } from '../../features/modalSlice';
 import ReactDOM from 'react-dom';
 import Popover from '@material-ui/core/Popover';
+import ScrollAnimation from 'react-animate-on-scroll';
+import 'animate.css/animate.min.css';
 
 const QuizEvaluate: React.FC = () => {
   const dispatch = useDispatch();
@@ -44,12 +46,20 @@ const QuizEvaluate: React.FC = () => {
   return (
     <EvaluateContainer>
       <Title>
-        <h2>2000년대 노래</h2>
+        <ScrollAnimation
+          offset={100}
+          animateIn="animate__bounceIn"
+          duration={1}
+        >
+          <h2>
+            2000년대 노래 <span>{`(#1)`}</span>
+          </h2>
+        </ScrollAnimation>
       </Title>
       <Points>
         <div className="left">
           <p>
-            Total score: <span>0</span>
+            총 점수: <span>0</span>
           </p>
           <p>
             남은 기회: <span>0</span>
@@ -61,7 +71,7 @@ const QuizEvaluate: React.FC = () => {
           </p>
         </div>
         <div className="right">
-          <button onClick={handleOpenHint}>힌트 (-5점)</button>
+          <button onClick={handleOpenHint}>{`힌트(-5점)`}</button>
         </div>
       </Points>
       <div>
@@ -96,7 +106,11 @@ const QuizEvaluate: React.FC = () => {
         </Volume>
       </div>
       <InputAnswer>
-        <input type="text" placeholder="노래 제목을 입력하세요" />
+        <input
+          type="text"
+          placeholder="노래 제목을 입력하세요"
+          autoComplete="off"
+        />
         <button>정답 등록하기</button>
       </InputAnswer>
       <SkipButton>
@@ -149,8 +163,11 @@ const Title = styled.div`
   justify-content: center;
   color: whitesmoke;
   width: 100%;
-  > h2 {
+  h2 {
     font-size: 30px;
+  }
+  span {
+    font-size: 24px;
   }
 `;
 const Points = styled.div`
@@ -167,19 +184,21 @@ const Points = styled.div`
     justify-content: center;
     color: whitesmoke;
     font-weight: 600;
+    font-size: 20px;
   }
   .right button {
     color: whitesmoke;
     font-weight: 600;
+    font-size: 16px;
     background: black;
     border: none;
     width: 88px;
-    height: 24px;
+    height: 32px;
     border-radius: 8px;
     cursor: pointer;
     :hover {
       background: #181818;
-      transform: scale(1.01);
+      transform: scale(1.03);
     }
     :active {
       background: #272727;
@@ -223,6 +242,9 @@ const InputAnswer = styled.div`
     }
     :focus {
       outline: none;
+      ::placeholder {
+        color: transparent;
+      }
     }
   }
   > button {

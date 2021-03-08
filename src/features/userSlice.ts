@@ -10,12 +10,12 @@ type UserInfo = {
 
 interface UserState {
   user: UserInfo | null;
-  guest: boolean;
+  guest: { sex: boolean; birth_year: number } | null;
 }
 
 const initialState: UserState = {
   user: null,
-  guest: false,
+  guest: null,
 };
 
 export const userSlice = createSlice({
@@ -28,11 +28,14 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.user = null;
     },
-    guestTrue: (state) => {
-      state.guest = true;
+    guestTrue: (
+      state,
+      action: PayloadAction<{ sex: boolean; birth_year: number }>,
+    ) => {
+      state.guest = action.payload;
     },
     guestFalse: (state) => {
-      state.guest = false;
+      state.guest = null;
     },
   },
 });
@@ -41,5 +44,7 @@ export const { login, logout, guestTrue, guestFalse } = userSlice.actions;
 
 export const selectUser = (state: RootState): UserInfo | null =>
   state.user.user;
-export const selectGuest = (state: RootState): boolean => state.user.guest;
+export const selectGuest = (
+  state: RootState,
+): { sex: boolean; birth_year: number } | null => state.user.guest;
 export default userSlice.reducer;

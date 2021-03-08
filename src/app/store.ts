@@ -2,12 +2,14 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import userReducer from '../features/userSlice';
 import modalReducer from '../features/modalSlice';
 import messageReducer from '../features/messageSlice';
+import songReducer from '../features/testInfoSlice';
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     modal: modalReducer,
     message: messageReducer,
+    song: songReducer,
   },
 });
 

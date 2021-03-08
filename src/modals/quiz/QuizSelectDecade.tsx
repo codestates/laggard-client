@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { quizStartTrue } from '../../features/modalSlice';
+import ScrollAnimation from 'react-animate-on-scroll';
+import 'animate.css/animate.min.css';
 
 const QuizSelectDecade: React.FC = () => {
   const dispatch = useDispatch();
@@ -23,7 +25,13 @@ const QuizSelectDecade: React.FC = () => {
   return (
     <Container>
       <div className="title">
-        <h3>퀴즈의 시대를 선택해주세요</h3>
+        <ScrollAnimation
+          offset={100}
+          animateIn="animate__bounceIn"
+          duration={1}
+        >
+          <h3>퀴즈의 시대를 선택해주세요</h3>
+        </ScrollAnimation>
       </div>
       <div>
         <label htmlFor="year">
@@ -70,6 +78,7 @@ const Container = styled.div`
     font-size: 20px;
     text-align: center;
     background: gray;
+    color: whitesmoke;
     :focus {
       outline: none;
     }
@@ -82,11 +91,11 @@ const Container = styled.div`
     padding: 8px 24px;
     background-color: black;
     border-radius: 6px;
-    transition: 0.5s;
+    transition: 0.2s;
   }
   button:hover {
     border: 3px solid #00adb5;
-    transform: scale(1.05);
+    transform: scale(1.01);
     cursor: pointer;
   }
   button:focus {

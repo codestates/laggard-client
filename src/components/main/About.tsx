@@ -18,10 +18,18 @@ const About: React.FC = () => {
     <section className="about">
       <div className="about_container">
         <div className="about_left">
-          <ScrollAnimation animateIn="animate__slideInLeft" duration={1}>
+          <ScrollAnimation
+            offset={100}
+            animateIn="animate__slideInLeft"
+            duration={0.5}
+          >
             <h3>About</h3>
           </ScrollAnimation>
-          <ScrollAnimation animateIn="animate__slideInLeft">
+          <ScrollAnimation
+            duration={0.5}
+            offset={100}
+            animateIn="animate__slideInLeft"
+          >
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
               recusandae omnis doloremque nam deserunt saepe est consequatur
@@ -31,14 +39,26 @@ const About: React.FC = () => {
           </ScrollAnimation>
         </div>
         <div className="about_right">
-          <ScrollAnimation animateIn="animate__slideInRight">
+          <ScrollAnimation
+            duration={0.5}
+            offset={100}
+            animateIn="animate__slideInRight"
+          >
             <h3>참여자 수</h3>
           </ScrollAnimation>
-          <ScrollAnimation animateIn="animate__slideInRight">
+          <ScrollAnimation
+            duration={0.5}
+            offset={100}
+            animateIn="animate__slideInRight"
+          >
             <span>1,000</span>
           </ScrollAnimation>
           <br></br>
-          <ScrollAnimation animateIn="animate__zoomIn">
+          <ScrollAnimation
+            duration={0.5}
+            offset={100}
+            animateIn="animate__zoomIn"
+          >
             <PeopleAltIcon fontSize="large" />
           </ScrollAnimation>
         </div>

@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import ScrollAnimation from 'react-animate-on-scroll';
+import 'animate.css/animate.min.css';
+import axios from 'axios';
 
 const TestResult: React.FC = () => {
+  useEffect(() => {
+    axios.post('http:localhost:5000/');
+  });
   return (
     <ResultContainer>
       <Title>
-        <h2>한때 힙스터</h2>
+        <ScrollAnimation
+          offset={100}
+          animateIn="animate__bounceIn"
+          duration={1}
+        >
+          <h2>한때 힙스터</h2>
+        </ScrollAnimation>
       </Title>
       <div className="result-imgdesc">
         <Image></Image>
@@ -37,13 +49,16 @@ const ResultContainer = styled.div`
   height: 90%;
   width: 90%;
   justify-content: space-around;
+  color: whitesmoke;
   .result-imgdesc {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 `;
-const Title = styled.div``;
+const Title = styled.div`
+  font-size: 24px;
+`;
 const Image = styled.div`
   width: 160px;
   height: 160px;

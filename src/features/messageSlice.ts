@@ -6,6 +6,8 @@ interface MessageState {
   changeNicknameFailure: boolean;
   changePasswordSuccess: boolean;
   changePasswordFailure: boolean;
+  correct: boolean;
+  wrong: boolean;
 }
 
 const initialState: MessageState = {
@@ -13,6 +15,8 @@ const initialState: MessageState = {
   changeNicknameFailure: false,
   changePasswordSuccess: false,
   changePasswordFailure: false,
+  correct: false,
+  wrong: false,
 };
 
 export const messageSlice = createSlice({
@@ -43,6 +47,18 @@ export const messageSlice = createSlice({
     closePasswordFailure: (state) => {
       state.changePasswordFailure = false;
     },
+    openCorrect: (state) => {
+      state.correct = true;
+    },
+    closeCorrect: (state) => {
+      state.correct = false;
+    },
+    openWrong: (state) => {
+      state.wrong = true;
+    },
+    closeWrong: (state) => {
+      state.wrong = false;
+    },
   },
 });
 
@@ -55,6 +71,10 @@ export const {
   closePasswordSuccess,
   openPasswordFailure,
   closePasswordFailure,
+  openCorrect,
+  closeCorrect,
+  openWrong,
+  closeWrong,
 } = messageSlice.actions;
 
 export const selectChangeNicknameSuccess = (state: RootState): boolean =>
@@ -65,5 +85,8 @@ export const selectChangePasswordSuccess = (state: RootState): boolean =>
   state.message.changePasswordSuccess;
 export const selectChangePasswordFailure = (state: RootState): boolean =>
   state.message.changePasswordFailure;
+export const selectCorrect = (state: RootState): boolean =>
+  state.message.correct;
+export const selectWrong = (state: RootState): boolean => state.message.wrong;
 
 export default messageSlice.reducer;

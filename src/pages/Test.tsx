@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useLocation, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import righttri from '../assets/img/1.png';
 import leftx from '../assets/img/2.png';
@@ -9,21 +9,8 @@ import lefthexa from '../assets/img/11.png';
 import star from '../assets/img/7.png';
 import TestGame from '../components/test/TestGame';
 import img from '../assets/img/darkconcert4.jpg';
-import { useMediaQuery } from '@material-ui/core';
 
 const Test: React.FC = () => {
-  const location = useLocation();
-  const max992 = useMediaQuery('(max-width: 992px)');
-  useEffect(() => {
-    const header = document.querySelector('header') as HTMLElement;
-    if (max992 && location.pathname !== '/signup') {
-      header.style.background = 'white';
-      header.style.padding = '5px 100px';
-    } else if (!max992 && location.pathname !== '/signup') {
-      header.style.background = 'none';
-      header.style.padding = '40px 100px';
-    }
-  }, [max992]);
   useEffect(() => {
     const fig = document.querySelectorAll('.figure');
     const parallax = (e: any) => {

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory, withRouter, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useHistory, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -8,8 +8,8 @@ import InfoIcon from '@material-ui/icons/Info';
 import axios from 'axios';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import NaverSignup from '../components/NaverSignup';
+import img from '../assets/img/darkconcert3.jpg';
 
 const nicknameRegex = RegExp(/[{}[\]/?.,;:|)*~`!^\-+<>@#$%&\\=('"]/gi);
 const pwRegex = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$/);
@@ -22,19 +22,6 @@ function Alert(props: AlertProps) {
 }
 
 const Signup: React.FC = () => {
-  const location = useLocation();
-  const max992 = useMediaQuery('(max-width: 992px)');
-
-  useEffect(() => {
-    const header = document.querySelector('header') as HTMLElement;
-    if (max992) {
-      header.style.background = 'white';
-    } else {
-      header.style.background = 'black';
-      header.style.padding = '5px 50px';
-    }
-  }, [max992]);
-
   const initialInfo = {
     nickname: '',
     email: '',
@@ -219,6 +206,7 @@ const Signup: React.FC = () => {
                 placeholder="이메일"
                 name="email"
                 onChange={handleChange}
+                autoComplete="off"
               />
               <button onClick={handleEmailCheck} className="valcheck">
                 중복확인
@@ -237,6 +225,7 @@ const Signup: React.FC = () => {
                 placeholder="아이디"
                 name="nickname"
                 onChange={handleChange}
+                autoComplete="off"
               />
             </Username>
             {errors.password.length > 0 && (
@@ -252,6 +241,7 @@ const Signup: React.FC = () => {
                 placeholder="비밀번호"
                 name="password"
                 onChange={handleChange}
+                autoComplete="off"
               />
             </Password>
             {errors.confirmPw.length > 0 && (
@@ -267,6 +257,7 @@ const Signup: React.FC = () => {
                 placeholder="비밀번호 확인"
                 name="confirmPw"
                 onChange={handleChange}
+                autoComplete="off"
               />
             </Password>
             <SexAge>
@@ -284,6 +275,7 @@ const Signup: React.FC = () => {
                   onChange={handleChange}
                   id="age"
                   placeholder="예: 1990"
+                  autoComplete="off"
                 />
               </div>
             </SexAge>
@@ -356,17 +348,21 @@ const Container = styled.div`
   display: flex;
   position: relative;
   width: 100%;
-  min-height: 108vh;
+  min-height: 100vh;
   align-items: center;
   justify-content: center;
-  background-color: whitesmoke;
+  background-color: black;
+  background-image: url(${img});
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
 
   .signup-box {
     width: 430px;
     height: 700px;
     border-radius: 40px;
     background: #ecf0f3;
-    box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px white;
+    /* box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px white; */
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -459,6 +455,9 @@ const Username = styled.div`
     font-size: 16px;
     color: #555;
     padding: 20px 10px 20px;
+    :focus::placeholder {
+      color: transparent;
+    }
   }
 `;
 const Password = styled.div`
@@ -480,6 +479,9 @@ const Password = styled.div`
     font-size: 16px;
     color: #555;
     padding: 20px 10px 20px 5px;
+    :focus::placeholder {
+      color: transparent;
+    }
   }
 `;
 
@@ -502,20 +504,23 @@ const Email = styled.div`
     font-size: 16px;
     color: #555;
     padding: 20px 10px 20px 5px;
+    :focus::placeholder {
+      color: transparent;
+    }
   }
   > button {
     background: #24cfaa;
     box-shadow: 3px 3px 8px #b1b1b1, -3px -3px 8px white;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    font-size: 0.6rem;
-    font-weight: 530;
-    margin-right: 10px;
+    width: 72px;
+    height: 24px;
+    border-radius: 8px;
+    font-weight: 550;
+    margin-right: 12px;
     outline: none;
     border: none;
     cursor: pointer;
     color: whitesmoke;
+    font-size: 12px;
   }
   & > button:hover {
     background: #2fdbb6;
@@ -571,6 +576,9 @@ const SexAge = styled.div`
     padding-top: 2px;
     padding-bottom: 2px;
     text-align: center;
+    :focus::placeholder {
+      color: transparent;
+    }
   }
   > .signup-age input::placeholder {
     color: gray;

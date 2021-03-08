@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { quizEndFalse, quizStartFalse } from '../../features/modalSlice';
 import { guestFalse } from '../../features/userSlice';
+import ScrollAnimation from 'react-animate-on-scroll';
+import 'animate.css/animate.min.css';
 
 const QuizResult: React.FC = () => {
   const dispatch = useDispatch();
@@ -14,7 +16,13 @@ const QuizResult: React.FC = () => {
   return (
     <ResultContainer>
       <Title>
-        <h1>Game Over</h1>
+        <ScrollAnimation
+          offset={100}
+          animateIn="animate__bounceIn"
+          duration={1}
+        >
+          <h1>Game Over</h1>
+        </ScrollAnimation>
       </Title>
       <Points>
         <h2>

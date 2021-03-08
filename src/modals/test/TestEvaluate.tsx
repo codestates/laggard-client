@@ -1,67 +1,153 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import IconButton from '@material-ui/core/IconButton';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Slider from '@material-ui/core/Slider';
-import VolumeDown from '@material-ui/icons/VolumeDown';
-import VolumeUp from '@material-ui/icons/VolumeUp';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { testEndTrue } from '../../features/modalSlice';
+import ScrollAnimation from 'react-animate-on-scroll';
+import 'animate.css/animate.min.css';
+import Audio from '../../util/audio';
+import {
+  increaseCurrNum,
+  postResult,
+  selectCurrNum,
+  selectSong,
+  selectTestResult,
+} from '../../features/testInfoSlice';
+import { openCorrect, openWrong } from '../../features/messageSlice';
 
 const TestEvaluate: React.FC = () => {
   const dispatch = useDispatch();
-  const [value, setValue] = React.useState<number>(30);
+  const results = useSelector(selectTestResult);
+  const songs = useSelector(selectSong);
+  const currNum = useSelector(selectCurrNum);
+  const [answer, setAnswer] = useState<string>('');
+  const input = useRef<any>();
+
+  useEffect(() => {
+    console.log(songs);
+    console.log(results);
+    console.log(currNum);
+  }, [currNum]);
+
   const handleNextButton = (e: any) => {
     e.preventDefault();
-    dispatch(testEndTrue());
+    const currSong = songs?.testData[currNum];
+    const title: any = currSong?.title;
+    const ox: boolean = isCorrect(title, answer);
+    if (currNum === 14) {
+      dispatch(testEndTrue());
+    } else {
+      dispatch(increaseCurrNum());
+      if (ox) {
+        dispatch(openCorrect());
+        setTimeout(() => {
+          setAnswer('');
+          input.current.value = '';
+        }, 1000);
+      } else if (!ox) {
+        dispatch(openWrong());
+        setTimeout(() => {
+          setAnswer('');
+          input.current.value = '';
+        }, 1000);
+      }
+    }
   };
 
-  const handleChange = (event: any, newValue: number | number[]) => {
-    setValue(newValue as number);
+  const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAnswer(e.currentTarget.value);
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    dispatch(increaseCurrNum());
+    const currSong = songs?.testData[currNum];
+    const title: any = currSong?.title;
+    const ox: boolean = isCorrect(title, answer);
+    if (results) {
+      dispatch(
+        postResult([
+          ...results,
+          {
+            tests_id: songs?.id,
+            id: currSong?.id,
+            title: title,
+            year: currSong?.year,
+            genre: currSong?.genre,
+            userAnswer: answer,
+            right_or_wrong: ox,
+          },
+        ]),
+      );
+    } else {
+      dispatch(
+        postResult([
+          {
+            tests_id: songs?.id,
+            id: currSong?.id,
+            title: title,
+            year: currSong?.year,
+            genre: currSong?.genre,
+            userAnswer: answer,
+            right_or_wrong: ox,
+          },
+        ]),
+      );
+    }
+    if (ox) {
+      dispatch(openCorrect());
+      setTimeout(() => {
+        setAnswer('');
+        input.current.value = '';
+      }, 1000);
+    } else if (!ox) {
+      dispatch(openWrong());
+      setTimeout(() => {
+        setAnswer('');
+        input.current.value = '';
+      }, 1000);
+    }
+  };
+
+  const isCorrect = (originalTitle: any, userTitle: any) => {
+    if (/\(/g.test(originalTitle)) {
+      originalTitle = originalTitle.match(/.+(?=\()/g)[0];
+    }
+    originalTitle = originalTitle.replace(/\s/gi, '');
+    const re = new RegExp(originalTitle, 'i');
+    userTitle = userTitle.replace(/\s/gi, '');
+    const isCorrect: boolean = re.test(userTitle);
+    return isCorrect;
   };
 
   return (
     <EvaluateContainer>
       <Title>
-        <h2>노래 #1/15</h2>
+        <ScrollAnimation
+          offset={100}
+          animateIn="animate__bounceIn"
+          duration={1}
+        >
+          <h2>
+            노래 <span>{`${currNum + 1} / 15`}</span>
+          </h2>
+        </ScrollAnimation>
       </Title>
       <div>
         <ControlButtons>
-          <div className="play">
-            <IconButton aria-label="play/pause">
-              <PlayArrowIcon />
-            </IconButton>
-          </div>
+          <Audio />
         </ControlButtons>
-        <Volume>
-          <div>
-            <Typography id="continuous-slider" gutterBottom>
-              볼륨
-            </Typography>
-            <Grid container spacing={2}>
-              <Grid item>
-                <VolumeDown />
-              </Grid>
-              <Grid item xs>
-                <Slider
-                  value={value}
-                  onChange={handleChange}
-                  aria-labelledby="continuous-slider"
-                />
-              </Grid>
-              <Grid item>
-                <VolumeUp />
-              </Grid>
-            </Grid>
-          </div>
-        </Volume>
       </div>
       <InputAnswer>
-        <input type="text" placeholder="노래 제목을 입력하세요" />
-        <button>정답 등록하기</button>
+        <input
+          ref={input}
+          onChange={handleAnswerChange}
+          type="text"
+          placeholder="노래 제목을 입력하세요"
+          autoComplete="off"
+        />
+        <button onClick={handleSubmit}>정답 등록하기</button>
       </InputAnswer>
       <SkipButton>
         <span>다음 문제로 넘어가기</span>
@@ -87,8 +173,11 @@ const Title = styled.div`
   display: flex;
   justify-content: center;
   color: whitesmoke;
-  > h2 {
+  h2 {
     font-size: 30px;
+  }
+  span {
+    font-size: 24px;
   }
 `;
 const ControlButtons = styled.div`
@@ -125,6 +214,9 @@ const InputAnswer = styled.div`
     }
     :focus {
       outline: none;
+      ::placeholder {
+        color: transparent;
+      }
     }
   }
   > button {
@@ -135,7 +227,7 @@ const InputAnswer = styled.div`
     border-radius: 10px;
     transition: 0.3s;
     font-weight: 500;
-    font-size: 20px;
+    font-size: 16px;
     :hover {
       background-color: #04ccd6;
       cursor: pointer;
