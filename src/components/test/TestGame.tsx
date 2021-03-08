@@ -12,6 +12,11 @@ import {
   testEndFalse,
 } from '../../features/modalSlice';
 import TestEvaluate from '../../modals/test/TestEvaluate';
+import {
+  resetCurrNum,
+  resetResult,
+  resetSongs,
+} from '../../features/testInfoSlice';
 
 const TestGame: React.FC = () => {
   const user = useSelector(selectUser);
@@ -24,6 +29,9 @@ const TestGame: React.FC = () => {
     dispatch(guestFalse());
     dispatch(testStartFalse());
     dispatch(testEndFalse());
+    dispatch(resetCurrNum());
+    dispatch(resetResult());
+    dispatch(resetSongs());
   }, []);
 
   return (

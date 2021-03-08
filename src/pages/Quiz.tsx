@@ -1,23 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import QuizGame from '../components/quiz/QuizGame';
-import { useLocation, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import img from '../assets/img/darkconcert5.jpg';
-import { useMediaQuery } from '@material-ui/core';
 
 const Quiz: React.FC = () => {
-  const location = useLocation();
-  const max992 = useMediaQuery('(max-width: 992px)');
-  useEffect(() => {
-    const header = document.querySelector('header') as HTMLElement;
-    if (max992 && location.pathname !== '/signup') {
-      header.style.background = 'white';
-      header.style.padding = '5px 100px';
-    } else if (!max992 && location.pathname !== '/signup') {
-      header.style.background = 'none';
-      header.style.padding = '40px 100px';
-    }
-  }, [max992]);
   return (
     <GameContainer>
       <QuizBackground>

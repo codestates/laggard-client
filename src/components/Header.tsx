@@ -154,12 +154,14 @@ const Header: React.FC = () => {
           ref={emailRef}
           className={classes.input}
           placeholder="이메일"
+          autoComplete="off"
         />
         <input
           type="password"
           ref={pwRef}
           className={classes.input}
           placeholder="비밀번호"
+          autoComplete="off"
         />
       </div>
       <button className={classes.button} onClick={handleLogin}>
@@ -347,6 +349,9 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '2px',
       '&:focus': {
         outline: 'none',
+        '&::placeholder': {
+          color: 'transparent',
+        },
       },
     },
     input_container: { display: 'grid', placeItems: 'center' },
@@ -355,6 +360,9 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: '5px',
       fontSize: '1rem',
       fontWeight: 500,
+      '&:hover': {
+        cursor: 'pointer',
+      },
     },
     register: {
       color: 'blue',

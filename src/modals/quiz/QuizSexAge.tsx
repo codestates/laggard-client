@@ -3,6 +3,9 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { guestTrue } from '../../features/userSlice';
 import QuizLogin from './QuizLogin';
+import ScrollAnimation from 'react-animate-on-scroll';
+import 'animate.css/animate.min.css';
+import axios from 'axios';
 
 const yearRegex = RegExp(/^(19[0-9][0-9]|20[01][0-9]|2020)$/);
 
@@ -23,7 +26,7 @@ const QuizSexAge: React.FC = () => {
     e.preventDefault();
     const { sex, birth_year } = info;
     if (yearRegex.test(birth_year.toString())) {
-      dispatch(guestTrue());
+      dispatch(guestTrue({ sex, birth_year }));
     } else {
       console.log('error');
     }
@@ -31,9 +34,15 @@ const QuizSexAge: React.FC = () => {
   return (
     <SexAgeContainer>
       <SexAgeTitle>
-        <h2>
-          성별과 출생연도를 <br></br>알려주세요
-        </h2>
+        <ScrollAnimation
+          offset={100}
+          animateIn="animate__bounceIn"
+          duration={1}
+        >
+          <h2>
+            성별과 출생연도를 <br></br>알려주세요
+          </h2>
+        </ScrollAnimation>
       </SexAgeTitle>
       <SexSelect>
         <label htmlFor="sex">성별 : </label>
@@ -50,6 +59,7 @@ const QuizSexAge: React.FC = () => {
           placeholder="예: 2000"
           id="testage"
           name="birth_year"
+          autoComplete="off"
         />
       </AgeInput>
       <SexAgeButton>
@@ -87,8 +97,11 @@ const SexSelect = styled.form`
   font-weight: 600;
   > select {
     margin-left: 4px;
-    height: 24px;
-    width: 40px;
+    height: 32px;
+    width: 48px;
+    background: gray;
+    font-size: 16px;
+    color: whitesmoke;
     :focus {
       outline: none;
     }
@@ -115,6 +128,9 @@ const AgeInput = styled.div`
     }
     :focus {
       outline: none;
+      ::placeholder {
+        color: transparent;
+      }
     }
   }
 `;

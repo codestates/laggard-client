@@ -158,7 +158,12 @@ const Userinfo: React.FC = () => {
 
   const changeNicknameBody = (
     <NicknameChangeContainer>
-      <input ref={changeNickname} type="text" placeholder="닉네임 변경" />
+      <input
+        ref={changeNickname}
+        type="text"
+        placeholder="닉네임 변경"
+        autoComplete="off"
+      />
       {nicknameSuccess ? (
         <CheckBoxIcon fontSize="small" htmlColor="green" />
       ) : undefined}
@@ -169,11 +174,17 @@ const Userinfo: React.FC = () => {
 
   const changePasswordBody = (
     <PasswordChangeContainer>
-      <input ref={changePassword} type="password" placeholder="비밀번호 변경" />
+      <input
+        ref={changePassword}
+        type="password"
+        placeholder="비밀번호 변경"
+        autoComplete="off"
+      />
       <input
         ref={changePasswordCheck}
         type="password"
         placeholder="비밀번호 재입력"
+        autoComplete="off"
       />
       <button onClick={handleChangePassword}>확인</button>
     </PasswordChangeContainer>

@@ -111,12 +111,18 @@ const QuizLogin: React.FC = () => {
   const body = (
     <div className={classes.container}>
       <h2 className={classes.title}>LAGGARD</h2>
-      <input ref={emailRef} className={classes.input} placeholder="이메일" />
+      <input
+        ref={emailRef}
+        className={classes.input}
+        placeholder="이메일"
+        autoComplete="off"
+      />
       <input
         type="password"
         ref={pwRef}
         className={classes.input}
         placeholder="비밀번호"
+        autoComplete="off"
       />
       <button onClick={handleLogin} className={classes.button}>
         로그인
@@ -247,6 +253,9 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '2px',
       '&:focus': {
         outline: 'none',
+        '&::placeholder': {
+          color: 'transparent',
+        },
       },
     },
     button: {
@@ -254,6 +263,9 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: '5px',
       fontSize: '1rem',
       fontWeight: 500,
+      '&:hover': {
+        cursor: 'pointer',
+      },
     },
     register: {
       color: 'blue',

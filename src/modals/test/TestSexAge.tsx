@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { guestTrue } from '../../features/userSlice';
+import ScrollAnimation from 'react-animate-on-scroll';
+import 'animate.css/animate.min.css';
+import axios from 'axios';
+import { getSongs } from '../../features/testInfoSlice';
 
 const yearRegex = RegExp(/^(19[0-9][0-9]|20[01][0-9]|2020)$/);
 
@@ -18,11 +22,19 @@ const TestSexAge: React.FC = () => {
     const { name, value } = e.target;
     setInfo({ ...info, [name]: value });
   };
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     const { sex, birth_year } = info;
     if (yearRegex.test(birth_year.toString())) {
-      dispatch(guestTrue());
+      await axios
+        .get(`http://localhost:5000/tests?sex=${sex}&birth_year=${birth_year}`)
+        .then((res) => {
+          dispatch(getSongs(res.data));
+        })
+        .then(() => {
+          dispatch(guestTrue({ sex, birth_year }));
+        })
+        .catch();
     } else {
       console.log('error');
     }
@@ -30,9 +42,15 @@ const TestSexAge: React.FC = () => {
   return (
     <SexAgeContainer>
       <SexAgeTitle>
-        <h2>
-          성별과 출생연도를 <br></br>알려주세요
-        </h2>
+        <ScrollAnimation
+          offset={100}
+          animateIn="animate__bounceIn"
+          duration={1}
+        >
+          <h2>
+            성별과 출생연도를 <br></br>알려주세요
+          </h2>
+        </ScrollAnimation>
       </SexAgeTitle>
       <SexSelect>
         <label htmlFor="sex">성별 : </label>
@@ -49,6 +67,7 @@ const TestSexAge: React.FC = () => {
           placeholder="예: 2000"
           id="testage"
           name="birth_year"
+          autoComplete="off"
         />
       </AgeInput>
       <SexAgeButton>
@@ -113,6 +132,9 @@ const AgeInput = styled.div`
     }
     :focus {
       outline: none;
+      ::placeholder {
+        color: transparent;
+      }
     }
   }
 `;

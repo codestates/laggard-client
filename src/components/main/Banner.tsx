@@ -24,22 +24,34 @@ const Banner: React.FC = () => {
           <h2 className="title_bottom">노래 제목을 맞춰보세요</h2>
         </div>
         <div className="banner_buttons">
-          <Button
-            onClick={moveToTest}
-            className={classes.test}
-            variant="contained"
-            color="primary"
+          <ScrollAnimation
+            offset={100}
+            animateIn="animate__slideInDown"
+            duration={0.8}
           >
-            나의 유형 테스트 시작하기
-          </Button>
-          <Button
-            onClick={moveToGame}
-            className={classes.quiz}
-            variant="contained"
-            color="primary"
+            <Button
+              onClick={moveToTest}
+              className={classes.test}
+              variant="contained"
+              color="primary"
+            >
+              나의 유형 테스트 시작하기
+            </Button>
+          </ScrollAnimation>
+          <ScrollAnimation
+            offset={100}
+            animateIn="animate__slideInUp"
+            duration={0.8}
           >
-            퀴즈로 점수 획득하기
-          </Button>
+            <Button
+              onClick={moveToGame}
+              className={classes.quiz}
+              variant="contained"
+              color="primary"
+            >
+              퀴즈로 점수 획득하기
+            </Button>
+          </ScrollAnimation>
         </div>
       </div>
     </section>
@@ -51,6 +63,7 @@ export default Banner;
 const useStyles = makeStyles(() =>
   createStyles({
     test: {
+      width: `90%`,
       border: '2px solid #0f0',
       color: 'white',
       padding: '10px 20px',
@@ -68,6 +81,7 @@ const useStyles = makeStyles(() =>
       },
     },
     quiz: {
+      width: '90%',
       border: '3px solid #00a1ff',
       backgroundColor: 'black',
       color: 'white',

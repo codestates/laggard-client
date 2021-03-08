@@ -11,6 +11,7 @@ import axios from 'axios';
 import { login } from './features/userSlice';
 import Userinfo from './modals/Userinfo';
 import UserinfoMessages from './popupbars/UserinfoMessages';
+import CorrectWrongMessages from './popupbars/CorrectWrongMessages';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ const App: React.FC = () => {
         <Header />
         <Userinfo />
         <UserinfoMessages />
+        <CorrectWrongMessages />
         <Switch>
           <Route exact path={'/'} component={Main} />
           <Route exact path={'/test'} component={Test} />
