@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import IconButton from '@material-ui/core/IconButton';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
@@ -21,8 +21,8 @@ const TestEvaluate: React.FC = () => {
   const results = useSelector(selectTestResult);
   const songs = useSelector(selectSong);
   const currNum = useSelector(selectCurrNum);
-  const [answer, setAnswer] = useState<string>('');
-  const input = useRef<any>();
+  // eslint-disable-next-line
+  const input = useRef<any>('');
 
   useEffect(() => {
     console.log(songs);
@@ -33,38 +33,9 @@ const TestEvaluate: React.FC = () => {
   const handleNextButton = (e: any) => {
     e.preventDefault();
     const currSong = songs?.testData[currNum];
+    // eslint-disable-next-line
     const title: any = currSong?.title;
-    const ox: boolean = isCorrect(title, answer);
-    if (currNum === 14) {
-      dispatch(testEndTrue());
-    } else {
-      dispatch(increaseCurrNum());
-      if (ox) {
-        dispatch(openCorrect());
-        setTimeout(() => {
-          setAnswer('');
-          input.current.value = '';
-        }, 1000);
-      } else if (!ox) {
-        dispatch(openWrong());
-        setTimeout(() => {
-          setAnswer('');
-          input.current.value = '';
-        }, 1000);
-      }
-    }
-  };
-
-  const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAnswer(e.currentTarget.value);
-  };
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    dispatch(increaseCurrNum());
-    const currSong = songs?.testData[currNum];
-    const title: any = currSong?.title;
-    const ox: boolean = isCorrect(title, answer);
+    const ox: boolean = isCorrect(title, input.current.value);
     if (results) {
       dispatch(
         postResult([
@@ -75,7 +46,7 @@ const TestEvaluate: React.FC = () => {
             title: title,
             year: currSong?.year,
             genre: currSong?.genre,
-            userAnswer: answer,
+            userAnswer: input.current.value,
             right_or_wrong: ox,
           },
         ]),
@@ -89,7 +60,7 @@ const TestEvaluate: React.FC = () => {
             title: title,
             year: currSong?.year,
             genre: currSong?.genre,
-            userAnswer: answer,
+            userAnswer: input.current.value,
             right_or_wrong: ox,
           },
         ]),
@@ -97,19 +68,73 @@ const TestEvaluate: React.FC = () => {
     }
     if (ox) {
       dispatch(openCorrect());
-      setTimeout(() => {
-        setAnswer('');
-        input.current.value = '';
-      }, 1000);
+      input.current.value = '';
     } else if (!ox) {
       dispatch(openWrong());
-      setTimeout(() => {
-        setAnswer('');
-        input.current.value = '';
-      }, 1000);
+      input.current.value = '';
+    }
+    if (currNum === 14) {
+      dispatch(testEndTrue());
+    } else {
+      dispatch(increaseCurrNum());
     }
   };
 
+  // const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setAnswer(e.currentTarget.value);
+  // };
+  // eslint-disable-next-line
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    const currSong = songs?.testData[currNum];
+    // eslint-disable-next-line
+    const title: any = currSong?.title;
+    const ox: boolean = isCorrect(title, input.current.value);
+    if (results) {
+      dispatch(
+        postResult([
+          ...results,
+          {
+            tests_id: songs?.id,
+            id: currSong?.id,
+            title: title,
+            year: currSong?.year,
+            genre: currSong?.genre,
+            userAnswer: input.current.value,
+            right_or_wrong: ox,
+          },
+        ]),
+      );
+    } else {
+      dispatch(
+        postResult([
+          {
+            tests_id: songs?.id,
+            id: currSong?.id,
+            title: title,
+            year: currSong?.year,
+            genre: currSong?.genre,
+            userAnswer: input.current.value,
+            right_or_wrong: ox,
+          },
+        ]),
+      );
+    }
+    if (ox) {
+      dispatch(openCorrect());
+
+      input.current.value = '';
+    } else if (!ox) {
+      dispatch(openWrong());
+      input.current.value = '';
+    }
+    if (currNum === 14) {
+      dispatch(testEndTrue());
+    } else {
+      dispatch(increaseCurrNum());
+    }
+  };
+  // eslint-disable-next-line
   const isCorrect = (originalTitle: any, userTitle: any) => {
     while (/\(/g.test(originalTitle)) {
       originalTitle = originalTitle.match(/.+(?=\()/g)[0];
@@ -142,7 +167,6 @@ const TestEvaluate: React.FC = () => {
       <InputAnswer>
         <input
           ref={input}
-          onChange={handleAnswerChange}
           type="text"
           placeholder="노래 제목을 입력하세요"
           autoComplete="off"
@@ -172,6 +196,7 @@ const EvaluateContainer = styled.div`
 const Title = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   color: whitesmoke;
   h2 {
     font-size: 30px;
@@ -183,19 +208,8 @@ const Title = styled.div`
 const ControlButtons = styled.div`
   display: flex;
   justify-content: center;
-  .MuiSvgIcon-root {
-    color: whitesmoke;
-    width: 64px;
-    height: 64px;
-  }
 `;
-const Volume = styled.div`
-  width: 200px;
-  color: whitesmoke;
-  .MuiSlider-root {
-    color: #00adb5;
-  }
-`;
+
 const InputAnswer = styled.div`
   width: 80%;
   display: flex;

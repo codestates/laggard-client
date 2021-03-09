@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { guestFalse, selectGuest, selectUser } from '../../features/userSlice';
+import {
+  removeGuestToken,
+  selectGuestToken,
+  selectUser,
+} from '../../features/userSlice';
 import QuizSexAge from '../../modals/quiz/QuizSexAge';
 import QuizSelectDecade from '../../modals/quiz/QuizSelectDecade';
 import QuizEvaluate from '../../modals/quiz/QuizEvaluate';
@@ -15,20 +19,20 @@ import {
 
 const QuizGame: React.FC = () => {
   const user = useSelector(selectUser);
-  const guest = useSelector(selectGuest);
+  const guestToken = useSelector(selectGuestToken);
   const quizStart = useSelector(selectQuizStart);
   const quizEnd = useSelector(selectQuizEnd);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(guestFalse());
+    dispatch(removeGuestToken());
     dispatch(quizStartFalse());
     dispatch(quizEndFalse());
   }, []);
 
   return (
     <QuizGameContainer>
-      {!user && !guest ? (
+      {!user && !guestToken ? (
         <QuizSexAge />
       ) : !quizStart ? (
         <QuizSelectDecade />

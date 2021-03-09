@@ -1,13 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ScrollAnimation from 'react-animate-on-scroll';
 import 'animate.css/animate.min.css';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { selectTestResult } from '../../features/testInfoSlice';
+
+interface InfoState {
+  title: string;
+  subtitle: string;
+  description: string;
+  image: string;
+}
 
 const TestResult: React.FC = () => {
+  const result = useSelector(selectTestResult);
+  const [info, setInfo] = useState<InfoState | null>(null);
   useEffect(() => {
-    axios.post('http:localhost:5000/');
-  });
+    axios
+      .post('http://localhost:5000/tests/result', { result })
+      .then((res) => {
+        setInfo({
+          ...info,
+          title: res.data.result.title,
+          subtitle: res.data.result.subtitle,
+          description: res.data.result.description,
+          image: res.data.result.image,
+        });
+      })
+      .catch((err) => {
+        console.log('err');
+      });
+  }, []);
   return (
     <ResultContainer>
       <Title>
@@ -16,25 +40,19 @@ const TestResult: React.FC = () => {
           animateIn="animate__bounceIn"
           duration={1}
         >
-          <h2>한때 힙스터</h2>
+          <h2>{info?.title}</h2>
         </ScrollAnimation>
       </Title>
       <div className="result-imgdesc">
-        <Image></Image>
+        <Image>
+          <img src={info?.image} alt="" />
+        </Image>
         <ShortDescription>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Non alias
-            sequi at molestias sed distinctio.
-          </p>
+          <p>{info?.subtitle}</p>
         </ShortDescription>
       </div>
       <LongDescription>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam
-          recusandae quisquam tenetur, rem maiores quae obcaecati quia a ab nemo
-          debitis magnam reiciendis rerum explicabo! Atque voluptate hic sequi
-          ea?
-        </p>
+        <p>{info?.description}</p>
       </LongDescription>
     </ResultContainer>
   );
@@ -53,19 +71,26 @@ const ResultContainer = styled.div`
   .result-imgdesc {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
+    width: 100%;
   }
 `;
 const Title = styled.div`
   font-size: 24px;
 `;
 const Image = styled.div`
-  width: 160px;
-  height: 160px;
-  border: 1px solid black;
-  flex: 0.5;
+  > img {
+    width: 120px;
+    height: 120px;
+    border: 1px solid black;
+  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const ShortDescription = styled.div`
-  flex: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const LongDescription = styled.div``;

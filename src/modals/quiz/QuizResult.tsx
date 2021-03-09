@@ -2,14 +2,14 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { quizEndFalse, quizStartFalse } from '../../features/modalSlice';
-import { guestFalse } from '../../features/userSlice';
+import { removeGuestToken } from '../../features/userSlice';
 import ScrollAnimation from 'react-animate-on-scroll';
 import 'animate.css/animate.min.css';
 
 const QuizResult: React.FC = () => {
   const dispatch = useDispatch();
   const handleRestart = () => {
-    dispatch(guestFalse());
+    dispatch(removeGuestToken());
     dispatch(quizStartFalse());
     dispatch(quizEndFalse());
   };

@@ -203,7 +203,7 @@ const LoginContent = styled.div`
   }
 
   > button {
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 600;
     padding: 8px 24px;
     background-color: rgba(191, 191, 191, 0.9);
