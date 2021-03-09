@@ -111,7 +111,7 @@ const TestEvaluate: React.FC = () => {
   };
 
   const isCorrect = (originalTitle: any, userTitle: any) => {
-    if (/\(/g.test(originalTitle)) {
+    while (/\(/g.test(originalTitle)) {
       originalTitle = originalTitle.match(/.+(?=\()/g)[0];
     }
     originalTitle = originalTitle.replace(/\s/gi, '');
