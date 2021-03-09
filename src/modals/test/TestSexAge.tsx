@@ -34,7 +34,9 @@ const TestSexAge: React.FC = () => {
         .then(() => {
           dispatch(guestTrue({ sex, birth_year }));
         })
-        .catch();
+        .catch((error) => {
+          alert(error);
+        });
     } else {
       console.log('error');
     }

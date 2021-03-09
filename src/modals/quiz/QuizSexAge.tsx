@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { guestTrue } from '../../features/userSlice';
+import { getGuestToken, guestTrue } from '../../features/userSlice';
 import QuizLogin from './QuizLogin';
 import ScrollAnimation from 'react-animate-on-scroll';
 import 'animate.css/animate.min.css';
@@ -26,9 +26,19 @@ const QuizSexAge: React.FC = () => {
     e.preventDefault();
     const { sex, birth_year } = info;
     if (yearRegex.test(birth_year.toString())) {
-      dispatch(guestTrue({ sex, birth_year }));
+      axios
+        .post('http://localhost:5000/users/signin/withoutLogin', {
+          sex,
+          birth_year,
+        })
+        .then((result) => {
+          dispatch(getGuestToken(result.data.accessToken));
+        })
+        .catch((err) => {
+          console.log('err');
+        });
     } else {
-      console.log('error');
+      console.log('출생연도를 정확하게 입력해주세요');
     }
   };
   return (
@@ -143,6 +153,7 @@ const SexAgeButton = styled.div`
     border-radius: 10px;
     transition: 0.3s;
     font-weight: 600;
+    font-size: 16px;
     :hover {
       background-color: #04ccd6;
       cursor: pointer;

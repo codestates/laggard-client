@@ -28,7 +28,9 @@ const TestInstruction: React.FC = () => {
           .then(() => {
             dispatch(testStartTrue());
           })
-          .catch();
+          .catch((error) => {
+            alert(error);
+          });
       } else {
         console.log('error');
       }
