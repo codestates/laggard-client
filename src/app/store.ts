@@ -3,6 +3,7 @@ import userReducer from '../features/userSlice';
 import modalReducer from '../features/modalSlice';
 import messageReducer from '../features/messageSlice';
 import songReducer from '../features/testInfoSlice';
+import quizInfoReducer from '../features/quizInfoSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     modal: modalReducer,
     message: messageReducer,
     song: songReducer,
+    quiz: quizInfoReducer,
   },
 });
 

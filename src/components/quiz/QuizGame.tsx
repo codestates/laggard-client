@@ -16,6 +16,7 @@ import {
   selectQuizEnd,
   selectQuizStart,
 } from '../../features/modalSlice';
+import { resetTotalScore } from '../../features/quizInfoSlice';
 
 const QuizGame: React.FC = () => {
   const user = useSelector(selectUser);
@@ -28,6 +29,7 @@ const QuizGame: React.FC = () => {
     dispatch(removeGuestToken());
     dispatch(quizStartFalse());
     dispatch(quizEndFalse());
+    dispatch(resetTotalScore());
   }, []);
 
   return (

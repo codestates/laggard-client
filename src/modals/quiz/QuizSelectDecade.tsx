@@ -2,24 +2,24 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { quizStartTrue } from '../../features/modalSlice';
+import { chooseQuizAge } from '../../features/quizInfoSlice';
 import ScrollAnimation from 'react-animate-on-scroll';
 import 'animate.css/animate.min.css';
 
 const QuizSelectDecade: React.FC = () => {
   const dispatch = useDispatch();
-  const initialInfo = {
-    year: 1980,
-  };
+  const initialInfo = 1980;
   const [info, setInfo] = useState(initialInfo);
 
   const handleClick = () => {
+    dispatch(chooseQuizAge(info));
     dispatch(quizStartTrue());
   };
 
   const handleChange = (e: any) => {
     e.preventDefault();
-    const { name, value } = e.target;
-    setInfo({ ...info, [name]: value });
+    const { value } = e.target;
+    setInfo(value);
   };
 
   return (
@@ -38,10 +38,14 @@ const QuizSelectDecade: React.FC = () => {
           노래 시대 :
           <select onChange={handleChange} name="year" id="year">
             <option value="1980">1980</option>
+            <option value="1980">1985</option>
             <option value="1990">1990</option>
+            <option value="1990">1995</option>
             <option value="2000">2000</option>
+            <option value="2000">2005</option>
             <option value="2010">2010</option>
-            <option value="random">랜덤</option>
+            <option value="2010">2015</option>
+            <option value="1">랜덤</option>
           </select>
         </label>
       </div>
