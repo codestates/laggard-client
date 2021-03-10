@@ -1,47 +1,209 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Slider from '@material-ui/core/Slider';
-import VolumeDown from '@material-ui/icons/VolumeDown';
-import VolumeUp from '@material-ui/icons/VolumeUp';
-import { useDispatch } from 'react-redux';
+import VolumeDownIcon from '@material-ui/icons/VolumeDown';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import { useDispatch, useSelector } from 'react-redux';
 import { quizEndTrue } from '../../features/modalSlice';
 import ReactDOM from 'react-dom';
 import Popover from '@material-ui/core/Popover';
 import ScrollAnimation from 'react-animate-on-scroll';
 import 'animate.css/animate.min.css';
+import {
+  addTotalScore,
+  getQuizSong,
+  selectQuizSong,
+  selectQuizTime,
+  selectTotalScore,
+} from '../../features/quizInfoSlice';
+import axios from 'axios';
+import { selectGuestToken } from '../../features/userSlice';
+import util from '../../util/quizAudio';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {
+  openCorrect,
+  openDecreaseChance,
+  openWrong,
+} from '../../features/messageSlice';
 
 const QuizEvaluate: React.FC = () => {
   const dispatch = useDispatch();
-  const [value, setValue] = React.useState<number>(30);
+  const quizAge = useSelector(selectQuizTime);
+  const song = useSelector(selectQuizSong);
+  const guestToken = useSelector(selectGuestToken);
+  const totalScore = useSelector(selectTotalScore);
+  const [currCount, setCurrCount] = useState(1);
+  const [score, setScore] = useState(10);
+  const [life, setLife] = useState(5);
+  const [userAnswer, setUserAnswer] = useState('');
+  const [singerHintOpened, setSingerHintOpened] = useState(false);
+  const [rankHintOpened, setRankHintOpened] = useState(false);
+
+  useEffect(() => {
+    if (life === 0) {
+      dispatch(quizEndTrue());
+    }
+    axios
+      .get(`http://localhost:5000/quiz/songInfo?quizAge=${quizAge}`)
+      .then((res) => {
+        dispatch(getQuizSong(res.data));
+        getAudio(res.data.lyrics);
+        console.log(res.data);
+      });
+    setScore(10);
+    setUserAnswer('');
+    setSingerHintOpened(false);
+    setRankHintOpened(false);
+  }, [currCount]);
+
+  {
+    /* UI and button handlers*/
+  }
 
   const handleNextButton = (e: any) => {
     e.preventDefault();
+    const token = localStorage.getItem('accessToken') || guestToken;
+    axios
+      .get(
+        `http://localhost:5000/quiz/recordResult?songs_id=${song?.songId}&correct=false`,
+        { headers: { Authorization: `Bearer ${token}` } },
+      )
+      .then(() => {
+        setLife(life - 1);
+        setCurrCount(currCount + 1);
+        dispatch(openDecreaseChance());
+        audioContext?.suspend();
+      });
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    let answer = song?.title
+      .substring(0, song.title.indexOf('('))
+      .toUpperCase()
+      .trim();
+    let writtenAnswer: string;
+
+    song?.title.includes('(')
+      ? (answer = song?.title
+          .substring(0, song?.title.indexOf('('))
+          .toUpperCase()
+          .trim()
+          .replace(/ /g, ''))
+      : (answer = song?.title.toUpperCase().trim().replace(/ /g, ''));
+    userAnswer?.includes('(')
+      ? (writtenAnswer = userAnswer
+          .substring(0, userAnswer?.indexOf('('))
+          .toUpperCase()
+          .trim()
+          .replace(/ /g, ''))
+      : (writtenAnswer = userAnswer?.toUpperCase().trim().replace(/ /g, ''));
+
+    if (answer === writtenAnswer) {
+      const token = localStorage.getItem('accessToken') || guestToken;
+      axios
+        .get(
+          `http://localhost:5000/quiz/recordResult?songs_id=${song?.songId}&correct=true`,
+          { headers: { Authorization: `Bearer ${token}` } },
+        )
+        .catch((err) => {
+          console.log(err);
+        });
+      dispatch(addTotalScore(totalScore + score));
+      setCurrCount(currCount + 1);
+      dispatch(openCorrect());
+      audioContext?.suspend();
+    } else {
+      dispatch(openWrong());
+      setUserAnswer('');
+    }
+  };
+
+  const handleUserAnswer = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserAnswer(e.target.value);
+  };
+
+  const handleStop = () => {
     dispatch(quizEndTrue());
   };
 
-  const handleChange = (event: any, newValue: number | number[]) => {
-    setValue(newValue as number);
+  {
+    /* Audio related handlers*/
+  }
+
+  const [audioBuffer, setAudioBuffer] = useState('');
+  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  const [gainNode, setGainNode] = useState<any>(null);
+
+  const getAudio = async (lyrics: string) => {
+    const arrBuffer = await util.axiosPostArrayBufferRequest(
+      'http://localhost:5000/quiz/audioFile',
+      lyrics,
+    );
+    const audioContext = util.getAudioContext();
+    const gainNode = util.makeGainNode(audioContext);
+    console.log('audioContext : ', audioContext);
+    console.log('arrBuffer : ', arrBuffer?.data);
+
+    const audioBuffer = await util.makeAudioBuffer(
+      audioContext,
+      arrBuffer?.data,
+    );
+
+    setAudioContext(audioContext);
+    setGainNode(gainNode);
+    setAudioBuffer(audioBuffer);
   };
+
+  const makeTrack = async () => {
+    const audioFile = await util.makeAudio(audioContext, audioBuffer, gainNode);
+    return audioFile;
+  };
+
+  const playTrack = async () => {
+    const track = await makeTrack();
+    track.start();
+  };
+
+  const handleVolume = (e: any) => {
+    gainNode.gain.value = e.target.value;
+  };
+
+  {
+    /* Hint related states/handlers/content */
+  }
+
   const [anchorHint, setAnchorHint] = React.useState<HTMLButtonElement | null>(
     null,
   );
+  const [
+    anchorHint2,
+    setAnchorHint2,
+  ] = React.useState<HTMLButtonElement | null>(null);
 
   const handleOpenHint = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorHint(event.currentTarget);
+  };
+  const handleOpenHint2 = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorHint2(event.currentTarget);
   };
 
   const handleCloseHint = () => {
     setAnchorHint(null);
   };
-
+  const handleCloseHint2 = () => {
+    setAnchorHint2(null);
+  };
   const openHint = Boolean(anchorHint);
-  const idHint = openHint ? 'simple-popover' : undefined;
-  const body = <HintBody>가수: 가수</HintBody>;
+  const openHint2 = Boolean(anchorHint2);
+  const singerHint = openHint ? 'simple-popover' : undefined;
+  const rankHint = openHint2 ? 'simple-popover' : undefined;
+  const singerHintBody = <HintBody>{`가수: ${song?.artist}`}</HintBody>;
+  const rankHintBody = (
+    <HintBody>{`순위: ${song?.year}년 TOP ${song?.rank}위`}</HintBody>
+  );
 
   return (
     <EvaluateContainer>
@@ -52,70 +214,89 @@ const QuizEvaluate: React.FC = () => {
           duration={1}
         >
           <h2>
-            2000년대 노래 <span>{`(#1)`}</span>
+            {quizAge}년대 노래 <span>{`(#${currCount})`}</span>
           </h2>
         </ScrollAnimation>
       </Title>
       <Points>
         <div className="left">
           <p>
-            총 점수: <span>0</span>
+            총 점수: <span>{totalScore}</span>
           </p>
           <p>
-            남은 기회: <span>0</span>
+            남은 기회: <span>{life}</span>
           </p>
         </div>
         <div className="center">
           <p>
-            점수 : <span>10</span>
+            점수 : <span>{score}</span>
           </p>
         </div>
         <div className="right">
-          <button onClick={handleOpenHint}>{`힌트(-5점)`}</button>
+          <button
+            onClick={(e) => {
+              if (!singerHintOpened) {
+                setSingerHintOpened(true);
+                setScore(score - 5);
+                handleOpenHint(e);
+              } else if (singerHintOpened) {
+                handleOpenHint(e);
+              }
+            }}
+          >{`가수힌트(-5점)`}</button>
+          <button
+            onClick={(e) => {
+              if (!rankHintOpened) {
+                setRankHintOpened(true);
+                setScore(score - 2);
+                handleOpenHint2(e);
+              } else if (rankHintOpened) {
+                handleOpenHint(e);
+              }
+            }}
+          >{`순위힌트(-2점)`}</button>
         </div>
       </Points>
-      <div>
-        <ControlButtons>
-          <div className="play">
-            <IconButton aria-label="play/pause">
-              <PlayArrowIcon />
-            </IconButton>
+      <ControlButtons>
+        {audioContext ? (
+          [
+            <div key="playbutton" className="play">
+              <IconButton onClick={playTrack} aria-label="play/pause">
+                <PlayArrowIcon />
+              </IconButton>
+            </div>,
+            <Volume key="volumeui">
+              <VolumeDownIcon fontSize="small" />
+              <input
+                type="range"
+                min="0"
+                max="2"
+                onChange={handleVolume}
+                step="0.01"
+                defaultValue="1"
+              ></input>
+              <VolumeUpIcon fontSize="small" />
+            </Volume>,
+          ]
+        ) : (
+          <div className="loading">
+            <CircularProgress />
           </div>
-        </ControlButtons>
-        <Volume>
-          <div>
-            <Typography id="continuous-slider" gutterBottom>
-              볼륨
-            </Typography>
-            <Grid container spacing={2}>
-              <Grid item>
-                <VolumeDown />
-              </Grid>
-              <Grid item xs>
-                <Slider
-                  value={value}
-                  onChange={handleChange}
-                  aria-labelledby="continuous-slider"
-                />
-              </Grid>
-              <Grid item>
-                <VolumeUp />
-              </Grid>
-            </Grid>
-          </div>
-        </Volume>
-      </div>
+        )}
+      </ControlButtons>
       <InputAnswer>
         <input
           type="text"
           placeholder="노래 제목을 입력하세요"
           autoComplete="off"
+          value={userAnswer}
+          onChange={handleUserAnswer}
         />
-        <button>정답 등록하기</button>
+        <button onClick={handleSubmit}>정답 등록하기</button>
       </InputAnswer>
       <SkipButton>
         <div className="left">
-          <button>점수 제출하고 그만하기</button>
+          <button onClick={handleStop}>점수 제출하고 그만하기</button>
         </div>
         <div className="right">
           <span>다음 문제로 넘어가기</span>
@@ -125,23 +306,42 @@ const QuizEvaluate: React.FC = () => {
         </div>
       </SkipButton>
       {ReactDOM.createPortal(
-        <Popover
-          key="nickname"
-          id={idHint}
-          open={openHint}
-          anchorEl={anchorHint}
-          onClose={handleCloseHint}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-        >
-          {body}
-        </Popover>,
+        [
+          <Popover
+            key="singerhint"
+            id={singerHint}
+            open={openHint}
+            anchorEl={anchorHint}
+            onClose={handleCloseHint}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+          >
+            {singerHintBody}
+          </Popover>,
+          <Popover
+            key="rankhint"
+            id={rankHint}
+            open={openHint2}
+            anchorEl={anchorHint2}
+            onClose={handleCloseHint2}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+          >
+            {rankHintBody}
+          </Popover>,
+        ],
         document.body,
       )}
     </EvaluateContainer>
@@ -181,7 +381,7 @@ const Points = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     color: whitesmoke;
     font-weight: 600;
     font-size: 20px;
@@ -189,13 +389,15 @@ const Points = styled.div`
   .right button {
     color: whitesmoke;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 12px;
     background: black;
     border: none;
     width: 88px;
-    height: 32px;
+    height: 24px;
     border-radius: 8px;
     cursor: pointer;
+    margin-top: 2px;
+    margin-bottom: 2px;
     :hover {
       background: #181818;
       transform: scale(1.03);
@@ -211,17 +413,28 @@ const Points = styled.div`
 const ControlButtons = styled.div`
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  .play {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .MuiSvgIcon-root {
+      width: 64px;
+      height: 64px;
+    }
+  }
   .MuiSvgIcon-root {
     color: whitesmoke;
-    width: 64px;
-    height: 64px;
   }
 `;
 const Volume = styled.div`
   width: 200px;
-  color: whitesmoke;
-  .MuiSlider-root {
-    color: #00adb5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .MuiSvgIcon-root {
+    width: 32px;
+    height: 32px;
   }
 `;
 const InputAnswer = styled.div`

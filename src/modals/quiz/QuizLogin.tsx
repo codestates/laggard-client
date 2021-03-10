@@ -140,6 +140,7 @@ const QuizLogin: React.FC = () => {
     <div className="gameLogin">
       <LoginContainer>
         <LoginContent>
+          <p>로그인을 안하시면 점수 저장이 안됩니다</p>
           <h3>회원이신가요?</h3>
           <button type="button" onClick={handleOpen}>
             로그인하기

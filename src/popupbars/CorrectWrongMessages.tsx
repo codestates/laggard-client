@@ -8,6 +8,8 @@ import {
   closeWrong,
   selectCorrect,
   selectWrong,
+  selectDecreaseChance,
+  closeDecreaseChance,
 } from '../features/messageSlice';
 
 function Alert(props: AlertProps) {
@@ -17,6 +19,7 @@ function Alert(props: AlertProps) {
 const CorrectWrongMessages: React.FC = () => {
   const correct = useSelector(selectCorrect);
   const wrong = useSelector(selectWrong);
+  const decreaseChance = useSelector(selectDecreaseChance);
   const dispatch = useDispatch();
 
   return ReactDOM.createPortal(
@@ -59,6 +62,26 @@ const CorrectWrongMessages: React.FC = () => {
           severity="error"
         >
           틀렸습니다!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={decreaseChance}
+        autoHideDuration={3000}
+        onClose={() => {
+          dispatch(closeDecreaseChance());
+        }}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <Alert
+          onClose={() => {
+            dispatch(closeDecreaseChance());
+          }}
+          severity="error"
+        >
+          기회가 1회 감소했습니다!
         </Alert>
       </Snackbar>
     </div>,
