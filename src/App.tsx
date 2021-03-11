@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Main from './pages/Main';
 import Test from './pages/Test';
+import Score from './pages/Score';
 import Quiz from './pages/Quiz';
 import Header from './components/Header';
 import Signup from './pages/Signup';

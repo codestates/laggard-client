@@ -18,8 +18,9 @@ const TestResult: React.FC = () => {
   const [info, setInfo] = useState<InfoState | null>(null);
   useEffect(() => {
     axios
-      .post('http://localhost:5000/tests/result', { result })
+      .post('http://localhost:5000/tests/result', result)
       .then((res) => {
+        console.log(res.data.result);
         setInfo({
           ...info,
           title: res.data.result.title,
