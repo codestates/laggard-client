@@ -89,8 +89,8 @@ const Signup: React.FC = () => {
           sex,
           birth_year,
         })
-        .then(handleOpenSignupSuccess)
-        .then(moveToHome);
+        .then(moveToHome)
+        .then(handleOpenSignupSuccess);
     } else {
       handleOpenSignupFailure();
     }
@@ -281,7 +281,7 @@ const Signup: React.FC = () => {
             </SexAge>
           </Fields>
           <SignupButton>
-            {/* <NaverSignup /> */}
+            <NaverSignup />
             <button onClick={handleSubmit}>회원가입</button>
           </SignupButton>
         </div>

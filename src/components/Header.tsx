@@ -15,6 +15,7 @@ import axios from 'axios';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { openMyinfo } from '../features/modalSlice';
+import NaverSignin from '../components/NaverSignin';
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -167,6 +168,7 @@ const Header: React.FC = () => {
       <button className={classes.button} onClick={handleLogin}>
         로그인
       </button>
+      <NaverSignin />
       <p className={classes.text}>
         회원이 아니세요?{' '}
         <NavLink className={classes.signup} to={'/signup'} onClick={modalClose}>
@@ -187,7 +189,7 @@ const Header: React.FC = () => {
           <NavLink to={'/'}>홈</NavLink>
         </li>
         <li key="test">
-          <NavLink to={'/test'}>내 유형은?</NavLink>
+          <NavLink to={'/test'}>음악 타입 테스트</NavLink>
         </li>
         <li key="quiz">
           <NavLink to="/quiz">내 점수는?</NavLink>
@@ -236,10 +238,10 @@ const Header: React.FC = () => {
               <MenuItem onClick={handleClose}>홈</MenuItem>
             </NavLink>
             <NavLink className={classes.link} to={'/test'}>
-              <MenuItem onClick={handleClose}>내 유형은?</MenuItem>
+              <MenuItem onClick={handleClose}>음악 타입 테스트</MenuItem>
             </NavLink>
             <NavLink className={classes.link} to={'/quiz'}>
-              <MenuItem onClick={handleClose}>내 점수는?</MenuItem>
+              <MenuItem onClick={handleClose}>가사낭독 퀴즈</MenuItem>
             </NavLink>
             {user === null ? (
               <MenuItem
@@ -333,7 +335,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: 'rgba(191, 191, 191, 0.9)',
       padding: theme.spacing(2, 4, 2),
       width: '300px',
-      height: '300px',
+      height: '250px',
       '&:focus': {
         outline: 'none',
       },

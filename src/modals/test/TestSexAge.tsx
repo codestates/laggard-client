@@ -6,6 +6,10 @@ import ScrollAnimation from 'react-animate-on-scroll';
 import 'animate.css/animate.min.css';
 import axios from 'axios';
 import { getSongs } from '../../features/testInfoSlice';
+import {
+  openInvalidBirthYear,
+  openServerError,
+} from '../../features/messageSlice';
 
 const yearRegex = RegExp(/^(19[0-9][0-9]|20[01][0-9]|2020)$/);
 
@@ -34,11 +38,11 @@ const TestSexAge: React.FC = () => {
         .then(() => {
           dispatch(guestTrue({ sex, birth_year }));
         })
-        .catch((error) => {
-          alert(error);
+        .catch(() => {
+          dispatch(openServerError());
         });
     } else {
-      console.log('error');
+      dispatch(openInvalidBirthYear());
     }
   };
   return (
@@ -50,7 +54,7 @@ const TestSexAge: React.FC = () => {
           duration={1}
         >
           <h2>
-            성별과 출생연도를 <br></br>알려주세요
+            문제 출제를 위해 <br></br>정보를 입력해주세요
           </h2>
         </ScrollAnimation>
       </SexAgeTitle>

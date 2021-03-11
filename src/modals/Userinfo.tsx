@@ -11,10 +11,12 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import axios from 'axios';
 import CancelIcon from '@material-ui/icons/Cancel';
 import {
+  openInvalidUser,
   openNicknameFailure,
   openNicknameSuccess,
   openPasswordFailure,
   openPasswordSuccess,
+  openServerError,
   selectChangeNicknameFailure,
   selectChangeNicknameSuccess,
 } from '../features/messageSlice';
@@ -91,8 +93,12 @@ const Userinfo: React.FC = () => {
         nicknameValue = '';
         dispatch(openNicknameSuccess());
       })
-      .catch(() => {
-        dispatch(openNicknameFailure());
+      .catch((err) => {
+        if (err.message === 'Request failed with status code 403') {
+          dispatch(openInvalidUser());
+        } else {
+          dispatch(openNicknameFailure());
+        }
       });
   };
 
@@ -115,6 +121,13 @@ const Userinfo: React.FC = () => {
             pwChangeCheck = '';
             handleClosePassword();
             dispatch(openPasswordSuccess());
+          })
+          .catch((err) => {
+            if (err.message === 'Request failed with status code 403') {
+              dispatch(openInvalidUser());
+            } else {
+              dispatch(openServerError());
+            }
           });
       } else {
         pwChange = '';
@@ -153,6 +166,7 @@ const Userinfo: React.FC = () => {
           </div>
         </div>
       </div>
+      <button>회원탈퇴</button>
     </MyinfoContent>
   );
 
@@ -270,6 +284,24 @@ const MyinfoContent = styled.div`
   }
   > h2 {
     margin-bottom: 12px;
+  }
+  > button {
+    cursor: pointer;
+    color: whitesmoke;
+    background-color: black;
+    border: none;
+    border-radius: 5px;
+    transition: 0.4s;
+    width: 100px;
+    height: 24px;
+    margin-top: 16px;
+    &:hover {
+      background-color: #313030;
+      transform: scale(1.03);
+    }
+    &:focus {
+      outline: none;
+    }
   }
   .myinfo_box {
     display: flex;

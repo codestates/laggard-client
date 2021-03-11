@@ -130,8 +130,6 @@ const TestEvaluate: React.FC = () => {
     }
     if (currNum === 14) {
       dispatch(testEndTrue());
-    } else {
-      dispatch(increaseCurrNum());
     }
   };
   // eslint-disable-next-line

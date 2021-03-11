@@ -2,7 +2,17 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { login, selectUser } from '../features/userSlice';
+import {
+  closeSignupSuccess,
+  openAlreadySigned,
+  openServerError,
+  openSignupSuccess,
+  selectSignupSuccess,
+} from '../features/messageSlice';
+import ReactDOM from 'react-dom';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import { useHistory } from 'react-router';
 
 declare global {
   interface Window {
@@ -12,9 +22,14 @@ declare global {
 
 const { naver } = window;
 
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const NaverSignup: React.FC = () => {
   const dispatch = useDispatch();
-  const user = useSelector(selectUser);
+  const signupSuccess = useSelector(selectSignupSuccess);
+  const history = useHistory();
 
   const initializeNaverLogin = () => {
     const naverLogin = new naver.LoginWithNaverId({
@@ -27,53 +42,43 @@ const NaverSignup: React.FC = () => {
 
     naverLogin.getLoginStatus(function (status: any) {
       if (status) {
-        console.log(naverLogin.user);
-
-        const nickname = naverLogin.user.getNickName();
-        const email = naverLogin.user.getEmail();
-        let sex = naverLogin.user.getGender();
-        const year = naverLogin.user.getBirthyear();
-        const birth_year = parseInt(year);
-
-        if (email === undefined || email === null) {
-          alert('이메일은 필수정보입니다. 정보제공을 동의해주세요.');
+        const { email, gender, name, nickname, birthyear } = naverLogin.user;
+        if (email && gender && name && nickname && birthyear) {
+          return;
+        } else {
+          alert('필수 항목을 모두 체크해주세요');
           naverLogin.reprompt();
           return;
         }
-
-        if (birth_year === undefined || birth_year === null) {
-          alert('출생년도는 필수정보입니다. 정보제공을 동의해주세요.');
-          naverLogin.reprompt();
-          return;
-        }
-
-        if (sex === 'M') {
-          sex = true;
-        } else if (sex === 'F') {
-          sex = false;
-        }
-
-        axios.post('http://localhost:5000/users/signup/basic', {
-          nickname,
-          email,
-          birth_year,
-          sex,
-        });
-
-        dispatch(login({ nickname, email, birth_year, sex }));
       }
-      console.log(user);
     });
   };
 
   const getNaverToken = () => {
-    window.location.href.includes('access_token') && GetUser();
-    function GetUser() {
-      const location = window.location.href.split('=')[1];
-      const token = location.split('&')[0];
-      // dispatch(saveToken({ token }));
-      localStorage.setItem('access_token', token);
+    const url = new URL(window.location.href);
+    if (url.hash) {
+      const token = url.hash.split('=')[1].split('&')[0];
+      requestSocialSignup(token);
     }
+  };
+  const requestSocialSignup = (token: string) => {
+    axios
+      .post('http://localhost:5000/users/signup/social', {
+        socialToken: token,
+      })
+      .then(() => {
+        dispatch(openSignupSuccess());
+        history.push('/');
+      })
+      .catch((err) => {
+        if (err.message === 'Request failed with status code 409') {
+          dispatch(openAlreadySigned());
+          history.push('/signup');
+        } else {
+          history.push('/signup');
+          dispatch(openServerError());
+        }
+      });
   };
 
   useEffect(() => {
@@ -84,6 +89,29 @@ const NaverSignup: React.FC = () => {
   return (
     <div>
       <NaverButton id="naverIdLogin" />
+      {ReactDOM.createPortal(
+        <Snackbar
+          open={signupSuccess}
+          autoHideDuration={4000}
+          onClose={() => {
+            dispatch(closeSignupSuccess());
+          }}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+        >
+          <Alert
+            onClose={() => {
+              dispatch(closeSignupSuccess());
+            }}
+            severity="success"
+          >
+            회원가입에 성공하셨습니다! 로그인 해주세요
+          </Alert>
+        </Snackbar>,
+        document.body,
+      )}
     </div>
   );
 };

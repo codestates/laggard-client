@@ -3,33 +3,39 @@ import styled from 'styled-components';
 import ScrollAnimation from 'react-animate-on-scroll';
 import 'animate.css/animate.min.css';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectTestResult } from '../../features/testInfoSlice';
+import { openServerError } from '../../features/messageSlice';
 
 interface InfoState {
   title: string;
   subtitle: string;
-  description: string;
+  description: Array<string>;
   image: string;
 }
 
 const TestResult: React.FC = () => {
+  const dispatch = useDispatch();
   const result = useSelector(selectTestResult);
   const [info, setInfo] = useState<InfoState | null>(null);
+  const descItems = info?.description.map((sentence, idx) => {
+    return <p key={idx}>{sentence}</p>;
+  });
   useEffect(() => {
     axios
-      .post('http://localhost:5000/tests/result', { result })
+      .post('http://localhost:5000/tests/result', result)
       .then((res) => {
+        const desc = res.data.result.description.split('\n');
         setInfo({
           ...info,
           title: res.data.result.title,
           subtitle: res.data.result.subtitle,
-          description: res.data.result.description,
+          description: desc,
           image: res.data.result.image,
         });
       })
-      .catch((err) => {
-        console.log('err');
+      .catch(() => {
+        dispatch(openServerError());
       });
   }, []);
   return (
@@ -52,7 +58,7 @@ const TestResult: React.FC = () => {
         </ShortDescription>
       </div>
       <LongDescription>
-        <p>{info?.description}</p>
+        <p>{descItems}</p>
       </LongDescription>
     </ResultContainer>
   );
