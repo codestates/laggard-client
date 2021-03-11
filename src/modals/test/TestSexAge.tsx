@@ -50,7 +50,7 @@ const TestSexAge: React.FC = () => {
           duration={1}
         >
           <h2>
-            성별과 출생연도를 <br></br>알려주세요
+            문제 출제를 위해 <br></br>정보를 입력해주세요
           </h2>
         </ScrollAnimation>
       </SexAgeTitle>

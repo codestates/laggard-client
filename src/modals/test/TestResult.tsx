@@ -9,23 +9,28 @@ import { selectTestResult } from '../../features/testInfoSlice';
 interface InfoState {
   title: string;
   subtitle: string;
-  description: string;
+  description: Array<string>;
   image: string;
 }
 
 const TestResult: React.FC = () => {
   const result = useSelector(selectTestResult);
   const [info, setInfo] = useState<InfoState | null>(null);
+  console.log(info?.description);
+  const descItems = info?.description.map((sentence, idx) => {
+    return <p key={idx}>{sentence}</p>;
+  }); // 문장 분리 & 줄바꿈 위해서
   useEffect(() => {
     axios
       .post('http://localhost:5000/tests/result', result)
       .then((res) => {
         console.log(res.data.result);
+        const desc = res.data.result.description.split('\n');
         setInfo({
           ...info,
           title: res.data.result.title,
           subtitle: res.data.result.subtitle,
-          description: res.data.result.description,
+          description: desc,
           image: res.data.result.image,
         });
       })
@@ -53,7 +58,7 @@ const TestResult: React.FC = () => {
         </ShortDescription>
       </div>
       <LongDescription>
-        <p>{info?.description}</p>
+        <div>{descItems}</div>
       </LongDescription>
     </ResultContainer>
   );

@@ -47,14 +47,17 @@ const TestInstruction: React.FC = () => {
           animateIn="animate__bounceIn"
           duration={1}
         >
-          <h2>한국 음악 듣기 평가</h2>
+          <h2>음악 타입 테스트</h2>
         </ScrollAnimation>
       </Title>
       <Explanation>
-        <p>예상 소요 시간 : 8분</p>
-        <span>15문</span>
+        <p>예상 소요 시간 : 7분</p>
+        <span></span>
         <p>지금부터 듣기 평가가 시작됩니다.</p>
         <p>가사를 듣고 노래 제목을 입력해주세요.</p>
+        <br></br>
+        <p>주의사항: 부제나 피처링 가수를 제외한 제목만 입력하시면 됩니다.</p>
+        <p>예시) VVS (Feat. JUSTHIS) ➡️ VVS</p>
       </Explanation>
       <Button>
         <button onClick={handleSubmit}>시작하기</button>
