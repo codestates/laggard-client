@@ -35,7 +35,7 @@ const Banner: React.FC = () => {
               variant="contained"
               color="primary"
             >
-              나의 유형 테스트 시작하기
+              나의 음악 타입은?
             </Button>
           </ScrollAnimation>
           <ScrollAnimation
@@ -49,7 +49,7 @@ const Banner: React.FC = () => {
               variant="contained"
               color="primary"
             >
-              퀴즈로 점수 획득하기
+              가사낭독 퀴즈
             </Button>
           </ScrollAnimation>
         </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { quizEndFalse, quizStartFalse } from '../../features/modalSlice';
-import { removeGuestToken, selectUser } from '../../features/userSlice';
+import { logout, removeGuestToken, selectUser } from '../../features/userSlice';
 import ScrollAnimation from 'react-animate-on-scroll';
 import 'animate.css/animate.min.css';
 import {
@@ -11,8 +11,11 @@ import {
   selectTotalScore,
 } from '../../features/quizInfoSlice';
 import axios from 'axios';
+import { openInvalidUser, openServerError } from '../../features/messageSlice';
+import { useHistory } from 'react-router';
 
 const QuizResult: React.FC = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const totalScore = useSelector(selectTotalScore);
   const user = useSelector(selectUser);
@@ -35,7 +38,13 @@ const QuizResult: React.FC = () => {
         },
       )
       .catch((err) => {
-        console.log('err : ', err);
+        if (err.message === 'Request failed with status code 409') {
+          dispatch(logout());
+          dispatch(openInvalidUser());
+          history.push('/');
+        } else {
+          dispatch(openServerError());
+        }
       });
   };
   return (

@@ -25,6 +25,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   openCorrect,
   openDecreaseChance,
+  openInvalidUser,
+  openServerError,
   openWrong,
 } from '../../features/messageSlice';
 
@@ -50,7 +52,10 @@ const QuizEvaluate: React.FC = () => {
       .then((res) => {
         dispatch(getQuizSong(res.data));
         getAudio(res.data.lyrics);
-        console.log(res.data);
+        // console.log(res.data);
+      })
+      .catch(() => {
+        dispatch(openServerError());
       });
     setScore(10);
     setUserAnswer('');
@@ -75,6 +80,13 @@ const QuizEvaluate: React.FC = () => {
         setCurrCount(currCount + 1);
         dispatch(openDecreaseChance());
         audioContext?.suspend();
+      })
+      .catch((err) => {
+        if (err.message === 'Request failed with status code 409') {
+          dispatch(openInvalidUser());
+        } else {
+          dispatch(openServerError());
+        }
       });
   };
 
@@ -109,7 +121,11 @@ const QuizEvaluate: React.FC = () => {
           { headers: { Authorization: `Bearer ${token}` } },
         )
         .catch((err) => {
-          console.log(err);
+          if (err.message === 'Request failed with status code 409') {
+            dispatch(openInvalidUser());
+          } else {
+            dispatch(openServerError());
+          }
         });
       dispatch(addTotalScore(totalScore + score));
       setCurrCount(currCount + 1);
@@ -144,8 +160,6 @@ const QuizEvaluate: React.FC = () => {
     );
     const audioContext = util.getAudioContext();
     const gainNode = util.makeGainNode(audioContext);
-    console.log('audioContext : ', audioContext);
-    console.log('arrBuffer : ', arrBuffer?.data);
 
     const audioBuffer = await util.makeAudioBuffer(
       audioContext,

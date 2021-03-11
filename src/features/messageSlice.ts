@@ -9,6 +9,11 @@ interface MessageState {
   correct: boolean;
   wrong: boolean;
   chance: boolean;
+  signupSuccess: boolean;
+  serverError: boolean;
+  alreadySigned: boolean;
+  invalidUser: boolean;
+  invalidBirthYear: boolean;
 }
 
 const initialState: MessageState = {
@@ -19,6 +24,11 @@ const initialState: MessageState = {
   correct: false,
   wrong: false,
   chance: false,
+  signupSuccess: false,
+  serverError: false,
+  alreadySigned: false,
+  invalidUser: false,
+  invalidBirthYear: false,
 };
 
 export const messageSlice = createSlice({
@@ -67,6 +77,36 @@ export const messageSlice = createSlice({
     closeDecreaseChance: (state) => {
       state.chance = false;
     },
+    openSignupSuccess: (state) => {
+      state.signupSuccess = true;
+    },
+    closeSignupSuccess: (state) => {
+      state.signupSuccess = false;
+    },
+    openServerError: (state) => {
+      state.serverError = true;
+    },
+    closeServerError: (state) => {
+      state.serverError = false;
+    },
+    openAlreadySigned: (state) => {
+      state.alreadySigned = true;
+    },
+    closeAlreadySigned: (state) => {
+      state.alreadySigned = false;
+    },
+    openInvalidUser: (state) => {
+      state.invalidUser = true;
+    },
+    closeInvalidUser: (state) => {
+      state.invalidUser = false;
+    },
+    openInvalidBirthYear: (state) => {
+      state.invalidBirthYear = true;
+    },
+    closeInvalidBirthYear: (state) => {
+      state.invalidBirthYear = false;
+    },
   },
 });
 
@@ -85,6 +125,16 @@ export const {
   closeWrong,
   openDecreaseChance,
   closeDecreaseChance,
+  openSignupSuccess,
+  closeSignupSuccess,
+  openServerError,
+  closeServerError,
+  openAlreadySigned,
+  closeAlreadySigned,
+  openInvalidUser,
+  closeInvalidUser,
+  openInvalidBirthYear,
+  closeInvalidBirthYear,
 } = messageSlice.actions;
 
 export const selectChangeNicknameSuccess = (state: RootState): boolean =>
@@ -100,5 +150,15 @@ export const selectCorrect = (state: RootState): boolean =>
 export const selectWrong = (state: RootState): boolean => state.message.wrong;
 export const selectDecreaseChance = (state: RootState): boolean =>
   state.message.chance;
+export const selectSignupSuccess = (state: RootState): boolean =>
+  state.message.signupSuccess;
+export const selectServerError = (state: RootState): boolean =>
+  state.message.serverError;
+export const selectAlreadySigned = (state: RootState): boolean =>
+  state.message.alreadySigned;
+export const selectInvalidUser = (state: RootState): boolean =>
+  state.message.invalidUser;
+export const selectInvalidBirthYear = (state: RootState): boolean =>
+  state.message.invalidBirthYear;
 
 export default messageSlice.reducer;

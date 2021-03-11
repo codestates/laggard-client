@@ -9,7 +9,7 @@ const util = {
       });
       return response;
     } catch (e) {
-      console.log('request err : ', e);
+      alert(e.message);
     }
   },
   // eslint-disable-next-line
@@ -26,7 +26,7 @@ const util = {
       );
       return response;
     } catch (e) {
-      console.log('request err : ', e);
+      alert(e.message);
     }
   },
   // eslint-disable-next-line

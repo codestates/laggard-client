@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { testStartTrue } from '../../features/modalSlice';
@@ -6,13 +6,20 @@ import ScrollAnimation from 'react-animate-on-scroll';
 import 'animate.css/animate.min.css';
 import axios from 'axios';
 import { getSongs } from '../../features/testInfoSlice';
-import { selectUser } from '../../features/userSlice';
+import { logout, selectUser } from '../../features/userSlice';
+import {
+  openInvalidBirthYear,
+  openInvalidUser,
+  openServerError,
+} from '../../features/messageSlice';
+import { useHistory } from 'react-router';
 
 const yearRegex = RegExp(/^(19[0-9][0-9]|20[01][0-9]|2020)$/);
 
 const TestInstruction: React.FC = () => {
   const dispatch = useDispatch();
   const userInfo = useSelector(selectUser);
+  const history = useHistory();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -28,11 +35,11 @@ const TestInstruction: React.FC = () => {
           .then(() => {
             dispatch(testStartTrue());
           })
-          .catch((error) => {
-            alert(error);
+          .catch(() => {
+            dispatch(openServerError());
           });
       } else {
-        console.log('error');
+        dispatch(openInvalidBirthYear());
       }
     } else {
       dispatch(testStartTrue());
@@ -47,14 +54,17 @@ const TestInstruction: React.FC = () => {
           animateIn="animate__bounceIn"
           duration={1}
         >
-          <h2>한국 음악 듣기 평가</h2>
+          <h2>음악 타입 테스트</h2>
         </ScrollAnimation>
       </Title>
       <Explanation>
-        <p>예상 소요 시간 : 8분</p>
-        <span>15문</span>
+        <p>예상 소요 시간 : 7분</p>
+        <span></span>
         <p>지금부터 듣기 평가가 시작됩니다.</p>
         <p>가사를 듣고 노래 제목을 입력해주세요.</p>
+        <br></br>
+        <p>주의사항: 부제나 피처링 가수를 제외한 제목만 입력하시면 됩니다.</p>
+        <p>예시) VVS (Feat. JUSTHIS) ➡️ VVS</p>
       </Explanation>
       <Button>
         <button onClick={handleSubmit}>시작하기</button>

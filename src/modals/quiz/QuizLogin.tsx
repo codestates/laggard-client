@@ -10,6 +10,7 @@ import { login } from '../../features/userSlice';
 import ReactDOM from 'react-dom';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import QuizNaverlogin from '../../components/QuizNaverSignin';
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={5} variant="filled" {...props} />;
@@ -127,6 +128,7 @@ const QuizLogin: React.FC = () => {
       <button onClick={handleLogin} className={classes.button}>
         로그인
       </button>
+      <QuizNaverlogin />
       <p className={classes.text}>
         회원이 아니세요?{' '}
         <span onClick={handleRegister} className={classes.register}>
@@ -238,7 +240,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: 'rgba(191, 191, 191, 0.9)',
       padding: theme.spacing(2, 4, 2),
       width: '300px',
-      height: '200px',
+      height: '250px',
       '&:focus': {
         outline: 'none',
       },

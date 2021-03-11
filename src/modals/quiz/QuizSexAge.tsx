@@ -6,6 +6,10 @@ import QuizLogin from './QuizLogin';
 import ScrollAnimation from 'react-animate-on-scroll';
 import 'animate.css/animate.min.css';
 import axios from 'axios';
+import {
+  openInvalidBirthYear,
+  openServerError,
+} from '../../features/messageSlice';
 
 const yearRegex = RegExp(/^(19[0-9][0-9]|20[01][0-9]|2020)$/);
 
@@ -34,11 +38,11 @@ const QuizSexAge: React.FC = () => {
         .then((result) => {
           dispatch(getGuestToken(result.data.accessToken));
         })
-        .catch((err) => {
-          console.log('err');
+        .catch(() => {
+          dispatch(openServerError());
         });
     } else {
-      console.log('출생연도를 정확하게 입력해주세요');
+      dispatch(openInvalidBirthYear());
     }
   };
   return (
