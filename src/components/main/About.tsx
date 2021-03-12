@@ -1,10 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './About.css';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import ScrollAnimation from 'react-animate-on-scroll';
 import 'animate.css/animate.min.css';
+import axios from 'axios';
 
 const About: React.FC = () => {
+  const [count, setCount] = useState<number>();
   const left = useRef<HTMLDivElement>();
   useEffect(() => {
     if (left) {
@@ -12,6 +14,9 @@ const About: React.FC = () => {
         left.current?.classList.toggle('animate', window.scrollY > 0);
       });
     }
+    axios.get('http://localhost:5000/counter/visitCounter').then((res) => {
+      setCount(res.data.counter);
+    });
   }, []);
 
   return (
@@ -58,7 +63,7 @@ const About: React.FC = () => {
             offset={100}
             animateIn="animate__slideInRight"
           >
-            <span>1,000</span>
+            <span>{count}</span>
           </ScrollAnimation>
           <br></br>
           <ScrollAnimation

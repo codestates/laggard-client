@@ -35,10 +35,14 @@ const Header: React.FC = () => {
 
   const handleLogin = async () => {
     await axios
-      .post('http://localhost:5000/users/signin/basic', {
-        email: emailRef.current?.value,
-        password: pwRef.current?.value,
-      })
+      .post(
+        'http://localhost:5000/users/signin/basic',
+        {
+          email: emailRef.current?.value,
+          password: pwRef.current?.value,
+        },
+        { withCredentials: true },
+      )
       .then((res) => {
         const accessToken = res.data.data;
         localStorage.setItem('accessToken', accessToken);
