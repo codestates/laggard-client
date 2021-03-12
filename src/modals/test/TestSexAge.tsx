@@ -33,7 +33,10 @@ const TestSexAge: React.FC = () => {
     const { sex, birth_year } = info;
     if (yearRegex.test(birth_year.toString())) {
       await axios
-        .get(`http://localhost:5000/tests?sex=${sex}&birth_year=${birth_year}`)
+        .get(
+          `http://localhost:5000/tests?sex=${sex}&birth_year=${birth_year}`,
+          { withCredentials: true },
+        )
         .then((res) => {
           dispatch(getSongs(res.data));
         })

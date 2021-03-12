@@ -33,10 +33,14 @@ const QuizSexAge: React.FC = () => {
     const { sex, birth_year } = info;
     if (yearRegex.test(birth_year.toString())) {
       axios
-        .post('http://localhost:5000/users/signin/withoutLogin', {
-          sex,
-          birth_year,
-        })
+        .post(
+          'http://localhost:5000/users/signin/withoutLogin',
+          {
+            sex,
+            birth_year,
+          },
+          { withCredentials: true },
+        )
         .then((result) => {
           dispatch(getGuestToken(result.data.accessToken));
         })

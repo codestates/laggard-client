@@ -229,7 +229,9 @@ const QuizEvaluate: React.FC = () => {
           duration={1}
         >
           <h2>
-            {quizAge}년대 노래 <span>{`(#${currCount})`}</span>
+            {quizAge}~{quizAge ? Number(quizAge) + 4 : undefined}
+            {'년'}
+            <span>{`(#${currCount})`}</span>
           </h2>
         </ScrollAnimation>
       </Title>

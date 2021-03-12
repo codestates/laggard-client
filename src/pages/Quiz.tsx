@@ -25,9 +25,13 @@ const Quiz: React.FC = () => {
 
   const requestSocialSignup = (token: string) => {
     axios
-      .post('http://localhost:5000/users/signin/social', {
-        socialToken: token,
-      })
+      .post(
+        'http://localhost:5000/users/signin/social',
+        {
+          socialToken: token,
+        },
+        { withCredentials: true },
+      )
       .then((result) => {
         localStorage.setItem('accessToken', result.data.data);
         history.push('/quiz');

@@ -26,6 +26,7 @@ const TestInstruction: React.FC = () => {
         await axios
           .get(
             `http://localhost:5000/tests?sex=${userInfo.sex}&birth_year=${userInfo.birth_year}`,
+            { withCredentials: true },
           )
           .then((res) => {
             dispatch(getSongs(res.data));

@@ -40,10 +40,14 @@ const QuizLogin: React.FC = () => {
   const handleLogin = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     await axios
-      .post('http://localhost:5000/users/signin/basic', {
-        email: emailRef.current?.value,
-        password: pwRef.current?.value,
-      })
+      .post(
+        'http://localhost:5000/users/signin/basic',
+        {
+          email: emailRef.current?.value,
+          password: pwRef.current?.value,
+        },
+        { withCredentials: true },
+      )
       .then((res) => {
         const accessToken = res.data.data;
         localStorage.setItem('accessToken', accessToken);
