@@ -112,3 +112,79 @@
 .list_item:hover {
   transform: scale(1.05);
 }
+
+@media (max-width: 992px) {
+  .scoreboard_container {
+    width: 400px;
+  }
+  .scoreboard_title {
+    font-size: 3rem;
+  }
+  .top3_item {
+    padding-top: 1rem;
+    width: 8rem;
+    height: 8rem;
+    text-align: center;
+    margin: 1rem 1rem 2rem;
+    border-radius: 0.5rem;
+  }
+  .first {
+    width: 9rem;
+    height: 8.5rem;
+  }
+
+  .top3_item:hover {
+    transform: scale(1.05);
+  }
+
+  .top3_pos {
+    font-weight: 800;
+    font-size: 3rem;
+    margin-bottom: 0;
+  }
+
+  .top3_name {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+  }
+
+  .top3_score {
+    opacity: 0.5;
+  }
+  .list_item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: white;
+    height: 2.5rem;
+    border-radius: 4rem;
+    margin-bottom: 2rem;
+    background: orange;
+    transform-origin: left;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .list_pos {
+    font-weight: 900;
+    position: relative;
+    left: -2rem;
+    text-align: center;
+    font-size: 1.25rem;
+    width: 1.5rem;
+    color: white;
+    opacity: 0.6;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  .list_name {
+    flex-grow: 2;
+    flex-basis: 10rem;
+    font-size: 1.1rem;
+  }
+
+  .list_score {
+    margin-right: 1.5rem;
+    opacity: 0.5;
+  }
+}

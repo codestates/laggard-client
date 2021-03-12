@@ -37,7 +37,7 @@ const Signup: React.FC = () => {
   };
   const history = useHistory();
   const [info, setInfo] = useState(initialInfo);
-
+  // eslint-disable-next-line
   const handleChange = (e: any) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -67,6 +67,7 @@ const Signup: React.FC = () => {
     }
     setInfo({ ...info, errors, [name]: value });
   };
+  // eslint-disable-next-line
   const handleSubmit = (e: any) => {
     const { nickname, email, password, sex, birth_year } = info;
     e.preventDefault();
@@ -95,7 +96,7 @@ const Signup: React.FC = () => {
       handleOpenSignupFailure();
     }
   };
-
+  // eslint-disable-next-line
   const handleEmailCheck = (e: any) => {
     e.preventDefault();
     const { email } = info;

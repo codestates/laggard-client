@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { getGuestToken, guestTrue } from '../../features/userSlice';
+import { getGuestToken } from '../../features/userSlice';
 import QuizLogin from './QuizLogin';
 import ScrollAnimation from 'react-animate-on-scroll';
 import 'animate.css/animate.min.css';
@@ -21,11 +21,13 @@ const QuizSexAge: React.FC = () => {
     birth_year: 2021,
   };
   const [info, setInfo] = useState(initialInfo);
+  // eslint-disable-next-line
   const handleChange = (e: any) => {
     e.preventDefault();
     const { name, value } = e.target;
     setInfo({ ...info, [name]: value });
   };
+  // eslint-disable-next-line
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const { sex, birth_year } = info;
@@ -54,7 +56,7 @@ const QuizSexAge: React.FC = () => {
           duration={1}
         >
           <h2>
-            성별과 출생연도를 <br></br>알려주세요
+            문제 출제를 위해 <br></br>정보를 입력해주세요
           </h2>
         </ScrollAnimation>
       </SexAgeTitle>
@@ -87,7 +89,7 @@ const QuizSexAge: React.FC = () => {
 export default QuizSexAge;
 
 const SexAgeContainer = styled.div`
-  width: 60%;
+  width: 80%;
   height: 90%;
   display: flex;
   flex-direction: column;
@@ -100,6 +102,10 @@ const SexAgeTitle = styled.div`
   color: whitesmoke;
   font-size: 30px;
   font-weight: 700;
+  word-break: keep-all;
+  @media (max-width: 900px) {
+    font-size: 20px;
+  }
 `;
 const SexSelect = styled.form`
   display: flex;

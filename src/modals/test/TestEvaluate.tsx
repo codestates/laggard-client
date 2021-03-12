@@ -30,6 +30,7 @@ const TestEvaluate: React.FC = () => {
     console.log(currNum);
   }, [currNum]);
 
+  // eslint-disable-next-line
   const handleNextButton = (e: any) => {
     e.preventDefault();
     const currSong = songs?.testData[currNum];
@@ -122,8 +123,8 @@ const TestEvaluate: React.FC = () => {
     }
     if (ox) {
       dispatch(openCorrect());
-
       input.current.value = '';
+      dispatch(increaseCurrNum());
     } else if (!ox) {
       dispatch(openWrong());
       input.current.value = '';
@@ -212,8 +213,10 @@ const InputAnswer = styled.div`
   width: 80%;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   > input {
     width: 60%;
+    height: 24px;
     text-align: center;
     background-color: gray;
     border-radius: 10px;
@@ -252,6 +255,16 @@ const InputAnswer = styled.div`
       background-color: #01888f;
     }
   }
+  @media (max-width: 900px) {
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 100px;
+    > input {
+      width: 80%;
+      height: 24px;
+    }
+  }
 `;
 
 const SkipButton = styled.div`
@@ -267,5 +280,15 @@ const SkipButton = styled.div`
     color: whitesmoke;
     width: 48px;
     height: 48px;
+  }
+  @media (max-width: 900px) {
+    justify-content: center;
+    > span {
+      font-size: 16px;
+    }
+    .MuiSvgIcon-root {
+      width: 40px;
+      height: 40px;
+    }
   }
 `;

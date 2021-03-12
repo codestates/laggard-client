@@ -124,5 +124,6 @@
   .banner h2 {
     font-size: 3rem;
     transition: 0.3s;
+    word-break: keep-all;
   }
 }

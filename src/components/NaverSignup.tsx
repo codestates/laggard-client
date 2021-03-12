@@ -16,6 +16,7 @@ import { useHistory } from 'react-router';
 
 declare global {
   interface Window {
+    // eslint-disable-next-line
     naver: any;
   }
 }
@@ -39,7 +40,7 @@ const NaverSignup: React.FC = () => {
       loginButton: { color: 'white', type: 1, height: '47' },
     });
     naverLogin.init();
-
+    // eslint-disable-next-line
     naverLogin.getLoginStatus(function (status: any) {
       if (status) {
         const { email, gender, name, nickname, birthyear } = naverLogin.user;

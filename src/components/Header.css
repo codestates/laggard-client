@@ -144,3 +144,6 @@ header ul li:hover {
 .menu_game {
   text-decoration: none;
 }
+
+@media (max-width: 1050px) {
+}

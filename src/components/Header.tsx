@@ -192,7 +192,7 @@ const Header: React.FC = () => {
           <NavLink to={'/test'}>음악 타입 테스트</NavLink>
         </li>
         <li key="quiz">
-          <NavLink to="/quiz">내 점수는?</NavLink>
+          <NavLink to="/quiz">가사 낭독 퀴즈</NavLink>
         </li>
         {user === null ? (
           <li key="login">
@@ -241,7 +241,7 @@ const Header: React.FC = () => {
               <MenuItem onClick={handleClose}>음악 타입 테스트</MenuItem>
             </NavLink>
             <NavLink className={classes.link} to={'/quiz'}>
-              <MenuItem onClick={handleClose}>가사낭독 퀴즈</MenuItem>
+              <MenuItem onClick={handleClose}>가사 낭독 퀴즈</MenuItem>
             </NavLink>
             {user === null ? (
               <MenuItem

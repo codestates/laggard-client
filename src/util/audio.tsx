@@ -16,8 +16,10 @@ const Audio: React.FC = () => {
   const [audioBuffer, setAudioBuffer] = useState<AudioBuffer>();
   const [audioContext, setAudioContext] = useState<AudioContext>();
 
+  // eslint-disable-next-line
   const [gainNode, setGainNode] = useState('' as any); //음량조절하는 노드
 
+  // eslint-disable-next-line
   const handleChange = (e: any) => {
     gainNode.gain.value = e.target.value;
   };
@@ -53,6 +55,7 @@ const Audio: React.FC = () => {
   };
 
   useEffect(() => {
+    audioContext?.suspend();
     init();
   }, [lyrics]);
 

@@ -21,11 +21,13 @@ const TestSexAge: React.FC = () => {
     birth_year: 2021,
   };
   const [info, setInfo] = useState(initialInfo);
+  // eslint-disable-next-line
   const handleChange = (e: any) => {
     e.preventDefault();
     const { name, value } = e.target;
     setInfo({ ...info, [name]: value });
   };
+  // eslint-disable-next-line
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const { sex, birth_year } = info;
@@ -93,12 +95,19 @@ const SexAgeContainer = styled.div`
   justify-content: space-around;
   align-items: center;
   color: whitesmoke;
+  @media (max-width: 900px) {
+    width: 100%;
+  }
 `;
 const SexAgeTitle = styled.div`
   text-align: center;
   color: whitesmoke;
   font-size: 30px;
   font-weight: 700;
+  word-break: keep-all;
+  @media (max-width: 900px) {
+    font-size: 20px;
+  }
 `;
 const SexSelect = styled.form`
   display: flex;
@@ -109,6 +118,8 @@ const SexSelect = styled.form`
   font-size: 20px;
   font-weight: 600;
   > select {
+    background: gray;
+    color: whitesmoke;
     margin-left: 4px;
     height: 24px;
     width: 40px;

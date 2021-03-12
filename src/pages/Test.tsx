@@ -13,7 +13,9 @@ import img from '../assets/img/darkconcert4.jpg';
 const Test: React.FC = () => {
   useEffect(() => {
     const fig = document.querySelectorAll('.figure');
+    // eslint-disable-next-line
     const parallax = (e: any) => {
+      // eslint-disable-next-line
       fig.forEach((shape: any) => {
         const speed = shape.getAttribute('data-speed');
         const x = (window.innerWidth - e.pageX * speed) / 100;
