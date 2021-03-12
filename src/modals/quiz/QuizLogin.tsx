@@ -24,6 +24,12 @@ const QuizLogin: React.FC = () => {
   const pwRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
 
+  // eslint-disable-next-line
+  const handleKeyPress = (e: any) => {
+    if (e.key === 'Enter') {
+      handleLogin(e);
+    }
+  };
   const handleOpen = () => {
     setOpen(true);
   };
@@ -129,6 +135,9 @@ const QuizLogin: React.FC = () => {
         className={classes.input}
         placeholder="비밀번호"
         autoComplete="off"
+        onKeyPress={(e) => {
+          handleKeyPress(e);
+        }}
       />
       <button onClick={handleLogin} className={classes.button}>
         로그인

@@ -69,6 +69,12 @@ const QuizEvaluate: React.FC = () => {
     /* UI and button handlers*/
   }
   // eslint-disable-next-line
+  const handleKeyPress = (e: any) => {
+    if (e.key === 'Enter') {
+      handleSubmit(e);
+    }
+  };
+  // eslint-disable-next-line
   const handleNextButton = (e: any) => {
     e.preventDefault();
     const token = localStorage.getItem('accessToken') || guestToken;
@@ -316,6 +322,9 @@ const QuizEvaluate: React.FC = () => {
           autoComplete="off"
           value={userAnswer}
           onChange={handleUserAnswer}
+          onKeyPress={(e) => {
+            handleKeyPress(e);
+          }}
         />
         <button onClick={handleSubmit}>정답 등록하기</button>
       </InputAnswer>

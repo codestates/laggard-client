@@ -37,6 +37,13 @@ const Signup: React.FC = () => {
   };
   const history = useHistory();
   const [info, setInfo] = useState(initialInfo);
+
+  // eslint-disable-next-line
+  const handleKeyPress = (e: any) => {
+    if (e.key === 'Enter') {
+      handleSubmit(e);
+    }
+  };
   // eslint-disable-next-line
   const handleChange = (e: any) => {
     e.preventDefault();
@@ -269,6 +276,9 @@ const Signup: React.FC = () => {
                 name="confirmPw"
                 onChange={handleChange}
                 autoComplete="off"
+                onKeyPress={(e) => {
+                  handleKeyPress(e);
+                }}
               />
             </Password>
             <SexAge>
