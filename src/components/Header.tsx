@@ -32,6 +32,12 @@ const Header: React.FC = () => {
   const [open, setOpen] = useState(false);
 
   const max992 = useMediaQuery('(max-width: 992px)');
+  // eslint-disable-next-line
+  const handleKeyUp = (e: any) => {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  };
 
   const handleLogin = async () => {
     await axios
@@ -168,6 +174,9 @@ const Header: React.FC = () => {
           className={classes.input}
           placeholder="비밀번호"
           autoComplete="off"
+          onKeyUp={(e) => {
+            handleKeyUp(e);
+          }}
         />
       </div>
       <button className={classes.button} onClick={handleLogin}>

@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './About.css';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import ScrollAnimation from 'react-animate-on-scroll';
 import 'animate.css/animate.min.css';
-import axios from 'axios';
+// import axios from 'axios';
 
 const About: React.FC = () => {
-  const [count, setCount] = useState<number>();
+  // const [count, setCount] = useState<number>();
   const left = useRef<HTMLDivElement>();
   useEffect(() => {
     if (left) {
@@ -14,13 +14,13 @@ const About: React.FC = () => {
         left.current?.classList.toggle('animate', window.scrollY > 0);
       });
     }
-    axios
-      .get('https://laggard-server.ga/counter/visitCounter', {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setCount(res.data.counter);
-      });
+    // axios
+    //   .get('https://laggard-server.ga/counter/visitCounter', {
+    //     withCredentials: true,
+    //   })
+    //   .then((res) => {
+    //     setCount(res.data.counter);
+    //   });
   }, []);
 
   return (
@@ -67,7 +67,7 @@ const About: React.FC = () => {
             offset={100}
             animateIn="animate__slideInRight"
           >
-            <span>{count}</span>
+            <span>{1000}</span>
           </ScrollAnimation>
           <br></br>
           <ScrollAnimation

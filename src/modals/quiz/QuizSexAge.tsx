@@ -28,6 +28,12 @@ const QuizSexAge: React.FC = () => {
     setInfo({ ...info, [name]: value });
   };
   // eslint-disable-next-line
+  const handleKeyPress = (e: any) => {
+    if (e.key === 'Enter') {
+      handleSubmit(e);
+    }
+  };
+  // eslint-disable-next-line
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const { sex, birth_year } = info;
@@ -80,6 +86,9 @@ const QuizSexAge: React.FC = () => {
           id="testage"
           name="birth_year"
           autoComplete="off"
+          onKeyPress={(e) => {
+            handleKeyPress(e);
+          }}
         />
       </AgeInput>
       <SexAgeButton>

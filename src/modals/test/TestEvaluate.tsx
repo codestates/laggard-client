@@ -29,7 +29,12 @@ const TestEvaluate: React.FC = () => {
     console.log(results);
     console.log(currNum);
   }, [currNum]);
-
+  // eslint-disable-next-line
+  const handleKeyPress = (e: any) => {
+    if (e.key === 'Enter') {
+      handleSubmit(e);
+    }
+  };
   // eslint-disable-next-line
   const handleNextButton = (e: any) => {
     e.preventDefault();
@@ -169,6 +174,9 @@ const TestEvaluate: React.FC = () => {
           type="text"
           placeholder="노래 제목을 입력하세요"
           autoComplete="off"
+          onKeyPress={(e) => {
+            handleKeyPress(e);
+          }}
         />
         <button onClick={handleSubmit}>정답 등록하기</button>
       </InputAnswer>
