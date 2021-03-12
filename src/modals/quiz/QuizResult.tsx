@@ -36,7 +36,7 @@ const QuizResult: React.FC = () => {
     if (!save) {
       axios
         .get(
-          `http://localhost:5000/quiz/submitScore?totalScore=${totalScore}&songs_year=${songs_year}`,
+          `https://laggard-server.ga/quiz/submitScore?totalScore=${totalScore}&songs_year=${songs_year}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

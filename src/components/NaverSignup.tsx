@@ -35,7 +35,7 @@ const NaverSignup: React.FC = () => {
   const initializeNaverLogin = () => {
     const naverLogin = new naver.LoginWithNaverId({
       clientId: '5tQF0iVwkjDyV_pxq7uO',
-      callbackUrl: 'http://localhost:3000/signup',
+      callbackUrl: 'https://laggard-server.ga/signup',
       isPopup: false,
       loginButton: { color: 'white', type: 1, height: '47' },
     });
@@ -65,7 +65,7 @@ const NaverSignup: React.FC = () => {
   const requestSocialSignup = (token: string) => {
     axios
       .post(
-        'http://localhost:5000/users/signup/social',
+        'https://laggard-server.ga/users/signup/social',
         {
           socialToken: token,
         },

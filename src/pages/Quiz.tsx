@@ -26,7 +26,7 @@ const Quiz: React.FC = () => {
   const requestSocialSignup = (token: string) => {
     axios
       .post(
-        'http://localhost:5000/users/signin/social',
+        'https://laggard-server.ga/users/signin/social',
         {
           socialToken: token,
         },
@@ -39,7 +39,7 @@ const Quiz: React.FC = () => {
       .then(async () => {
         const token = localStorage.getItem('accessToken');
         await axios
-          .get('http://localhost:5000/users/userinfo', {
+          .get('https://laggard-server.ga/users/userinfo', {
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
           })

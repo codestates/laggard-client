@@ -6,7 +6,7 @@ const NaverSignin: React.FC = () => {
   const initializeNaverLogin = () => {
     const naverLogin = new naver.LoginWithNaverId({
       clientId: '5tQF0iVwkjDyV_pxq7uO',
-      callbackUrl: 'http://localhost:3000/',
+      callbackUrl: 'https://laggard-server.ga/',
       isPopup: false,
       loginButton: { color: 'white', type: 5, height: '35' },
     });

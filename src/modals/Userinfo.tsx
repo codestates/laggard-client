@@ -67,7 +67,7 @@ const Userinfo: React.FC = () => {
   const handleUnregister = () => {
     const token = localStorage.getItem('accessToken');
     axios
-      .delete('http://localhost:5000/users/unregister', {
+      .delete('https://laggard-server.ga/users/unregister', {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       })
@@ -87,7 +87,7 @@ const Userinfo: React.FC = () => {
     let nicknameValue = changeNickname.current?.value;
     await axios
       .put(
-        'http://localhost:5000/users/userinfo',
+        'https://laggard-server.ga/users/userinfo',
         {
           nickname: changeNickname.current?.value,
         },
@@ -130,7 +130,7 @@ const Userinfo: React.FC = () => {
       if (pwRegex.test(pwChange) && pwChange === pwChangeCheck) {
         await axios
           .put(
-            'http://localhost:5000/users/userinfo',
+            'https://laggard-server.ga/users/userinfo',
             {
               password: changeNickname.current?.value,
             },

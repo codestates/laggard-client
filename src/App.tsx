@@ -20,7 +20,7 @@ const App: React.FC = () => {
     const token = localStorage.getItem('accessToken');
     if (token) {
       axios
-        .get('http://localhost:5000/users/userinfo', {
+        .get('https://laggard-server.ga/users/userinfo', {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         })

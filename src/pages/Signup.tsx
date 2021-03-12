@@ -68,6 +68,7 @@ const Signup: React.FC = () => {
     }
     setInfo({ ...info, errors, [name]: value });
   };
+
   // eslint-disable-next-line
   const handleSubmit = (e: any) => {
     const { nickname, email, password, sex, birth_year } = info;
@@ -85,7 +86,7 @@ const Signup: React.FC = () => {
     ) {
       axios
         .post(
-          'http://localhost:5000/users/signup/basic',
+          'https://laggard-server.ga/users/signup/basic',
           {
             nickname,
             email,
@@ -107,7 +108,7 @@ const Signup: React.FC = () => {
     const { email } = info;
     axios
       .post(
-        'http://localhost:5000/users/signup/emailCheck',
+        'https://laggard-server.ga/users/signup/emailCheck',
         { email },
         { withCredentials: true },
       )

@@ -27,7 +27,7 @@ const Audio: React.FC = () => {
   const init = async () => {
     const inputLyrics = lyrics?.slice(0, 10);
     const arrBuffer = await axios.post(
-      'http://localhost:5000/tests/audio',
+      'https://laggard-server.ga/tests/audio',
       {
         inputLyrics,
       },

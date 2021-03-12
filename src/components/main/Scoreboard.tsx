@@ -9,7 +9,7 @@ const Scoreboard: React.FC = () => {
   const [ranks, setRanks] = useState<any>('' as any);
   useEffect(() => {
     axios
-      .get('http://localhost:5000/score/rank', { withCredentials: true })
+      .get('https://laggard-server.ga/score/rank', { withCredentials: true })
       .then((res) => {
         const data = res.data;
         setRanks([...ranks, ...data]);

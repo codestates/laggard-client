@@ -15,7 +15,7 @@ const About: React.FC = () => {
       });
     }
     axios
-      .get('http://localhost:5000/counter/visitCounter', {
+      .get('https://laggard-server.ga/counter/visitCounter', {
         withCredentials: true,
       })
       .then((res) => {

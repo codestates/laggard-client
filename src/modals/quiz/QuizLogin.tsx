@@ -41,7 +41,7 @@ const QuizLogin: React.FC = () => {
     e.preventDefault();
     await axios
       .post(
-        'http://localhost:5000/users/signin/basic',
+        'https://laggard-server.ga/users/signin/basic',
         {
           email: emailRef.current?.value,
           password: pwRef.current?.value,
@@ -55,7 +55,7 @@ const QuizLogin: React.FC = () => {
       .then(async () => {
         const token = localStorage.getItem('accessToken');
         await axios
-          .get('http://localhost:5000/users/userinfo', {
+          .get('https://laggard-server.ga/users/userinfo', {
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
           })

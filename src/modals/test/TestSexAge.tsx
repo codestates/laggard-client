@@ -34,7 +34,7 @@ const TestSexAge: React.FC = () => {
     if (yearRegex.test(birth_year.toString())) {
       await axios
         .get(
-          `http://localhost:5000/tests?sex=${sex}&birth_year=${birth_year}`,
+          `https://laggard-server.ga/tests?sex=${sex}&birth_year=${birth_year}`,
           { withCredentials: true },
         )
         .then((res) => {

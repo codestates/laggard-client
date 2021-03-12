@@ -34,7 +34,7 @@ const QuizSexAge: React.FC = () => {
     if (yearRegex.test(birth_year.toString())) {
       axios
         .post(
-          'http://localhost:5000/users/signin/withoutLogin',
+          'https://laggard-server.ga/users/signin/withoutLogin',
           {
             sex,
             birth_year,

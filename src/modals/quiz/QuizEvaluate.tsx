@@ -48,7 +48,7 @@ const QuizEvaluate: React.FC = () => {
       dispatch(quizEndTrue());
     }
     axios
-      .get(`http://localhost:5000/quiz/songInfo?quizAge=${quizAge}`, {
+      .get(`https://laggard-server.ga/quiz/songInfo?quizAge=${quizAge}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -74,7 +74,7 @@ const QuizEvaluate: React.FC = () => {
     const token = localStorage.getItem('accessToken') || guestToken;
     axios
       .get(
-        `http://localhost:5000/quiz/recordResult?songs_id=${song?.songId}&correct=false`,
+        `https://laggard-server.ga/quiz/recordResult?songs_id=${song?.songId}&correct=false`,
         {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
@@ -122,7 +122,7 @@ const QuizEvaluate: React.FC = () => {
       const token = localStorage.getItem('accessToken') || guestToken;
       axios
         .get(
-          `http://localhost:5000/quiz/recordResult?songs_id=${song?.songId}&correct=true`,
+          `https://laggard-server.ga/quiz/recordResult?songs_id=${song?.songId}&correct=true`,
           {
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
@@ -164,7 +164,7 @@ const QuizEvaluate: React.FC = () => {
 
   const getAudio = async (lyrics: string) => {
     const arrBuffer = await util.axiosPostArrayBufferRequest(
-      'http://localhost:5000/quiz/audioFile',
+      'https://laggard-server.ga/quiz/audioFile',
       lyrics,
     );
     const audioContext = util.getAudioContext();
