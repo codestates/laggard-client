@@ -1,0 +1,129 @@
+.banner {
+  display: flex;
+  position: relative;
+  width: 100%;
+  min-height: 108vh;
+  background-image: url(../../assets/img/djdark.jpg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-attachment: fixed;
+  align-items: center;
+}
+
+.banner_container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.banner_buttons {
+  display: flex;
+  flex-direction: column;
+  padding-right: 10rem;
+}
+
+.banner h2 {
+  margin-left: 1rem;
+  padding: 0 50px;
+  color: white;
+  font-size: 80px;
+  text-align: center;
+  letter-spacing: 2px;
+  font-weight: 700;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.title_top {
+  opacity: 0;
+  animation: showTopText 1s;
+  animation-delay: 0.5s;
+  animation-fill-mode: forwards;
+  bottom: 0;
+  transform: translate(0, 100%);
+}
+
+.title_bottom {
+  opacity: 0;
+  animation: showBottomText 0.5s;
+  animation-delay: 1.75s;
+  animation-fill-mode: forwards;
+  top: 0;
+  transform: translate(0, -100%);
+}
+.test_button {
+  opacity: 0;
+  animation: showTopButton 1s;
+  animation-delay: 0.5s;
+  animation-fill-mode: forwards;
+  right: 0;
+  transform: translate(100%, 0);
+}
+
+@keyframes showTopButton {
+  0% {
+    transform: translate3d(100%, 0, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.9;
+  }
+}
+
+@keyframes showTopText {
+  0% {
+    transform: translate3d(0, 100%, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+@keyframes showBottomText {
+  0% {
+    transform: translate3d(0, -100%, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1340px) {
+  .banner {
+    justify-content: center;
+    background-position: center;
+  }
+
+  .banner_container {
+    flex-direction: column;
+    width: auto;
+    align-items: center;
+  }
+
+  .banner_buttons {
+    padding-right: 0;
+    margin: 2rem;
+  }
+}
+
+@media (max-width: 862px) {
+  .banner {
+    background-position: center;
+    min-height: 100vh;
+  }
+
+  .banner h2 {
+    font-size: 3rem;
+    transition: 0.3s;
+    word-break: keep-all;
+  }
+}

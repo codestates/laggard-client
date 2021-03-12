@@ -1,6 +1,6 @@
 ---
 name: Task card
-about: Task card 생성시 사용되는 template 입니다.
+about: Suggest an idea for this project
 title: ''
 labels: ''
 assignees: ''
@@ -14,6 +14,7 @@ assignees: ''
 ### TODO
 1. [ ] Job1
 2. [ ] Job2
+3. [ ] Job3
 
 ### Estimated time
 > Pick one
