@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { quizEndFalse, quizStartFalse } from '../../features/modalSlice';
@@ -24,6 +24,7 @@ const QuizResult: React.FC = () => {
   const totalScore = useSelector(selectTotalScore);
   const user = useSelector(selectUser);
   const songs_year = useSelector(selectQuizTime);
+  const [save, setSave] = useState(false);
   const handleRestart = () => {
     dispatch(removeGuestToken());
     dispatch(quizStartFalse());
@@ -32,27 +33,30 @@ const QuizResult: React.FC = () => {
   };
 
   const submitScore = () => {
-    axios
-      .get(
-        `http://localhost:5000/quiz/submitScore?totalScore=${totalScore}&songs_year=${songs_year}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    if (!save) {
+      axios
+        .get(
+          `http://localhost:5000/quiz/submitScore?totalScore=${totalScore}&songs_year=${songs_year}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
           },
-        },
-      )
-      .then(() => {
-        dispatch(openRecordPoints());
-      })
-      .catch((err) => {
-        if (err.message === 'Request failed with status code 409') {
-          dispatch(logout());
-          dispatch(openInvalidUser());
-          history.push('/');
-        } else {
-          dispatch(openServerError());
-        }
-      });
+        )
+        .then(() => {
+          setSave(true);
+          dispatch(openRecordPoints());
+        })
+        .catch((err) => {
+          if (err.message === 'Request failed with status code 409') {
+            dispatch(logout());
+            dispatch(openInvalidUser());
+            history.push('/');
+          } else {
+            dispatch(openServerError());
+          }
+        });
+    }
   };
   return (
     <ResultContainer>
