@@ -14,6 +14,7 @@ interface MessageState {
   alreadySigned: boolean;
   invalidUser: boolean;
   invalidBirthYear: boolean;
+  recordPoints: boolean;
 }
 
 const initialState: MessageState = {
@@ -29,6 +30,7 @@ const initialState: MessageState = {
   alreadySigned: false,
   invalidUser: false,
   invalidBirthYear: false,
+  recordPoints: false,
 };
 
 export const messageSlice = createSlice({
@@ -107,6 +109,12 @@ export const messageSlice = createSlice({
     closeInvalidBirthYear: (state) => {
       state.invalidBirthYear = false;
     },
+    openRecordPoints: (state) => {
+      state.recordPoints = true;
+    },
+    closeRecordPoints: (state) => {
+      state.recordPoints = false;
+    },
   },
 });
 
@@ -135,6 +143,8 @@ export const {
   closeInvalidUser,
   openInvalidBirthYear,
   closeInvalidBirthYear,
+  openRecordPoints,
+  closeRecordPoints,
 } = messageSlice.actions;
 
 export const selectChangeNicknameSuccess = (state: RootState): boolean =>
@@ -160,5 +170,7 @@ export const selectInvalidUser = (state: RootState): boolean =>
   state.message.invalidUser;
 export const selectInvalidBirthYear = (state: RootState): boolean =>
   state.message.invalidBirthYear;
+export const selectRecordPoints = (state: RootState): boolean =>
+  state.message.recordPoints;
 
 export default messageSlice.reducer;

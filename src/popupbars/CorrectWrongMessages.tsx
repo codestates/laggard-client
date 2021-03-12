@@ -18,6 +18,8 @@ import {
   closeInvalidUser,
   selectInvalidBirthYear,
   closeInvalidBirthYear,
+  selectRecordPoints,
+  closeRecordPoints,
 } from '../features/messageSlice';
 
 function Alert(props: AlertProps) {
@@ -32,6 +34,7 @@ const CorrectWrongMessages: React.FC = () => {
   const alreadySigned = useSelector(selectAlreadySigned);
   const invalidUser = useSelector(selectInvalidUser);
   const invalidBirthYear = useSelector(selectInvalidBirthYear);
+  const recordPoints = useSelector(selectRecordPoints);
   const dispatch = useDispatch();
 
   return ReactDOM.createPortal(
@@ -174,6 +177,26 @@ const CorrectWrongMessages: React.FC = () => {
           severity="error"
         >
           출생연도를 올바르게 입력해주세요
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={recordPoints}
+        autoHideDuration={3000}
+        onClose={() => {
+          dispatch(closeRecordPoints());
+        }}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <Alert
+          onClose={() => {
+            dispatch(closeRecordPoints());
+          }}
+          severity="success"
+        >
+          점수 저장이 되었습니다!
         </Alert>
       </Snackbar>
     </div>,

@@ -11,7 +11,11 @@ import {
   selectTotalScore,
 } from '../../features/quizInfoSlice';
 import axios from 'axios';
-import { openInvalidUser, openServerError } from '../../features/messageSlice';
+import {
+  openInvalidUser,
+  openRecordPoints,
+  openServerError,
+} from '../../features/messageSlice';
 import { useHistory } from 'react-router';
 
 const QuizResult: React.FC = () => {
@@ -37,6 +41,9 @@ const QuizResult: React.FC = () => {
           },
         },
       )
+      .then(() => {
+        dispatch(openRecordPoints());
+      })
       .catch((err) => {
         if (err.message === 'Request failed with status code 409') {
           dispatch(logout());
