@@ -30,11 +30,15 @@
 }
 
 .about_left p {
+  word-break: keep-all;
   position: relative;
-  font-size: 18px;
-  font-weight: 300;
+  font-size: 20px;
+  font-weight: 600;
   margin-bottom: 20px;
   letter-spacing: 1px;
+}
+.about_left span {
+  font-weight: 800;
 }
 
 .about_right h3 {
@@ -45,7 +49,7 @@
 
 .about_right span {
   position: relative;
-  font-size: 5rem;
+  font-size: 80px;
   letter-spacing: 1px;
   margin-bottom: 20px;
   font-weight: 800;
@@ -55,13 +59,17 @@
   font-size: 5rem;
 }
 
-@media (max-width: 850px) {
-  .banner {
-    background-position: center;
-    min-height: 80vh;
+@media (max-width: 992px) {
+  .about_left p {
+    font-size: 16px;
   }
-
-  .banner h2 {
-    font-size: 3rem;
+  .about_left h3 {
+    font-size: 48px;
+  }
+  .about_container {
+    flex-direction: column;
+  }
+  .about_right span {
+    font-size: 40px;
   }
 }

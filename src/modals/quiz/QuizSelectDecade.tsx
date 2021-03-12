@@ -15,7 +15,7 @@ const QuizSelectDecade: React.FC = () => {
     dispatch(chooseQuizAge(info));
     dispatch(quizStartTrue());
   };
-
+  // eslint-disable-next-line
   const handleChange = (e: any) => {
     e.preventDefault();
     const { value } = e.target;
@@ -67,8 +67,11 @@ const Container = styled.div`
   color: whitesmoke;
 
   .title {
-    font-size: 2.5rem;
+    font-size: 40px;
     letter-spacing: 2px;
+    @media (max-width: 900px) {
+      font-size: 24px;
+    }
   }
 
   label {
@@ -79,7 +82,7 @@ const Container = styled.div`
   select {
     margin-left: 8px;
     width: 100px;
-    font-size: 20px;
+    font-size: 16px;
     text-align: center;
     background: gray;
     color: whitesmoke;

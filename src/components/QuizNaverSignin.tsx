@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-
+// eslint-disable-next-line
 const { naver } = window as any;
 
 const QuizNaverSignin: React.FC = () => {

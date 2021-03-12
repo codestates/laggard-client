@@ -6,21 +6,19 @@ import ScrollAnimation from 'react-animate-on-scroll';
 import 'animate.css/animate.min.css';
 import axios from 'axios';
 import { getSongs } from '../../features/testInfoSlice';
-import { logout, selectUser } from '../../features/userSlice';
+import { selectUser } from '../../features/userSlice';
 import {
   openInvalidBirthYear,
-  openInvalidUser,
   openServerError,
 } from '../../features/messageSlice';
-import { useHistory } from 'react-router';
 
 const yearRegex = RegExp(/^(19[0-9][0-9]|20[01][0-9]|2020)$/);
 
 const TestInstruction: React.FC = () => {
   const dispatch = useDispatch();
   const userInfo = useSelector(selectUser);
-  const history = useHistory();
 
+  // eslint-disable-next-line
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (userInfo) {
@@ -59,11 +57,12 @@ const TestInstruction: React.FC = () => {
       </Title>
       <Explanation>
         <p>예상 소요 시간 : 7분</p>
-        <span></span>
         <p>지금부터 듣기 평가가 시작됩니다.</p>
         <p>가사를 듣고 노래 제목을 입력해주세요.</p>
         <br></br>
-        <p>주의사항: 부제나 피처링 가수를 제외한 제목만 입력하시면 됩니다.</p>
+        <p className="warningex">
+          주의사항: 부제나 피처링 가수를 제외한 제목만 입력하시면 됩니다.
+        </p>
         <p>예시) VVS (Feat. JUSTHIS) ➡️ VVS</p>
       </Explanation>
       <Button>
@@ -93,10 +92,18 @@ const Explanation = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   justify-content: space-around;
   height: 50%;
   font-size: 20px;
   color: white;
+  > p {
+    word-break: keep-all;
+  }
+  @media (max-width: 900px) {
+    .warningex {
+    }
+  }
 `;
 
 const Button = styled.div`

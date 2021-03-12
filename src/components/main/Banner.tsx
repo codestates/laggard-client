@@ -49,7 +49,7 @@ const Banner: React.FC = () => {
               variant="contained"
               color="primary"
             >
-              가사낭독 퀴즈
+              가사 낭독 퀴즈
             </Button>
           </ScrollAnimation>
         </div>

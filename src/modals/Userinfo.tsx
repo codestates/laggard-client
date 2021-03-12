@@ -5,7 +5,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 import ReactDOM from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeMyinfo, selectMyinfo } from '../features/modalSlice';
-import { login, selectUser } from '../features/userSlice';
+import { login, logout, selectUser } from '../features/userSlice';
 import Popover from '@material-ui/core/Popover';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import axios from 'axios';
@@ -20,10 +20,12 @@ import {
   selectChangeNicknameFailure,
   selectChangeNicknameSuccess,
 } from '../features/messageSlice';
+import { useHistory } from 'react-router';
 
 const Userinfo: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const myinfoModal = useSelector(selectMyinfo);
   const user = useSelector(selectUser);
   const changeNickname = useRef<HTMLInputElement>(null);
@@ -60,6 +62,20 @@ const Userinfo: React.FC = () => {
 
   const handleClosePassword = () => {
     setAnchorPassword(null);
+  };
+
+  const handleUnregister = () => {
+    const token = localStorage.getItem('accessToken');
+    axios
+      .delete('http://localhost:5000/users/unregister', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(() => {
+        history.push('/');
+        dispatch(closeMyinfo());
+        dispatch(logout());
+        localStorage.removeItem('accessToken');
+      });
   };
 
   const openPassword = Boolean(anchorPassword);
@@ -166,7 +182,7 @@ const Userinfo: React.FC = () => {
           </div>
         </div>
       </div>
-      <button>회원탈퇴</button>
+      <button onClick={handleUnregister}>회원탈퇴</button>
     </MyinfoContent>
   );
 

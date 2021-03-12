@@ -49,17 +49,13 @@ const TestResult: React.FC = () => {
           <h2>{info?.title}</h2>
         </ScrollAnimation>
       </Title>
-      <div className="result-imgdesc">
-        <Image>
-          <img src={info?.image} alt="" />
-        </Image>
-        <ShortDescription>
-          <p>{info?.subtitle}</p>
-        </ShortDescription>
-      </div>
-      <LongDescription>
-        <p>{descItems}</p>
-      </LongDescription>
+      <Image>
+        <img src={info?.image} alt="" />
+      </Image>
+      <ShortDescription>
+        <h4>{info?.subtitle}</h4>
+      </ShortDescription>
+      <LongDescription>{descItems}</LongDescription>
     </ResultContainer>
   );
 };
@@ -74,20 +70,18 @@ const ResultContainer = styled.div`
   width: 90%;
   justify-content: space-around;
   color: whitesmoke;
-  .result-imgdesc {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 100%;
-  }
 `;
 const Title = styled.div`
   font-size: 24px;
+  letter-spacing: 2px;
+  @media (max-width: 900px) {
+    font-size: 20px;
+  }
 `;
 const Image = styled.div`
   > img {
-    width: 120px;
-    height: 120px;
+    width: 200px;
+    height: 200px;
     border: 1px solid black;
   }
   display: flex;
@@ -98,5 +92,15 @@ const ShortDescription = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 20px;
+  font-weight: 700;
 `;
-const LongDescription = styled.div``;
+const LongDescription = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  word-break: keep-all;
+  @media (max-width: 900px) {
+    font-size: 16px;
+    text-align: center;
+  }
+`;

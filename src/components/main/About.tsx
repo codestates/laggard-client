@@ -31,10 +31,17 @@ const About: React.FC = () => {
             animateIn="animate__slideInLeft"
           >
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
-              recusandae omnis doloremque nam deserunt saepe est consequatur
-              adipisci minima vitae. Quis maxime quas qui dicta. Suscipit optio
-              dignissimos quos. Adipisci!
+              TV 프로그램 `놀라운 토요일` 그리고 `아는형님`에서도 나온
+              <span> 가사 낭독 퀴즈</span>에 도전하세요!
+            </p>
+            <p>AI가 원톤으로 읽어주는 노래 가사를 듣고 곡명을 맞추면 됩니다.</p>
+            <p>
+              <span>음악 타입 테스트 : </span>내 음악 유형은 무엇인지
+              알아보세요.
+            </p>
+            <p>
+              <span>가사 낭독 퀴즈 : </span>퀴즈의 곡명을 맞추고 점수를
+              올리세요. 그리고 점수가 제일 높은 10인에 도전하세요.
             </p>
           </ScrollAnimation>
         </div>

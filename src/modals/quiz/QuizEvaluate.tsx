@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
@@ -66,7 +66,7 @@ const QuizEvaluate: React.FC = () => {
   {
     /* UI and button handlers*/
   }
-
+  // eslint-disable-next-line
   const handleNextButton = (e: any) => {
     e.preventDefault();
     const token = localStorage.getItem('accessToken') || guestToken;
@@ -89,7 +89,7 @@ const QuizEvaluate: React.FC = () => {
         }
       });
   };
-
+  // eslint-disable-next-line
   const handleSubmit = (e: any) => {
     e.preventDefault();
     let answer = song?.title
@@ -151,6 +151,7 @@ const QuizEvaluate: React.FC = () => {
 
   const [audioBuffer, setAudioBuffer] = useState('');
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  // eslint-disable-next-line
   const [gainNode, setGainNode] = useState<any>(null);
 
   const getAudio = async (lyrics: string) => {
@@ -180,7 +181,7 @@ const QuizEvaluate: React.FC = () => {
     const track = await makeTrack();
     track.start();
   };
-
+  // eslint-disable-next-line
   const handleVolume = (e: any) => {
     gainNode.gain.value = e.target.value;
   };
@@ -265,7 +266,7 @@ const QuizEvaluate: React.FC = () => {
                 setScore(score - 2);
                 handleOpenHint2(e);
               } else if (rankHintOpened) {
-                handleOpenHint(e);
+                handleOpenHint2(e);
               }
             }}
           >{`순위힌트(-2점)`}</button>
@@ -495,6 +496,9 @@ const InputAnswer = styled.div`
       background-color: #01888f;
     }
   }
+  @media (max-width: 900px) {
+    width: 100%;
+  }
 `;
 
 const SkipButton = styled.div`
@@ -505,11 +509,20 @@ const SkipButton = styled.div`
   span {
     color: whitesmoke;
     font-size: 20px;
+    word-break: keep-all;
+    text-align: center;
+    @media (max-width: 900px) {
+      font-size: 16px;
+    }
   }
   .MuiSvgIcon-root {
     color: whitesmoke;
     width: 48px;
     height: 48px;
+    @media (max-width: 900px) {
+      width: 40px;
+      height: 40px;
+    }
   }
   .left,
   .right {
@@ -542,11 +555,11 @@ const SkipButton = styled.div`
 `;
 
 const HintBody = styled.div`
-  width: 160px;
+  width: 200px;
   background: whitesmoke;
   font-size: 14px;
   font-weight: 600;
-  height: 24px;
+  height: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
