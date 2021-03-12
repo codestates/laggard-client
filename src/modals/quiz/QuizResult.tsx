@@ -41,6 +41,7 @@ const QuizResult: React.FC = () => {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             },
+            withCredentials: true,
           },
         )
         .then(() => {

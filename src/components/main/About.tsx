@@ -14,9 +14,13 @@ const About: React.FC = () => {
         left.current?.classList.toggle('animate', window.scrollY > 0);
       });
     }
-    axios.get('http://localhost:5000/counter/visitCounter').then((res) => {
-      setCount(res.data.counter);
-    });
+    axios
+      .get('http://localhost:5000/counter/visitCounter', {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setCount(res.data.counter);
+      });
   }, []);
 
   return (

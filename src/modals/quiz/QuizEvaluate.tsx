@@ -48,7 +48,9 @@ const QuizEvaluate: React.FC = () => {
       dispatch(quizEndTrue());
     }
     axios
-      .get(`http://localhost:5000/quiz/songInfo?quizAge=${quizAge}`)
+      .get(`http://localhost:5000/quiz/songInfo?quizAge=${quizAge}`, {
+        withCredentials: true,
+      })
       .then((res) => {
         dispatch(getQuizSong(res.data));
         getAudio(res.data.lyrics);
@@ -73,7 +75,10 @@ const QuizEvaluate: React.FC = () => {
     axios
       .get(
         `http://localhost:5000/quiz/recordResult?songs_id=${song?.songId}&correct=false`,
-        { headers: { Authorization: `Bearer ${token}` } },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        },
       )
       .then(() => {
         setLife(life - 1);
@@ -118,7 +123,10 @@ const QuizEvaluate: React.FC = () => {
       axios
         .get(
           `http://localhost:5000/quiz/recordResult?songs_id=${song?.songId}&correct=true`,
-          { headers: { Authorization: `Bearer ${token}` } },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true,
+          },
         )
         .catch((err) => {
           if (err.message === 'Request failed with status code 409') {
