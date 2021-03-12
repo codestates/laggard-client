@@ -8,13 +8,12 @@ const Scoreboard: React.FC = () => {
   // eslint-disable-next-line
   const [ranks, setRanks] = useState<any>('' as any);
   useEffect(() => {
-    axios.get('http://localhost:5000/score/rank').then((res) => {
-      const data = res.data.sort(
-        // eslint-disable-next-line
-        (a: any, b: any) => Number(b.total) - Number(a.total),
-      );
-      setRanks([...ranks, ...data]);
-    });
+    axios
+      .get('http://localhost:5000/score/rank', { withCredentials: true })
+      .then((res) => {
+        const data = res.data;
+        setRanks([...ranks, ...data]);
+      });
   }, []);
 
   return (

@@ -6,6 +6,7 @@ const util = {
     try {
       const response = await axios.get(url, {
         responseType: 'arraybuffer',
+        withCredentials: true,
       });
       return response;
     } catch (e) {

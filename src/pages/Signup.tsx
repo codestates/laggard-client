@@ -84,13 +84,17 @@ const Signup: React.FC = () => {
       yearRegex.test(birth_year.toString())
     ) {
       axios
-        .post('http://localhost:5000/users/signup/basic', {
-          nickname,
-          email,
-          password,
-          sex,
-          birth_year,
-        })
+        .post(
+          'http://localhost:5000/users/signup/basic',
+          {
+            nickname,
+            email,
+            password,
+            sex,
+            birth_year,
+          },
+          { withCredentials: true },
+        )
         .then(moveToHome)
         .then(handleOpenSignupSuccess);
     } else {
@@ -102,7 +106,11 @@ const Signup: React.FC = () => {
     e.preventDefault();
     const { email } = info;
     axios
-      .post('http://localhost:5000/users/signup/emailCheck', { email })
+      .post(
+        'http://localhost:5000/users/signup/emailCheck',
+        { email },
+        { withCredentials: true },
+      )
       .then(handleOpenEmailCheckSuccess)
       .catch(handleOpenEmailCheckFailure);
   };

@@ -31,7 +31,7 @@ const Audio: React.FC = () => {
       {
         inputLyrics,
       },
-      { responseType: 'arraybuffer' },
+      { responseType: 'arraybuffer', withCredentials: true },
     );
     const audioContext = util.getAudioContext();
     const gainNode = util.makeGainNode(audioContext);

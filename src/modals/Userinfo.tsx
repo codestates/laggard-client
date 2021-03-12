@@ -69,6 +69,7 @@ const Userinfo: React.FC = () => {
     axios
       .delete('http://localhost:5000/users/unregister', {
         headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
       })
       .then(() => {
         history.push('/');
@@ -90,7 +91,10 @@ const Userinfo: React.FC = () => {
         {
           nickname: changeNickname.current?.value,
         },
-        { headers: { Authorization: `bearer ${token}` } },
+        {
+          headers: { Authorization: `bearer ${token}` },
+          withCredentials: true,
+        },
       )
       .then(() => {
         if (nicknameValue && user) {
@@ -130,7 +134,10 @@ const Userinfo: React.FC = () => {
             {
               password: changeNickname.current?.value,
             },
-            { headers: { Authorization: `bearer ${token}` } },
+            {
+              headers: { Authorization: `bearer ${token}` },
+              withCredentials: true,
+            },
           )
           .then(() => {
             pwChange = '';

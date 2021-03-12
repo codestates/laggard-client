@@ -22,6 +22,7 @@ const util = {
         },
         {
           responseType: 'arraybuffer',
+          withCredentials: true,
         },
       );
       return response;

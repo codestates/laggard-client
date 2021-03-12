@@ -44,6 +44,7 @@ const Main: React.FC = () => {
         await axios
           .get('http://localhost:5000/users/userinfo', {
             headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true,
           })
           .then((res) => {
             const info = res.data.data.userInfo;

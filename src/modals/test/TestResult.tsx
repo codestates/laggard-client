@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTestResult } from '../../features/testInfoSlice';
 import { openServerError } from '../../features/messageSlice';
+import { quizEndTrue } from '../../features/modalSlice';
 
 interface InfoState {
   title: string;
@@ -23,7 +24,9 @@ const TestResult: React.FC = () => {
   });
   useEffect(() => {
     axios
-      .post('http://localhost:5000/tests/result', result)
+      .post('http://localhost:5000/tests/result', result, {
+        withCredentials: true,
+      })
       .then((res) => {
         const desc = res.data.result.description.split('\n');
         setInfo({

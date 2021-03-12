@@ -64,9 +64,13 @@ const NaverSignup: React.FC = () => {
   };
   const requestSocialSignup = (token: string) => {
     axios
-      .post('http://localhost:5000/users/signup/social', {
-        socialToken: token,
-      })
+      .post(
+        'http://localhost:5000/users/signup/social',
+        {
+          socialToken: token,
+        },
+        { withCredentials: true },
+      )
       .then(() => {
         dispatch(openSignupSuccess());
         history.push('/');

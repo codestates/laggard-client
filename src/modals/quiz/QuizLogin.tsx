@@ -57,6 +57,7 @@ const QuizLogin: React.FC = () => {
         await axios
           .get('http://localhost:5000/users/userinfo', {
             headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true,
           })
           .then((res) => {
             const info = res.data.data.userInfo;
@@ -241,7 +242,7 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center',
       alignItems: 'center',
       position: 'absolute',
-      borderRadius: '6px',
+      borderRadius: '30px',
       backgroundColor: 'rgba(191, 191, 191, 0.9)',
       padding: theme.spacing(2, 4, 2),
       width: '300px',
