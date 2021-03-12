@@ -14,7 +14,7 @@ import img from '../assets/img/darkconcert3.jpg';
 const nicknameRegex = RegExp(/[{}[\]/?.,;:|)*~`!^\-+<>@#$%&\\=('"]/gi);
 const pwRegex = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$/);
 const emailRegex = RegExp(
-  /^\s?[A-Z0–9]+[A-Z0–9._+-]{0,}@[A-Z0–9._+-]+\.[A-Z0–9]{2,4}\s?$/i,
+  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
 );
 const yearRegex = RegExp(/^(19[0-9][0-9]|20[01][0-9]|2020)$/);
 function Alert(props: AlertProps) {
@@ -44,9 +44,10 @@ const Signup: React.FC = () => {
     const errors = info.errors;
     switch (name) {
       case 'nickname':
-        errors.nickname = nicknameRegex.test(value)
-          ? '특수문자는 사용할 수 없습니다'
-          : '';
+        errors.nickname =
+          nicknameRegex.test(value) || info.nickname.length > 8
+            ? '최대 8자 그리고 특수문자 없이 입력해주세요'
+            : '';
         break;
       case 'email':
         errors.email = emailRegex.test(value)
