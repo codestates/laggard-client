@@ -13,7 +13,7 @@ type QuizInfo = {
 
 interface SongState {
   quizSong: QuizInfo | null;
-  quizAge: number | null;
+  quizAge: number | string | null;
   totalScore: number;
 }
 const initialState: SongState = {
@@ -58,7 +58,7 @@ export const {
 
 export const selectQuizSong = (state: RootState): QuizInfo | null =>
   state.quiz.quizSong;
-export const selectQuizTime = (state: RootState): number | null =>
+export const selectQuizTime = (state: RootState): number | string | null =>
   state.quiz.quizAge;
 export const selectTotalScore = (state: RootState): number =>
   state.quiz.totalScore;

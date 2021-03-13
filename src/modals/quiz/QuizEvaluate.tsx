@@ -54,7 +54,6 @@ const QuizEvaluate: React.FC = () => {
       .then((res) => {
         dispatch(getQuizSong(res.data));
         getAudio(res.data.lyrics);
-        // console.log(res.data);
       })
       .catch(() => {
         dispatch(openServerError());
@@ -243,8 +242,13 @@ const QuizEvaluate: React.FC = () => {
           duration={1}
         >
           <h2>
-            {quizAge}~{quizAge ? Number(quizAge) + 4 : undefined}
-            {'년'}
+            {quizAge === '2015'
+              ? `${quizAge}~${Number(quizAge) + 5}년`
+              : quizAge === '1'
+              ? `랜덤`
+              : quizAge
+              ? `${quizAge}~${Number(quizAge) + 4}년`
+              : undefined}
             <span>{`(#${currCount})`}</span>
           </h2>
         </ScrollAnimation>
