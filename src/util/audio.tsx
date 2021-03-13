@@ -8,6 +8,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import styled from 'styled-components';
 import VolumeDownIcon from '@material-ui/icons/VolumeDown';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Audio: React.FC = () => {
   const songsData = useSelector(selectSong);
@@ -27,7 +28,7 @@ const Audio: React.FC = () => {
   const init = async () => {
     const inputLyrics = lyrics?.slice(0, 50);
     const arrBuffer = await axios.post(
-      'https://laggard-server.ga/tests/audio',
+      'http://localhost:5000/tests/audio',
       {
         inputLyrics,
       },
@@ -62,9 +63,13 @@ const Audio: React.FC = () => {
   return (
     <Container>
       <Button>
-        <IconButton onClick={playTrack} aria-label="play/pause">
-          <PlayArrowIcon />
-        </IconButton>
+        {audioContext ? (
+          <CircularProgress />
+        ) : (
+          <IconButton onClick={playTrack} aria-label="play/pause">
+            <PlayArrowIcon />
+          </IconButton>
+        )}
       </Button>
       <Volume>
         <VolumeDownIcon fontSize="small" />
