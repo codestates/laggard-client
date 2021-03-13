@@ -37,15 +37,15 @@ const QuizSelectDecade: React.FC = () => {
         <label htmlFor="year">
           노래 시대 :
           <select onChange={handleChange} name="year" id="year">
-            <option value="1980">1980</option>
-            <option value="1980">1985</option>
-            <option value="1990">1990</option>
-            <option value="1990">1995</option>
-            <option value="2000">2000</option>
-            <option value="2000">2005</option>
-            <option value="2010">2010</option>
-            <option value="2010">2015</option>
-            <option value="1">랜덤</option>
+            <option value={1980}>1980</option>
+            <option value={1985}>1985</option>
+            <option value={1990}>1990</option>
+            <option value={1995}>1995</option>
+            <option value={2000}>2000</option>
+            <option value={2005}>2005</option>
+            <option value={2010}>2010</option>
+            <option value={2015}>2015</option>
+            <option value={1}>랜덤</option>
           </select>
         </label>
       </div>

@@ -24,11 +24,6 @@ const TestEvaluate: React.FC = () => {
   // eslint-disable-next-line
   const input = useRef<any>('');
 
-  useEffect(() => {
-    console.log(songs);
-    console.log(results);
-    console.log(currNum);
-  }, [currNum]);
   // eslint-disable-next-line
   const handleKeyPress = (e: any) => {
     if (e.key === 'Enter') {
