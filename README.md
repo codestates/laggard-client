@@ -17,10 +17,7 @@
 - Typescript
 - React (Hooks)
 - Redux Toolkit
-- Axios
-- React-router-dom
 - Styled-components / CSS
-- Material-UI
 
 ### Server :
 - Typescript
