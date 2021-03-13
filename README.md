@@ -19,7 +19,8 @@
 - Redux Toolkit
 - Axios
 - React-router
-- Styled-components
+- Styled-components / CSS
+- Material-UI
 
 ### Server :
 - Typescript
