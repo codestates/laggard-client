@@ -23,7 +23,6 @@
 - Typescript
 - Express
 - Cheerio
-- JWT
 - MYSql
 - Sequelize
 
